@@ -1,28 +1,68 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+# Netbeans files
+dist/
+build/
+private/
+
+# Mac files
+*.DS_Store
+
+# Visual Studio files
+ipch/
+[Oo]bj
+[Bb]in
+*.[Cc]ache
 *.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-
-# Fortran module files
-*.mod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
+*.o
 *.exe
-*.out
+*.exp
+*.pdb
+*.dll
+*.user
+*.aps
+*.pch
+*.sdf
+*.opensdf
+*.vspscc
+*_i.c
+*_p.c
+*.ncb
+*.suo
+*.tlb
+*.tlh
+*.bak
+*.ilk
+*.log
+*.zip
+*[Dd]ebug*/
+*.lib
+*.sbr
 *.app
+Thumbs.db
+*[Rr]elease*/
+[Tt]est[Rr]esults/
+_UpgradeReport_Files/
+_ReSharper.*/
+desktop.ini
+
+# Misc files
+*.txt
+*.ini
+*.cfg
+*.nes
+*.bin
+*.zip
+*.gearnes
+
+# Qt Ignores
+moc_*.cpp
+qt-Debug.mk
+qt-Release.mk
+ui_*.h
+.qmake.stash
+qrc_*.cpp
+
+#Xcode
+*.xcuserstate
+xcuserdata/
+*.xcexplist
+*.xcsettings
