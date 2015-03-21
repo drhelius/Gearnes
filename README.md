@@ -19,7 +19,7 @@ If you want new features ask for them but don't forget donating, thanks :)
 License
 -------
 
-<i>Geardrive - Sega Genesis / Mega Drive Emulator</i>
+<i>Gearnes - Nintendo Entertainment System / Famicom Emulator</i>
 
 <i>Copyright (C) 2015  Ignacio Sanchez</i>
 
