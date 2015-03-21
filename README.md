@@ -21,7 +21,7 @@ License
 
 <i>Geardrive - Sega Genesis / Mega Drive Emulator</i>
 
-<i>Copyright (C) 2014  Ignacio Sanchez</i>
+<i>Copyright (C) 2015  Ignacio Sanchez</i>
 
 <i>This program is free software: you can redistribute it and/or modify</i>
 <i>it under the terms of the GNU General Public License as published by</i>
