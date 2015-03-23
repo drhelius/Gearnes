@@ -45,7 +45,7 @@ public:
 
 protected:
     void closeEvent(QCloseEvent *event);
-    //void resizeEvent(QResizeEvent *event);
+    void resizeEvent(QResizeEvent*);
     void resizeGL(int width, int height);
     void paintEvent(QPaintEvent *event);
 

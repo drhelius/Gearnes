@@ -60,15 +60,18 @@ bool GLFrame::IsRunningRenderThread()
     return render_thread_.IsRunningEmulator();
 }
 
-/*
-void GLFrame::resizeEvent(QResizeEvent *event)
+
+void GLFrame::resizeEvent(QResizeEvent*)
 {
-    render_thread_.ResizeViewport(event->size());
+    if (!isValid())
+        return;
+
+    resizeGL(width(), height());
 }
-*/
+
 void GLFrame::resizeGL(int width, int height)
 {
-    render_thread_.ResizeViewport(QSize(width, height), 1/*this->devicePixelRatio()*/);
+    render_thread_.ResizeViewport(QSize(width, height),this->devicePixelRatio());
 }
 
 void GLFrame::paintEvent(QPaintEvent*)
