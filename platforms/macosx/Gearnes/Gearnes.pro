@@ -1,0 +1,60 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2015-03-20T18:16:12
+#
+#-------------------------------------------------
+
+QT       += core gui
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+QT += opengl
+
+TARGET = Gearnes
+TEMPLATE = app
+
+INCLUDEPATH += /usr/local/include
+DEPENDPATH += /usr/local/lib
+
+LIBS += -L/usr/local/lib -lSDL2main -lSDL2
+
+SOURCES += \
+    ../../qt-shared/about.cpp \
+    ../../qt-shared/emulator.cpp \
+    ../../qt-shared/gl_frame.cpp \
+    ../../qt-shared/input_settings.cpp \
+    ../../qt-shared/main_window.cpp \
+    ../../qt-shared/main.cpp \
+    ../../qt-shared/render_thread.cpp \
+    ../../qt-shared/sound_settings.cpp \
+    ../../qt-shared/video_settings.cpp \
+    ../../../src/audio.cpp \
+    ../../../src/cartridge.cpp \
+    ../../../src/input.cpp \
+    ../../../src/video.cpp \
+    ../../../src/miniz/miniz.c \
+    ../../../src/gearnes_core.cpp
+
+HEADERS  += \
+    ../../qt-shared/about.h \
+    ../../qt-shared/emulator.h \
+    ../../qt-shared/gl_frame.h \
+    ../../qt-shared/input_settings.h \
+    ../../qt-shared/main_window.h \
+    ../../qt-shared/render_thread.h \
+    ../../qt-shared/sound_settings.h \
+    ../../qt-shared/video_settings.h \
+    ../../../src/audio.h \
+    ../../../src/cartridge.h \
+    ../../../src/definitions.h \
+    ../../../src/input.h \
+    ../../../src/video.h \
+    ../../../src/gearnes.h \
+    ../../../src/gearnes_core.h
+
+FORMS += \
+    ../../qt-shared/About.ui \
+    ../../qt-shared/InputSettings.ui \
+    ../../qt-shared/MainWindow.ui \
+    ../../qt-shared/SoundSettings.ui \
+    ../../qt-shared/VideoSettings.ui
