@@ -25,63 +25,46 @@
 class Cartridge
 {
 public:
-    enum CartridgeTypes
-    {
-        CartridgeRomOnlyMapper,
-        CartridgeSegaMapper,
-		CartridgeCodemastersMapper,
-        CartridgeNotSupported
-    };
-    enum CartridgeZones
-    {
-        CartridgeJapanSMS,
-        CartridgeExportSMS,
-        CartridgeJapanGG,
-        CartridgeExportGG,
-        CartridgeInternationalGG,
-        CartridgeUnknownZone
-    };
-
-public:
     Cartridge();
     ~Cartridge();
     void Init();
     void Reset();
-    bool IsGameGear() const;
-    bool IsPAL() const;
-    bool IsValidROM() const;
+    bool IsValid() const;
     bool IsReady() const;
-    bool HasRAMWithoutBattery() const;
-    CartridgeTypes GetType() const;
-    CartridgeZones GetZone() const;
-    void ForzeZone(CartridgeZones zone);
-    int GetROMSize() const;
-    int GetROMBankCount() const;
     const char* GetFilePath() const;
     const char* GetFileName() const;
-    u8* GetROM() const;
+    u8* GetPRGROM() const;
+    int GetPRGROMSize() const;
+    int GetPRGROMBankCount() const;
+    u8* GetCHRROM() const;
+    int GetCHRROMSize() const;
+    int GetCHRROMBankCount() const;
+    u8* GetTrainer() const;
     bool LoadFromFile(const char* path);
     bool LoadFromBuffer(const u8* buffer, int size);
+    u8 GetMapper() const;
 
 private:
-    unsigned int Pow2Ceil(u16 n);
-    bool GatherMetadata(u32 crc);
+    bool GatherMetadata();
     bool LoadFromZipFile(const u8* buffer, int size);
-    bool TestValidROM(u16 location);
+    bool TestValid();
 
 private:
-    u8* m_pROM;
-    int m_iROMSize;
-    CartridgeTypes m_Type;
-    CartridgeZones m_Zone;
-    bool m_bValidROM;
-    bool m_bReady;
-    char m_szFilePath[512];
-    char m_szFileName[512];
-    int m_iROMBankCount;
-    bool m_bGameGear;
-    bool m_bPAL;
-    bool m_bRAMWithoutBattery;
+    u8* header_;
+    u8* prg_rom_;
+    u8* chr_rom_;
+    u8* trainer_;
+    int prg_rom_size_;
+    int prg_rom_bank_count_;
+    int chr_rom_size_;
+    int chr_rom_bank_count_;
+    bool valid_;
+    bool ready_;
+    char file_path_[512];
+    char file_name_[512];
+    bool trainer_present_;
+    bool battery_present_;
+    u8 mapper_;
 };
 
 #endif // CARTRIDGE_H_

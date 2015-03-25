@@ -39,7 +39,7 @@ public:
     Video();
     ~Video();
     void Init();
-    void Reset(bool is_pal);
+    void Reset();
     bool Tick(unsigned int clock_cycles, NES_Color* frame_buffer);
 
 private:

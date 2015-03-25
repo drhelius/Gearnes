@@ -25,23 +25,29 @@
 
 Cartridge::Cartridge()
 {
-    InitPointer(m_pROM);
-    m_iROMSize = 0;
-    m_Type = CartridgeNotSupported;
-    m_Zone = CartridgeUnknownZone;
-    m_bValidROM = false;
-    m_bReady = false;
-    m_szFilePath[0] = 0;
-    m_szFileName[0] = 0;
-    m_iROMBankCount = 0;
-    m_bGameGear = false;
-    m_bPAL = false;
-    m_bRAMWithoutBattery = false;
+    InitPointer(prg_rom_);
+    InitPointer(chr_rom_);
+    InitPointer(trainer_);
+    InitPointer(header_);
+    valid_ = false;
+    ready_ = false;
+    file_path_[0] = 0;
+    file_name_[0] = 0;
+    prg_rom_size_ = 0;
+    prg_rom_bank_count_ = 0;
+    chr_rom_size_ = 0;
+    chr_rom_bank_count_ = 0;
+    trainer_present_ = false;
+    battery_present_ = false;
+    mapper_ = 0;
 }
 
 Cartridge::~Cartridge()
 {
-    SafeDeleteArray(m_pROM);
+    SafeDeleteArray(prg_rom_);
+    SafeDeleteArray(chr_rom_);
+    SafeDeleteArray(trainer_);
+    SafeDeleteArray(header_);
 }
 
 void Cartridge::Init()
@@ -51,82 +57,76 @@ void Cartridge::Init()
 
 void Cartridge::Reset()
 {
-    SafeDeleteArray(m_pROM);
-    m_iROMSize = 0;
-    m_Type = CartridgeNotSupported;
-    m_Zone = CartridgeUnknownZone;
-    m_bValidROM = false;
-    m_bReady = false;
-    m_szFilePath[0] = 0;
-    m_szFileName[0] = 0;
-    m_iROMBankCount = 0;
-    m_bGameGear = false;
-    m_bPAL = false;
-    m_bRAMWithoutBattery = false;
+    SafeDeleteArray(prg_rom_);
+    SafeDeleteArray(chr_rom_);
+    SafeDeleteArray(trainer_);
+    SafeDeleteArray(header_);
+    valid_ = false;
+    ready_ = false;
+    file_path_[0] = 0;
+    file_name_[0] = 0;
+    prg_rom_size_ = 0;
+    prg_rom_bank_count_ = 0;
+    chr_rom_size_ = 0;
+    chr_rom_bank_count_ = 0;
+    trainer_present_ = false;
+    battery_present_ = false;
+    mapper_ = 0;
 }
 
-bool Cartridge::IsGameGear() const
+bool Cartridge::IsValid() const
 {
-    return m_bGameGear;
-}
-
-bool Cartridge::IsPAL() const
-{
-    return m_bPAL;
-}
-
-bool Cartridge::IsValidROM() const
-{
-    return m_bValidROM;
+    return valid_;
 }
 
 bool Cartridge::IsReady() const
 {
-    return m_bReady;
-}
-bool Cartridge::HasRAMWithoutBattery() const
-{
-    return m_bRAMWithoutBattery;
+    return ready_;
 }
 
-Cartridge::CartridgeTypes Cartridge::GetType() const
+u8* Cartridge::GetPRGROM() const
 {
-    return m_Type;
+    return prg_rom_;
 }
 
-Cartridge::CartridgeZones Cartridge::GetZone() const
+int Cartridge::GetPRGROMSize() const
 {
-    return m_Zone;
+    return prg_rom_size_;
 }
 
-void Cartridge::ForzeZone(Cartridge::CartridgeZones zone)
+int Cartridge::GetPRGROMBankCount() const
 {
-    m_Zone = zone;
+    return prg_rom_bank_count_;
 }
 
-int Cartridge::GetROMSize() const
+u8* Cartridge::GetCHRROM() const
 {
-    return m_iROMSize;
+    return chr_rom_;
 }
 
-int Cartridge::GetROMBankCount() const
+int Cartridge::GetCHRROMSize() const
 {
-    return m_iROMBankCount;
+    return chr_rom_size_;
+}
+
+int Cartridge::GetCHRROMBankCount() const
+{
+    return chr_rom_bank_count_;
+}
+
+u8* Cartridge::GetTrainer() const
+{
+    return trainer_;
 }
 
 const char* Cartridge::GetFilePath() const
 {
-    return m_szFilePath;
+    return file_path_;
 }
 
 const char* Cartridge::GetFileName() const
 {
-    return m_szFileName;
-}
-
-u8* Cartridge::GetROM() const
-{
-    return m_pROM;
+    return file_name_;
 }
 
 bool Cartridge::LoadFromZipFile(const u8* buffer, int size)
@@ -160,10 +160,8 @@ bool Cartridge::LoadFromZipFile(const u8* buffer, int size)
         transform(fn.begin(), fn.end(), fn.begin(), (int(*)(int)) tolower);
         string extension = fn.substr(fn.find_last_of(".") + 1);
 
-        if ((extension == "sms") || (extension == "gg"))
+        if (extension == "nes")
         {
-            m_bGameGear = (extension == "gg");
-
             void *p;
             size_t uncomp_size;
 
@@ -194,7 +192,7 @@ bool Cartridge::LoadFromFile(const char* path)
 
     Reset();
 
-    strcpy(m_szFilePath, path);
+    strcpy(file_path_, path);
 
     std::string pathstr(path);
     std::string filename;
@@ -217,7 +215,7 @@ bool Cartridge::LoadFromFile(const char* path)
         }
     }
     
-    strcpy(m_szFileName, filename.c_str());
+    strcpy(file_name_, filename.c_str());
 
     ifstream file(path, ios::in | ios::binary | ios::ate);
 
@@ -236,15 +234,14 @@ bool Cartridge::LoadFromFile(const char* path)
         if (extension == "zip")
         {
             Log("Loading from ZIP...");
-            m_bReady = LoadFromZipFile(reinterpret_cast<u8*> (memblock), size);
+            ready_ = LoadFromZipFile(reinterpret_cast<u8*> (memblock), size);
         }
         else
         {
-            m_bGameGear = (extension == "gg");
-            m_bReady = LoadFromBuffer(reinterpret_cast<u8*> (memblock), size);
+            ready_ = LoadFromBuffer(reinterpret_cast<u8*> (memblock), size);
         }
 
-        if (m_bReady)
+        if (ready_)
         {
             Log("ROM loaded", path);
         }
@@ -258,184 +255,89 @@ bool Cartridge::LoadFromFile(const char* path)
     else
     {
         Log("There was a problem loading the file %s...", path);
-        m_bReady = false;
+        ready_ = false;
     }
 
-    if (!m_bReady)
+    if (!ready_)
     {
         Reset();
     }
 
-    return m_bReady;
+    return ready_;
 }
 
 bool Cartridge::LoadFromBuffer(const u8* buffer, int size)
 {
     if (IsValidPointer(buffer))
     {
-        // Some ROMs have 512 Byte File Headers
-        if ((size % 1024) == 512)
+        header_ = new u8[16];
+        memcpy(header_, buffer, 16);
+
+        int offset = 16;
+
+        if (TestValid())
         {
-            buffer += 512;
-            size -= 512;
-            Log("Invalid size found. ROM trimmed to %d bytes", size);
-        }
-        // Unkown size
-        else if ((size % 1024) != 0)
-        {
-            Log("Invalid size found. %d bytes", size);
-            return false;
-        }
-            
-        m_iROMSize = size;
-        m_pROM = new u8[m_iROMSize];
-        memcpy(m_pROM, buffer, m_iROMSize);
-        
-        u32 crc;
-        
-        return GatherMetadata(crc);
-    }
-    else
-        return false;
-}
+            Log("ROM is Valid.");
 
-unsigned int Cartridge::Pow2Ceil(u16 n)
-{
-    --n;
-    n |= n >> 1;
-    n |= n >> 2;
-    n |= n >> 4;
-    n |= n >> 8;
-    ++n;
-    return n;
-}
+            GatherMetadata();
 
-bool Cartridge::TestValidROM(u16 location)
-{
-    if (location + 0x10 > m_iROMSize)
-        return false;
-    
-    char tmrsega[9] = {0};
-    tmrsega[8] = 0;
-
-    for (int i = 0; i < 8; i++)
-    {
-        tmrsega[i] = m_pROM[location + i];
-    }
-    
-    return (strcmp(tmrsega, "TMR SEGA") == 0);
-}
-
-bool Cartridge::GatherMetadata(u32 crc)
-{
-    u16 headerLocation = 0x7FF0;
-    m_bValidROM = true;
-    
-    if (!TestValidROM(headerLocation))
-    {
-        headerLocation = 0x1FF0;
-        if (!TestValidROM(headerLocation))
-        {
-            headerLocation = 0x3FF0;
-            if (!TestValidROM(headerLocation))
+            if (trainer_present_)
             {
-                m_bValidROM = false;
+                trainer_ = new u8[512];
+                memcpy(trainer_, buffer + offset, 512);
+                offset += 512;
             }
+
+            prg_rom_ = new u8[prg_rom_size_];
+            memcpy(prg_rom_, buffer + offset, prg_rom_size_);
+            offset += prg_rom_size_;
+
+            chr_rom_ = new u8[chr_rom_size_];
+            memcpy(chr_rom_, buffer + offset, chr_rom_size_);
+
+            return true;
         }
-    }
-    
-    if (m_bValidROM)
-    {
-        Log("ROM is Valid. Header found at: %X", headerLocation);
-    }
-    else
-    {
-        Log("ROM is NOT Valid. No header found");
-    }
-    
-    u8 zone = (m_pROM[headerLocation + 0x0F] >> 4) & 0x0F;
-    
-    switch (zone)
-    {
-        case 3:
+        else
         {
-            m_Zone = CartridgeJapanSMS;
-            Log("Cartridge zone is SMS Japan");
-            break;
-        }
-        case 4:
-        {
-            m_Zone = CartridgeExportSMS;
-            Log("Cartridge zone is SMS Export");
-            break;
-        }
-        case 5:
-        {
-            m_Zone = CartridgeJapanGG;
-            m_bGameGear = true;
-            Log("Cartridge zone is GG Japan");
-            break;
-        }
-        case 6:
-        {
-            m_Zone = CartridgeExportGG;
-            m_bGameGear = true;
-            Log("Cartridge zone is GG Export");
-            break;
-        }
-        case 7:
-        {
-            m_Zone = CartridgeInternationalGG;
-            m_bGameGear = true;
-            Log("Cartridge zone is GG International");
-            break;
-        }
-        default:
-        {
-            m_Zone = CartridgeUnknownZone;
-            Log("Unknown cartridge zone");
-            break;
+            Log("ROM is NOT Valid. No header found");
         }
     }
 
-    m_iROMBankCount = std::max(Pow2Ceil(m_iROMSize / 0x4000), 1u);
+    return false;
+}
 
-    Log("ROM Size: %d KB", m_iROMSize / 1024);
-    Log("ROM Bank Count: %d", m_iROMBankCount);
-    
-    if (m_iROMSize <= 0xC000)
-    {
-        // size <= 48KB
-        m_Type = Cartridge::CartridgeRomOnlyMapper;
-    }
-    else
-    {
-        m_Type = Cartridge::CartridgeSegaMapper;
-    }
-    
-    switch (m_Type)
-    {
-        case Cartridge::CartridgeRomOnlyMapper:
-            Log("NO mapper found");
-            break;
-        case Cartridge::CartridgeSegaMapper:
-            Log("SEGA mapper found");
-            break;
-        case Cartridge::CartridgeCodemastersMapper:
-            Log("Codemasters mapper found");
-            break;
-        case Cartridge::CartridgeNotSupported:
-            Log("Cartridge not supported!!");
-            break;
-        default:
-            Log("ERROR with cartridge type!!");
-            break;
-    }
-    
-    if (m_bGameGear)
-    {
-        Log("Game Gear cartridge identified");
-    }
+u8 Cartridge::GetMapper() const
+{
+    return mapper_;
+}
 
-    return (m_Type != CartridgeNotSupported);
+bool Cartridge::TestValid()
+{
+    return ((header_[0] == 0x4E) && (header_[1] == 0x45) && (header_[2] == 0x53) && (header_[3] == 0x1A));
+}
+
+bool Cartridge::GatherMetadata()
+{
+    prg_rom_bank_count_ = header_[4];
+    chr_rom_bank_count_ = header_[5];
+    u8 flags_6 = header_[6];
+    u8 flags_7 = header_[7];
+    u8 prg_ram_bank_count = header_[8];
+    u8 flags_9 = header_[9];
+    u8 flags_10 = header_[10];
+
+    mapper_ = (flags_6 >> 4) | (flags_7 & 0xF0);
+    Log("Mapper: %d", mapper_);
+
+    prg_rom_size_ = prg_rom_bank_count_ * 16 * 1024;
+    Log("PRG ROM, banks: %d size: %d", prg_rom_bank_count_, prg_rom_size_);
+
+    chr_rom_size_ = chr_rom_bank_count_ * 8 * 1024;
+    Log("CHR ROM, banks: %d size: %d", chr_rom_bank_count_, chr_rom_size_);
+
+    battery_present_ = ((flags_6 & 0x02) != 0);
+    Log("Battery: %s", battery_present_ ? "YES" : "NO");
+
+    trainer_present_ = ((flags_6 & 0x04) != 0);
+    Log("Trainer: %s", trainer_present_ ? "YES" : "NO");
 }

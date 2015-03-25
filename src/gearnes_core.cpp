@@ -378,7 +378,7 @@ void GearnesCore::Reset()
 //    m_pMemory->Reset();
 //    m_pProcessor->Reset();
     audio_->Reset();
-    video_->Reset(cartridge_->IsPAL());
+    video_->Reset();
     input_->Reset();
 //    m_pSegaMemoryRule->Reset();
 //    m_pCodemastersMemoryRule->Reset();

@@ -31,10 +31,10 @@ Video::~Video()
 
 void Video::Init()
 {
-    Reset(false);
+    Reset();
 }
 
-void Video::Reset(bool is_pal)
+void Video::Reset()
 {
 
 }
