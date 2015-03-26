@@ -28,6 +28,7 @@ int main(int argc, char *argv[])
 #ifdef Q_WS_X11
     XInitThreads();
 #endif
+    setbuf(stdout, NULL);
     QApplication application(argc, argv);
     MainWindow window;
     window.show();

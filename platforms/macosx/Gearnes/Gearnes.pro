@@ -33,7 +33,9 @@ SOURCES += \
     ../../../src/input.cpp \
     ../../../src/video.cpp \
     ../../../src/miniz/miniz.c \
-    ../../../src/gearnes_core.cpp
+    ../../../src/gearnes_core.cpp \
+    ../../../src/G6502/g6502_core.cpp \
+    ../../../src/G6502/g6502_opcodes.cpp
 
 HEADERS  += \
     ../../qt-shared/about.h \
@@ -50,7 +52,15 @@ HEADERS  += \
     ../../../src/input.h \
     ../../../src/video.h \
     ../../../src/gearnes.h \
-    ../../../src/gearnes_core.h
+    ../../../src/gearnes_core.h \
+    ../../../src/G6502/g6502_core.h \
+    ../../../src/G6502/g6502_core_inl.h \
+    ../../../src/G6502/g6502_definitions.h \
+    ../../../src/G6502/g6502_eight_bit_register.h \
+    ../../../src/G6502/g6502_memory_interface.h \
+    ../../../src/G6502/g6502_sixteen_bit_register.h \
+    ../../../src/Video.h \
+    ../../../src/G6502/g6502_opcode_names.h
 
 FORMS += \
     ../../qt-shared/About.ui \
