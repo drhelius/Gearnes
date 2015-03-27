@@ -55,6 +55,7 @@ private:
     bool interrupt_asserted_;
     bool nmi_interrupt_requested_;
     bool page_crossed_;
+    bool branch_taken_;
 
 private:
     u8 Fetch8();
@@ -84,6 +85,8 @@ private:
     void UnofficialOPCode();
     void OPCodes_ADC(u8 number);
     void OPCodes_AND(u8 number);
+    void OPCodes_ASL(u8 number);
+    void OPcodes_Branch(bool condition);
     void InitOPCodeFunctors();
 
     void OPCode0x00(); void OPCode0x01(); void OPCode0x02(); void OPCode0x03();

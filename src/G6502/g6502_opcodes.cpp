@@ -60,6 +60,7 @@ void G6502::OPCode0x05()
 void G6502::OPCode0x06()
 {
     // ASL $n
+    OPCodes_ASL(ZeroPageAddressing());
 }
 
 void G6502::OPCode0x07()
@@ -82,6 +83,7 @@ void G6502::OPCode0x09()
 void G6502::OPCode0x0A()
 {
     // ASL A
+    OPCodes_ASL(A_.GetValue());
 }
 
 void G6502::OPCode0x0B()
@@ -104,6 +106,7 @@ void G6502::OPCode0x0D()
 void G6502::OPCode0x0E()
 {
     // ASL $nn
+    OPCodes_ASL(memory_impl_->Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0x0F()
@@ -116,6 +119,7 @@ void G6502::OPCode0x0F()
 void G6502::OPCode0x10()
 {
     // BPL $s
+    OPcodes_Branch(!IsSetFlag(FLAG_NEGATIVE));
 }
 
 void G6502::OPCode0x11()
@@ -148,6 +152,7 @@ void G6502::OPCode0x15()
 void G6502::OPCode0x16()
 {
     // ASL $n,X
+    OPCodes_ASL(ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x17()
@@ -192,6 +197,7 @@ void G6502::OPCode0x1D()
 void G6502::OPCode0x1E()
 {
     // ASL $nn,X
+    OPCodes_ASL(memory_impl_->Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0x1F()
@@ -296,6 +302,7 @@ void G6502::OPCode0x2F()
 void G6502::OPCode0x30()
 {
     // BMI $s
+    OPcodes_Branch(IsSetFlag(FLAG_NEGATIVE));
 }
 
 void G6502::OPCode0x31()
@@ -476,6 +483,7 @@ void G6502::OPCode0x4F()
 void G6502::OPCode0x50()
 {
     // BVC $s
+    OPcodes_Branch(!IsSetFlag(FLAG_OVERFLOW));
 }
 
 void G6502::OPCode0x51()
@@ -656,6 +664,7 @@ void G6502::OPCode0x6F()
 void G6502::OPCode0x70()
 {
     // BVS $s
+    OPcodes_Branch(IsSetFlag(FLAG_OVERFLOW));
 }
 
 void G6502::OPCode0x71()
@@ -836,6 +845,7 @@ void G6502::OPCode0x8F()
 void G6502::OPCode0x90()
 {
     // BCC $s
+    OPcodes_Branch(!IsSetFlag(FLAG_CARRY));
 }
 
 void G6502::OPCode0x91()
@@ -1012,6 +1022,7 @@ void G6502::OPCode0xAF()
 void G6502::OPCode0xB0()
 {
     // BCS $s
+    OPcodes_Branch(IsSetFlag(FLAG_CARRY));
 }
 
 void G6502::OPCode0xB1()
@@ -1188,6 +1199,7 @@ void G6502::OPCode0xCF()
 void G6502::OPCode0xD0()
 {
     // BNE $s
+    OPcodes_Branch(!IsSetFlag(FLAG_ZERO));
 }
 
 void G6502::OPCode0xD1()
@@ -1364,6 +1376,7 @@ void G6502::OPCode0xEF()
 void G6502::OPCode0xF0()
 {
     // BEQ $s
+    OPcodes_Branch(IsSetFlag(FLAG_ZERO));
 }
 
 void G6502::OPCode0xF1()

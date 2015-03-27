@@ -130,6 +130,34 @@ void G6502::OPCodes_AND(u8 number)
     SetZeroFlagFromResult(result);
     SetNegativeFlagFromResult(result);
 }
+
+void G6502::OPCodes_ASL(u8 number)
+{
+    u8 result = number << 1;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((number & 0x80) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPcodes_Branch(bool condition)
+{
+    if (condition)
+    {
+        s8 displacement = static_cast<s8>(Fetch8());
+        u16 address = PC_.GetValue();
+        u16 result = address + displacement;
+        PC_.SetValue(result);
+        branch_taken_ = true;
+        page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+    }
+    else
+        PC_.Increment();
+}
+
 ///
 /// MUST INLINE <<<---
 
@@ -141,6 +169,7 @@ G6502::G6502()
     interrupt_asserted_ = false;
     nmi_interrupt_requested_ = false;
     page_crossed_ = false;
+    branch_taken_ = false;
 }
 
 G6502::~G6502()
@@ -165,6 +194,7 @@ void G6502::Reset()
     interrupt_asserted_ = false;
     nmi_interrupt_requested_ = false;
     page_crossed_ = false;
+    branch_taken_ = false;
 }
 
 unsigned int G6502::RunFor(unsigned int t_states)
@@ -183,6 +213,7 @@ unsigned int G6502::Tick()
 {
     t_states_ = 0;
     page_crossed_ = false;
+    branch_taken_ = false;
     
     if (nmi_interrupt_requested_)
     {
@@ -222,6 +253,7 @@ unsigned int G6502::Tick()
 
     t_states_ += kOPCodeTStates[opcode];
     t_states_ += page_crossed_ ? kOPCodeTStatesCrossPaged[opcode] : 0;
+    t_states_ += branch_taken_ ? 1 : 0;
 
     return t_states_;
 }
