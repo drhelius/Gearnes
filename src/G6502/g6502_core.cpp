@@ -81,11 +81,10 @@ u16 G6502::IndirectAddressing()
 
 u8 G6502::IndexedIndirectAddressing()
 {
-    u8 address_l = Fetch8() + X_.GetValue();
-    u8 address_h = address_l + 1;
-    u8 l = memory_impl_->Read(address_l);
-    u8 h = memory_impl_->Read(address_h);
-    u16 address = (h << 8 ) | l;
+    u16 address = Fetch8() + X_.GetValue();
+    u8 l = memory_impl_->Read(address & 0x00FF);
+    u8 h = memory_impl_->Read((address + 1) & 0x00FF);
+    address = (h << 8 ) | l;
     return memory_impl_->Read(address);
 }
 
