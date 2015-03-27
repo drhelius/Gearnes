@@ -59,7 +59,7 @@ typedef int64_t s64;
 #define FLAG_DECIMAL 0x08
 #define FLAG_OVERFLOW 0x40
 #define FLAG_ZERO 0x02
-#define FLAG_NONE 0x00
+#define FLAG_NONE 0x20
 
 #ifdef G6502_DEBUG
     #define Log(msg, ...) (LogImpl(msg, ##__VA_ARGS__))

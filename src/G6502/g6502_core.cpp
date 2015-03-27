@@ -147,23 +147,28 @@ unsigned int G6502::Tick()
 {
     t_states_ = 0;
     
-    /*
     if (nmi_interrupt_requested_)
     {
         nmi_interrupt_requested_ = false;
         StackPush(&PC_);
-        PC_.SetValue(0x0066);
-        t_states_ += 11;
+        ClearFlag(FLAG_BRK);
+        StackPush(&P_);
+        PC_.SetLow(memory_impl_->Read(0xFFFA));
+        PC_.SetHigh(memory_impl_->Read(0xFFFB));
+        t_states_ += 7;
         return t_states_;
     }
-    else if (iff1_ && interrupt_requested_)
-    {
+    else if (!IsSetFlag(FLAG_IRQ) && interrupt_asserted_)
+    { 
         StackPush(&PC_);
-        PC_.SetValue(0x0038);
-        t_states_ += 13;
+        ClearFlag(FLAG_BRK);
+        StackPush(&P_);
+        SetFlag(FLAG_IRQ);
+        PC_.SetLow(memory_impl_->Read(0xFFFE));
+        PC_.SetHigh(memory_impl_->Read(0xFFFF));
+        t_states_ += 7;
         return t_states_;
     } 
-    */
 
     u8 opcode = Fetch8();
 
