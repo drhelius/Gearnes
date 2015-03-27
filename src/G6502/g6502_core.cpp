@@ -65,21 +65,17 @@ u16 G6502::AbsoluteAddressing()
 u16 G6502::AbsoluteXAddressing()
 {
     u16 address = Fetch16();
-    u8 x = X_.GetValue();
-    int result = address + x;
-    int carrybits = address ^ x ^ result;
-    page_crossed_ = ((carrybits & 0x100) != 0);
-    return static_cast<u16>(result);
+    u16 result = address + X_.GetValue();
+    page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+    return result;
 }
 
 u16 G6502::AbsoluteYAddressing()
 {
     u16 address = Fetch16();
-    u8 y = Y_.GetValue();
-    int result = address + y;
-    int carrybits = address ^ y ^ result;
-    page_crossed_ = ((carrybits & 0x100) != 0);
-    return static_cast<u16>(result);
+    u16 result = address + Y_.GetValue();
+    page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+    return result;
 }
 
 u16 G6502::IndirectAddressing()
@@ -105,25 +101,34 @@ u8 G6502::IndirectIndexedAddressing()
     u8 l = memory_impl_->Read(address);
     u8 h = memory_impl_->Read(address+1);
     address = ((h << 8 ) | l);
-    u8 y = Y_.GetValue();
-    int result = address + y;
-    int carrybits = address ^ y ^ result;
-    page_crossed_ = ((carrybits & 0x100) != 0);
+    u16 result = address + Y_.GetValue();
+    page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
     return memory_impl_->Read(static_cast<u16>(result));
 }
 
 void G6502::OPCodes_ADC(u8 number)
 {
     int result = A_.GetValue() + number + (IsSetFlag(FLAG_CARRY) ? 1 : 0);
-    int carrybits = A_.GetValue() ^ number ^ result;
     u8 final_result = static_cast<u8> (result);
-    A_.SetValue(final_result);
     SetZeroFlagFromResult(final_result);
     SetNegativeFlagFromResult(final_result);
-    if ((carrybits & 0x100) != 0)
+    if ((result & 0x100) != 0)
         SetFlag(FLAG_CARRY);
     else
         ClearFlag(FLAG_CARRY);
+    if ((((A_.GetValue() ^ number) & 0x80) == 0) && (((A_.GetValue() ^ result) & 0x80) != 0))
+        SetFlag(FLAG_OVERFLOW);
+    else
+        ClearFlag(FLAG_OVERFLOW);
+    A_.SetValue(final_result);
+}
+
+void G6502::OPCodes_AND(u8 number)
+{
+    u8 result = A_.GetValue() & number;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
 }
 ///
 /// MUST INLINE <<<---

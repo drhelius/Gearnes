@@ -209,6 +209,7 @@ void G6502::OPCode0x20()
 void G6502::OPCode0x21()
 {
     // AND $(nn,X)
+    OPCodes_AND(IndexedIndirectAddressing());
 }
 
 void G6502::OPCode0x22()
@@ -231,6 +232,7 @@ void G6502::OPCode0x24()
 void G6502::OPCode0x25()
 {
     // AND $n
+    OPCodes_AND(ZeroPageAddressing());
 }
 
 void G6502::OPCode0x26()
@@ -253,6 +255,7 @@ void G6502::OPCode0x28()
 void G6502::OPCode0x29()
 {
     // AND #$n
+    OPCodes_AND(ImmediateAddressing());
 }
 
 void G6502::OPCode0x2A()
@@ -275,6 +278,7 @@ void G6502::OPCode0x2C()
 void G6502::OPCode0x2D()
 {
     // AND $nn
+    OPCodes_AND(memory_impl_->Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0x2E()
@@ -297,6 +301,7 @@ void G6502::OPCode0x30()
 void G6502::OPCode0x31()
 {
     // AND ($n),Y
+    OPCodes_AND(IndirectIndexedAddressing());
 }
 
 void G6502::OPCode0x32()
@@ -319,6 +324,7 @@ void G6502::OPCode0x34()
 void G6502::OPCode0x35()
 {
     // AND $n,X
+    OPCodes_AND(ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x36()
@@ -341,6 +347,7 @@ void G6502::OPCode0x38()
 void G6502::OPCode0x39()
 {
     // AND $nn,Y
+    OPCodes_AND(memory_impl_->Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0x3A()
@@ -363,6 +370,7 @@ void G6502::OPCode0x3C()
 void G6502::OPCode0x3D()
 {
     // AND $nn,X
+    OPCodes_AND(memory_impl_->Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0x3E()

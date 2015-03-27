@@ -83,6 +83,7 @@ private:
     u8 IndirectIndexedAddressing();
     void UnofficialOPCode();
     void OPCodes_ADC(u8 number);
+    void OPCodes_AND(u8 number);
     void InitOPCodeFunctors();
 
     void OPCode0x00(); void OPCode0x01(); void OPCode0x02(); void OPCode0x03();
