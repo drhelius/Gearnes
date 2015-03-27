@@ -17,34 +17,30 @@
  *
  */
 
-#include "video.h"
+#include "mapper.h"
 
-Video::Video()
+Mapper::Mapper(Memory* memory, Cartridge* cartridge)
 {
-    
+    memory_ = memory;
+    cartridge_ = cartridge;
 }
 
-Video::~Video()
-{
-    
-}
-
-void Video::Init()
-{
-    Reset();
-}
-
-void Video::Reset()
+Mapper::~Mapper()
 {
 
 }
 
-bool Video::Tick(unsigned int clock_cycles, NES_Color* frame_buffer)
+void Mapper::SaveRam(std::ofstream&)
 {
-    return true;
+
 }
 
-void Video::ScanLine(int line)
+bool Mapper::LoadRam(std::ifstream&, s32)
 {
-    
+    return false;
+}
+
+bool Mapper::PersistedRAM()
+{
+    return false;
 }

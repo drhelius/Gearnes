@@ -28,82 +28,74 @@ namespace g6502 {
 
 /// MUST INLINE --->>>
 ///
-inline u8 G6502::Fetch8()
+u8 G6502::ImmediateAddressing()
 {
-    u8 value = memory_impl_->Read(PC_.GetValue());
-    PC_.Increment();
-    return value;
+    return Fetch8();
 }
 
-inline u16 G6502::Fetch16()
+u8 G6502::ZeroPageAddressing()
 {
-    u16 pc = PC_.GetValue();
-    u8 l = memory_impl_->Read(pc);
-    u8 h = memory_impl_->Read(pc + 1);
-    PC_.SetValue(pc + 2);
-    return (h << 8) | l;
+    u8 zp = Fetch8();
+    return memory_impl_->Read(zp);
 }
 
-inline void G6502::ClearAllFlags()
+u8 G6502::ZeroPageXAddressing()
 {
-    SetFlag(FLAG_NONE);
+    u8 zp = Fetch8() + X_.GetValue();
+    return memory_impl_->Read(zp);
 }
 
-inline void G6502::ToggleZeroFlagFromResult(u8 result)
+u8 G6502::ZeroPageYddressing()
 {
-    if (result == 0)
-        ToggleFlag(FLAG_ZERO);
-    else
-        ClearFlag(FLAG_ZERO);
+    u8 zp = Fetch8() + Y_.GetValue();
+    return memory_impl_->Read(zp);
 }
 
-inline void G6502::ToggleSignFlagFromResult(u8 result)
+s8 G6502::RelativeAddressing()
 {
-    if ((result & 0x80) != 0)
-        ToggleFlag(FLAG_SIGN);
-    else
-        ClearFlag(FLAG_SIGN);
+    return static_cast<s8>(Fetch8());
 }
 
-inline void G6502::SetFlag(u8 flag)
+u16 G6502::AbsoluteAddressing()
 {
-    P_.SetValue(flag);
+    return Fetch16();
 }
 
-inline void G6502::FlipFlag(u8 flag)
+u16 G6502::AbsoluteXAddressing()
 {
-    P_.SetValue(P_.GetValue() ^ flag);
+    return Fetch16() + X_.GetValue();
 }
 
-inline void G6502::ToggleFlag(u8 flag)
+u16 G6502::AbsoluteYAddressing()
 {
-    P_.SetValue(P_.GetValue() | flag);
+    return Fetch16() + Y_.GetValue();
 }
 
-inline void G6502::ClearFlag(u8 flag)
+u16 G6502::IndirectAddressing()
 {
-    P_.SetValue(P_.GetValue() & (~flag));
+    u16 address = Fetch16();
+    u8 l = memory_impl_->Read(address);
+    u8 h = memory_impl_->Read((address & 0xFF00) | ((address + 1) & 0x00FF));
+    return (h << 8 ) | l;
 }
 
-inline bool G6502::IsSetFlag(u8 flag)
+u8 G6502::IndexedIndirectAddressing()
 {
-    return (P_.GetValue() & flag) != 0;
+    u8 address_l = Fetch8() + X_.GetValue();
+    u8 address_h = address_l + 1;
+    u8 l = memory_impl_->Read(address_l);
+    u8 h = memory_impl_->Read(address_h);
+    u16 address = (h << 8 ) | l;
+    return memory_impl_->Read(address);
 }
 
-inline void G6502::StackPush(SixteenBitRegister* reg)
+u8 G6502::IndirectIndexedAddressing()
 {
-    S_.Decrement();
-    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetHigh());
-    S_.Decrement();
-    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetLow());
-}
-
-inline void G6502::StackPop(SixteenBitRegister* reg)
-{
-    reg->SetLow(memory_impl_->Read(0x0100 | S_.GetValue()));
-    S_.Increment();
-    reg->SetHigh(memory_impl_->Read(0x0100 | S_.GetValue()));
-    S_.Increment();
+    u16 address = Fetch8();
+    u8 l = memory_impl_->Read(address);
+    u8 h = memory_impl_->Read(address+1);
+    address = ((h << 8 ) | l) + Y_.GetValue();
+    return memory_impl_->Read(address);
 }
 ///
 /// MUST INLINE <<<---

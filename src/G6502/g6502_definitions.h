@@ -53,14 +53,13 @@ typedef int64_t s64;
 #define IsValidPointer(pointer) ((pointer) != NULL)
 
 #define FLAG_CARRY 0x01
-#define FLAG_NEGATIVE 0x02
-#define FLAG_PARITY 0x04
-#define FLAG_X 0x08
-#define FLAG_HALF 0x10
-#define FLAG_Y 0x20
-#define FLAG_ZERO 0x40
-#define FLAG_SIGN 0x80
-#define FLAG_NONE 0
+#define FLAG_NEGATIVE 0x80
+#define FLAG_IRQ 0x04
+#define FLAG_BRK 0x10
+#define FLAG_DECIMAL 0x08
+#define FLAG_OVERFLOW 0x40
+#define FLAG_ZERO 0x02
+#define FLAG_NONE 0x00
 
 #ifdef G6502_DEBUG
     #define Log(msg, ...) (LogImpl(msg, ##__VA_ARGS__))

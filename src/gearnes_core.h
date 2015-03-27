@@ -22,6 +22,7 @@
 
 #include "video.h"
 #include "input.h"
+#include "G6502/g6502_core.h"
 
 enum NES_System
 {
@@ -30,16 +31,10 @@ enum NES_System
     kSystem_PAL_EUR
 };
 
-//class Memory;
-//class Processor;
+class Memory;
 class Audio;
 class Cartridge;
-//class SegaMemoryRule;
-//class CodemastersMemoryRule;
-//class RomOnlyMemoryRule;
-//class MemoryRule;
-//class SmsIOPorts;
-//class GameGearIOPorts;
+class Mapper;
 
 class GearnesCore
 {
@@ -49,7 +44,7 @@ public:
     void Init();
     void RunToVBlank(NES_Color* frame_buffer);
     bool LoadROM(const char* path);
-//    Memory* GetMemory();
+    Memory* GetMemory();
     Cartridge* GetCartridge();
     void KeyPressed(NES_Joypads joypad, NES_Keys key);
     void KeyReleased(NES_Joypads joypad, NES_Keys key);
@@ -65,22 +60,18 @@ public:
     float GetVersion();
 
 private:
-    void InitMemoryRules();
-    bool AddMemoryRules();
+    void InitMappers();
+    bool SetupMapper();
     void Reset();
 
 private:
-//    Memory* m_pMemory;
-//    Processor* m_pProcessor;
+    Memory* memory_;
+    g6502::G6502* g6502_;
     Audio* audio_;
     Video* video_;
     Input* input_;
     Cartridge* cartridge_;
-//    SegaMemoryRule* m_pSegaMemoryRule;
-//    CodemastersMemoryRule* m_pCodemastersMemoryRule;
-//    RomOnlyMemoryRule* m_pRomOnlyMemoryRule;
-//    SmsIOPorts* m_pSmsIOPorts;
-//    GameGearIOPorts* m_pGameGearIOPorts;
+    Mapper* mappers_[256];
     bool paused_;
 };
 

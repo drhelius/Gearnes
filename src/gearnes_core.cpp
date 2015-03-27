@@ -18,38 +18,29 @@
  */
 
 #include "gearnes_core.h"
-//#include "Memory.h"
-//#include "Processor.h"
+#include "memory.h"
 #include "audio.h"
 #include "video.h"
 #include "input.h"
 #include "cartridge.h"
-//#include "MemoryRule.h"
-//#include "SegaMemoryRule.h"
-//#include "CodemastersMemoryRule.h"
-//#include "RomOnlyMemoryRule.h"
-//#include "SmsIOPorts.h"
-//#include "GameGearIOPorts.h"
+#include "mapper.h"
 
 GearnesCore::GearnesCore()
 {
-//    InitPointer(m_pMemory);
-//    InitPointer(m_pProcessor);
+    InitPointer(memory_);
+    InitPointer(g6502_);
     InitPointer(audio_);
     InitPointer(video_);
     InitPointer(input_);
     InitPointer(cartridge_);
-//    InitPointer(m_pSegaMemoryRule);
-//    InitPointer(m_pCodemastersMemoryRule);
-//    InitPointer(m_pRomOnlyMemoryRule);
-//    InitPointer(m_pSmsIOPorts);
-//    InitPointer(m_pGameGearIOPorts);
+    for (int i = 0; i < 256; i++)
+        InitPointer(mappers_[i]);
     paused_ = true;
 }
 
 GearnesCore::~GearnesCore()
 {
-#ifdef DEBUG_GEARSYSTEM
+#ifdef DEBUG_GEARNES
     if (cartridge_->IsReady())
     {
         Log("Saving Memory Dump...");
@@ -61,7 +52,7 @@ GearnesCore::~GearnesCore()
         strcpy(path, cartridge_->GetFilePath());
         strcat(path, ".dump");
 
-        m_pMemory->MemoryDump(path);
+        memory_->MemoryDump(path);
 
         Log("Memory Dump Saved");
     }
@@ -76,43 +67,43 @@ GearnesCore::~GearnesCore()
     SafeDelete(input_);
     SafeDelete(video_);
     SafeDelete(audio_);
-//    SafeDelete(m_pProcessor);
-//    SafeDelete(m_pMemory);
+    SafeDelete(g6502_);
+    SafeDelete(memory_);
 }
 
 void GearnesCore::Init()
 {
     Log("-=:: GEARNES %1.1f ::=-", GEARNES_VERSION);
 
-//    m_pMemory = new Memory();
-//    m_pProcessor = new Processor(m_pMemory);
+    memory_ = new Memory();
+    g6502_ = new g6502::G6502();
     audio_ = new Audio();
     video_ = new Video();
     input_ = new Input();
     cartridge_ = new Cartridge();
-//    m_pSmsIOPorts = new SmsIOPorts(audio_, video_, input_, m_pCartridge);
+//    m_pSmsIOPorts = new SmsIOPorts(audio b_, video_, input_, m_pCartridge);
 //    m_pGameGearIOPorts = new GameGearIOPorts(audio_, video_, input_, m_pCartridge);
 //
-//    m_pMemory->Init();
-//    m_pProcessor->Init();
+    memory_->Init();
+    g6502_->Init();
+    g6502_->SetMemoryImpl(memory_);
     audio_->Init();
     video_->Init();
     input_->Init();
     cartridge_->Init();
 
-    InitMemoryRules();
+    InitMappers();
 }
 
-void GearnesCore::RunToVBlank(NES_Color* frame_Buffer)
+void GearnesCore::RunToVBlank(NES_Color* frame_buffer)
 {
     if (!paused_ && cartridge_->IsReady())
     {
         bool vblank = false;
         while (!vblank)
         {
-            unsigned int clock_cycles = 0;
-//            unsigned int clockCycles = m_pProcessor->Tick();
-            vblank = video_->Tick(clock_cycles, frame_Buffer);
+            unsigned int clock_cycles = g6502_->Tick();
+            vblank = video_->Tick(clock_cycles, frame_buffer);
             audio_->Tick(clock_cycles);
             input_->Tick(clock_cycles);
         }
@@ -122,7 +113,7 @@ void GearnesCore::RunToVBlank(NES_Color* frame_Buffer)
 
 bool GearnesCore::LoadROM(const char* path)
 {
-#ifdef DEBUG_GEARSYSTEM
+#ifdef DEBUG_GEARNES
     if (cartridge_->IsReady())
     {
         Log("Saving Memory Dump...");
@@ -134,7 +125,7 @@ bool GearnesCore::LoadROM(const char* path)
         strcpy(dmp_path, cartridge_->GetFilePath());
         strcat(dmp_path, ".dump");
 
-        m_pMemory->MemoryDump(dmp_path);
+        memory_->MemoryDump(dmp_path);
 
         Log("Memory Dump Saved");
     }
@@ -145,23 +136,23 @@ bool GearnesCore::LoadROM(const char* path)
     {
         Reset();
 //        m_pMemory->LoadSlotsFromROM(m_pCartridge->GetROM(), m_pCartridge->GetROMSize());
-        bool romTypeOK = AddMemoryRules();
+        bool supported = SetupMapper();
 
-        if (!romTypeOK)
+        if (!supported)
         {
-            Log("There was a problem with the cartridge header. File: %s...", path);
+            Log("There was a problem loading the file: %s...", path);
         }
 
-        return romTypeOK;
+        return supported;
     }
     else
         return false;
 }
 
-//Memory* GearsystemCore::GetMemory()
-//{
-//    return m_pMemory;
-//}
+Memory* GearnesCore::GetMemory()
+{
+    return memory_;
+}
 
 Cartridge* GearnesCore::GetCartridge()
 {
@@ -182,11 +173,11 @@ void GearnesCore::Pause(bool paused)
 {
     if (paused)
     {
-        Log("Geardrive PAUSED");
+        Log("Gearnes PAUSED");
     }
     else
     {
-        Log("Geardrive RESUMED");
+        Log("Gearnes RESUMED");
     }
     paused_ = paused;
 }
@@ -200,10 +191,10 @@ void GearnesCore::ResetROM()
 {
     if (cartridge_->IsReady())
     {
-        Log("Geardrive RESET");
+        Log("Gearnes RESET");
         Reset();
 //        m_pMemory->LoadSlotsFromROM(m_pCartridge->GetROM(), m_pCartridge->GetROMSize());
-        AddMemoryRules();
+        SetupMapper();
     }
 }
 
@@ -233,35 +224,7 @@ void GearnesCore::SaveRam()
 
 void GearnesCore::SaveRam(const char* path)
 {
-//    if (m_pCartridge->IsReady() && IsValidPointer(m_pMemory->GetCurrentRule()) && m_pMemory->GetCurrentRule()->PersistedRAM())
-//    {
-//        Log("Saving RAM...");
-//
-//        using namespace std;
-//
-//        char path[512];
-//
-//        if (IsValidPointer(szPath))
-//        {
-//            strcpy(path, szPath);
-//            strcat(path, "/");
-//            strcat(path, m_pCartridge->GetFileName());
-//        }
-//        else
-//        {
-//            strcpy(path, m_pCartridge->GetFilePath());
-//        }
-//
-//        strcat(path, ".gearsystem");
-//
-//        Log("Save file: %s", path);
-//
-//        ofstream file(path, ios::out | ios::binary);
-//
-//        m_pMemory->GetCurrentRule()->SaveRam(file);
-//
-//        Log("RAM saved");
-//    }
+
 }
 
 void GearnesCore::LoadRam()
@@ -271,55 +234,7 @@ void GearnesCore::LoadRam()
 
 void GearnesCore::LoadRam(const char* path)
 {
-//    if (m_pCartridge->IsReady() && IsValidPointer(m_pMemory->GetCurrentRule()))
-//    {
-//        Log("Loading RAM...");
-//
-//        using namespace std;
-//
-//        char path[512];
-//
-//        if (IsValidPointer(szPath))
-//        {
-//            strcpy(path, szPath);
-//            strcat(path, "/");
-//            strcat(path, m_pCartridge->GetFileName());
-//        }
-//        else
-//        {
-//            strcpy(path, m_pCartridge->GetFilePath());
-//        }
-//
-//        strcat(path, ".gearsystem");
-//
-//        Log("Opening save file: %s", path);
-//
-//        ifstream file(path, ios::in | ios::binary);
-//
-//        if (!file.fail())
-//        {
-//            char signature[16];
-//
-//            file.read(signature, 16);
-//
-//            file.seekg(0, file.end);
-//            s32 fileSize = (s32) file.tellg();
-//            file.seekg(0, file.beg);
-//
-//            if (m_pMemory->GetCurrentRule()->LoadRam(file, fileSize))
-//            {
-//                Log("RAM loaded");
-//            }
-//            else
-//            {
-//                Log("Save file size incorrect: %d", fileSize);
-//            }
-//        }
-//        else
-//        {
-//            Log("Save file doesn't exist");
-//        }
-//    }
+
 }
 
 float GearnesCore::GetVersion()
@@ -327,64 +242,37 @@ float GearnesCore::GetVersion()
     return GEARNES_VERSION;
 }
 
-void GearnesCore::InitMemoryRules()
+void GearnesCore::InitMappers()
 {
 //    m_pCodemastersMemoryRule = new CodemastersMemoryRule(m_pMemory, m_pCartridge);
 //    m_pSegaMemoryRule = new SegaMemoryRule(m_pMemory, m_pCartridge);
 //    m_pRomOnlyMemoryRule = new RomOnlyMemoryRule(m_pMemory, m_pCartridge);
 }
 
-bool GearnesCore::AddMemoryRules()
+bool GearnesCore::SetupMapper()
 {
-//    Cartridge::CartridgeTypes type = m_pCartridge->GetType();
-//
-//    bool notSupported = false;
-//
-//    switch (type)
-//    {
-//        case Cartridge::CartridgeRomOnlyMapper:
-//            m_pMemory->SetCurrentRule(m_pRomOnlyMemoryRule);
-//            break;
-//        case Cartridge::CartridgeSegaMapper:
-//            m_pMemory->SetCurrentRule(m_pSegaMemoryRule);
-//            break;
-//        case Cartridge::CartridgeCodemastersMapper:
-//            m_pMemory->SetCurrentRule(m_pCodemastersMemoryRule);
-//            break;
-//        case Cartridge::CartridgeNotSupported:
-//            notSupported = true;
-//            break;
-//        default:
-//            notSupported = true;
-//    }
-//
-//    if (m_pCartridge->IsGameGear())
-//    {
-//        Log("Game Gear Mode enabled");
-//        m_pProcessor->SetIOPOrts(m_pGameGearIOPorts);
-//    }
-//    else
-//    {
-//        Log("Master System Mode enabled");
-//        m_pProcessor->SetIOPOrts(m_pSmsIOPorts);
-//    }
-//
-//    return !notSupported;
+    bool supported = true;
+    u8 mapper = cartridge_->GetMapper();
+
+    switch (mapper)
+    {
+        case 0:
+            break;
+        default:
+            supported = false;
+            break;
+    }
+
     return true;
 }
 
 void GearnesCore::Reset()
 {
-//    m_pMemory->Reset();
-//    m_pProcessor->Reset();
+    memory_->Reset();
     audio_->Reset();
     video_->Reset();
     input_->Reset();
-//    m_pSegaMemoryRule->Reset();
-//    m_pCodemastersMemoryRule->Reset();
-//    m_pRomOnlyMemoryRule->Reset();
-//    m_pGameGearIOPorts->Reset();
-//    m_pSmsIOPorts->Reset();
+    g6502_->Reset();
     paused_ = false;
 }
 

@@ -35,7 +35,9 @@ SOURCES += \
     ../../../src/miniz/miniz.c \
     ../../../src/gearnes_core.cpp \
     ../../../src/G6502/g6502_core.cpp \
-    ../../../src/G6502/g6502_opcodes.cpp
+    ../../../src/G6502/g6502_opcodes.cpp \
+    ../../../src/mapper.cpp \
+    ../../../src/memory.cpp
 
 HEADERS  += \
     ../../qt-shared/about.h \
@@ -59,8 +61,11 @@ HEADERS  += \
     ../../../src/G6502/g6502_eight_bit_register.h \
     ../../../src/G6502/g6502_memory_interface.h \
     ../../../src/G6502/g6502_sixteen_bit_register.h \
-    ../../../src/Video.h \
-    ../../../src/G6502/g6502_opcode_names.h
+    ../../../src/G6502/g6502_opcode_names.h \
+    ../../../src/G6502/g6502_opcode_timing.h \
+    ../../../src/mapper.h \
+    ../../../src/memory.h \
+    ../../../src/memory_inline.h
 
 FORMS += \
     ../../qt-shared/About.ui \

@@ -17,34 +17,30 @@
  *
  */
 
-#include "video.h"
+#ifndef MAPPER_H
+#define	MAPPER_H
 
-Video::Video()
+#include "definitions.h"
+
+class Memory;
+class Cartridge;
+
+class Mapper
 {
-    
-}
+public:
+    Mapper(Memory* memory, Cartridge* cartridge);
+    virtual ~Mapper();
+    virtual u8 PerformRead(u16 address) = 0;
+    virtual void PerformWrite(u16 address, u8 value) = 0;
+    virtual void Reset() = 0;
+    virtual void SaveRam(std::ofstream &file);
+    virtual bool LoadRam(std::ifstream &file, s32 fileSize);
+    virtual bool PersistedRAM();
 
-Video::~Video()
-{
-    
-}
+protected:
+    Memory* memory_;
+    Cartridge* cartridge_;
+};
 
-void Video::Init()
-{
-    Reset();
-}
+#endif	/* MAPPER_H */
 
-void Video::Reset()
-{
-
-}
-
-bool Video::Tick(unsigned int clock_cycles, NES_Color* frame_buffer)
-{
-    return true;
-}
-
-void Video::ScanLine(int line)
-{
-    
-}

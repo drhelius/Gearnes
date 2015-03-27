@@ -17,34 +17,28 @@
  *
  */
 
-#include "video.h"
+#ifndef MEMORYINLINE_H
+#define	MEMORYINLINE_H
 
-Video::Video()
+inline u8 Memory::Read(u16 address)
 {
-    
+    return current_mapper_->PerformRead(address);
 }
 
-Video::~Video()
+inline void Memory::Write(u16 address, u8 value)
 {
-    
+    current_mapper_->PerformWrite(address, value);
 }
 
-void Video::Init()
+inline u8 Memory::Retrieve(u16 address)
 {
-    Reset();
+    return map_[address];
 }
 
-void Video::Reset()
+inline void Memory::Load(u16 address, u8 value)
 {
-
+    map_[address] = value;
 }
 
-bool Video::Tick(unsigned int clock_cycles, NES_Color* frame_buffer)
-{
-    return true;
-}
+#endif	/* MEMORYINLINE_H */
 
-void Video::ScanLine(int line)
-{
-    
-}

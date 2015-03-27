@@ -28,9 +28,87 @@
 namespace g6502
 {
    
+inline u8 G6502::Fetch8()
+{
+    u8 value = memory_impl_->Read(PC_.GetValue());
+    PC_.Increment();
+    return value;
+}
 
+inline u16 G6502::Fetch16()
+{
+    u16 pc = PC_.GetValue();
+    u8 l = memory_impl_->Read(pc);
+    u8 h = memory_impl_->Read(pc + 1);
+    PC_.SetValue(pc + 2);
+    return (h << 8) | l;
+}
 
+inline void G6502::ClearAllFlags()
+{
+    P_.SetValue(FLAG_NONE);
+}
 
+inline void G6502::SetZeroFlagFromResult(u8 result)
+{
+    if (result == 0)
+        SetFlag(FLAG_ZERO);
+    else
+        ClearFlag(FLAG_ZERO);
+}
+
+inline void G6502::SetNegativeFlagFromResult(u8 result)
+{
+    P_.SetValue((P_.GetValue() & 0x7F) | (result & 0x80));
+}
+
+inline void G6502::FlipFlag(u8 flag)
+{
+    P_.SetValue(P_.GetValue() ^ flag);
+}
+
+inline void G6502::SetFlag(u8 flag)
+{
+    P_.SetValue(P_.GetValue() | flag);
+}
+
+inline void G6502::ClearFlag(u8 flag)
+{
+    P_.SetValue(P_.GetValue() & (~flag));
+}
+
+inline bool G6502::IsSetFlag(u8 flag)
+{
+    return (P_.GetValue() & flag) != 0;
+}
+
+inline void G6502::StackPush(SixteenBitRegister* reg)
+{
+    S_.Decrement();
+    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetHigh());
+    S_.Decrement();
+    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetLow());
+}
+
+inline void G6502::StackPop(SixteenBitRegister* reg)
+{
+    reg->SetLow(memory_impl_->Read(0x0100 | S_.GetValue()));
+    S_.Increment();
+    reg->SetHigh(memory_impl_->Read(0x0100 | S_.GetValue()));
+    S_.Increment();
+}
+
+inline void G6502::StackPush(EightBitRegister* reg)
+{
+    S_.Decrement();
+    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetValue());
+}
+
+inline void G6502::StackPop(EightBitRegister* reg)
+{
+    reg->SetValue(memory_impl_->Read(0x0100 | S_.GetValue()));
+    S_.Increment();
+}
 
 /*
 inline void G6502::OPCodes_LD(EightBitRegister* reg1, u8 value)
