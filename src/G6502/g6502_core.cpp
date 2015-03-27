@@ -22,6 +22,7 @@
 #include "g6502_eight_bit_register.h"
 #include "g6502_sixteen_bit_register.h"
 #include "g6502_opcode_names.h"
+#include "g6502_opcode_timing.h"
 
 namespace g6502 {
 
@@ -63,12 +64,22 @@ u16 G6502::AbsoluteAddressing()
 
 u16 G6502::AbsoluteXAddressing()
 {
-    return Fetch16() + X_.GetValue();
+    u16 address = Fetch16();
+    u8 x = X_.GetValue();
+    int result = address + x;
+    int carrybits = address ^ x ^ result;
+    page_crossed_ = ((carrybits & 0x100) != 0);
+    return static_cast<u16>(result);
 }
 
 u16 G6502::AbsoluteYAddressing()
 {
-    return Fetch16() + Y_.GetValue();
+    u16 address = Fetch16();
+    u8 y = Y_.GetValue();
+    int result = address + y;
+    int carrybits = address ^ y ^ result;
+    page_crossed_ = ((carrybits & 0x100) != 0);
+    return static_cast<u16>(result);
 }
 
 u16 G6502::IndirectAddressing()
@@ -93,19 +104,38 @@ u8 G6502::IndirectIndexedAddressing()
     u16 address = Fetch8();
     u8 l = memory_impl_->Read(address);
     u8 h = memory_impl_->Read(address+1);
-    address = ((h << 8 ) | l) + Y_.GetValue();
-    return memory_impl_->Read(address);
+    address = ((h << 8 ) | l);
+    u8 y = Y_.GetValue();
+    int result = address + y;
+    int carrybits = address ^ y ^ result;
+    page_crossed_ = ((carrybits & 0x100) != 0);
+    return memory_impl_->Read(static_cast<u16>(result));
+}
+
+void G6502::OPCodes_ADC(u8 number)
+{
+    int result = A_.GetValue() + number + (IsSetFlag(FLAG_CARRY) ? 1 : 0);
+    int carrybits = A_.GetValue() ^ number ^ result;
+    u8 final_result = static_cast<u8> (result);
+    A_.SetValue(final_result);
+    SetZeroFlagFromResult(final_result);
+    SetNegativeFlagFromResult(final_result);
+    if ((carrybits & 0x100) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
 }
 ///
 /// MUST INLINE <<<---
 
 G6502::G6502()
 {
-    InitPointer(memory_impl_);
     InitOPCodeFunctors();
+    InitPointer(memory_impl_);
     t_states_ = 0;
     interrupt_asserted_ = false;
     nmi_interrupt_requested_ = false;
+    page_crossed_ = false;
 }
 
 G6502::~G6502()
@@ -119,7 +149,6 @@ void G6502::Init()
 
 void G6502::Reset()
 {
-    t_states_ = 0;
     PC_.SetLow(memory_impl_->Read(0xFFFC));
     PC_.SetHigh(memory_impl_->Read(0xFFFD));
     A_.SetValue(0x00);
@@ -127,8 +156,10 @@ void G6502::Reset()
     Y_.SetValue(0x00);
     S_.SetValue(0xFD);
     P_.SetValue(0x34);
+    t_states_ = 0;
     interrupt_asserted_ = false;
     nmi_interrupt_requested_ = false;
+    page_crossed_ = false;
 }
 
 unsigned int G6502::RunFor(unsigned int t_states)
@@ -146,6 +177,7 @@ unsigned int G6502::RunFor(unsigned int t_states)
 unsigned int G6502::Tick()
 {
     t_states_ = 0;
+    page_crossed_ = false;
     
     if (nmi_interrupt_requested_)
     {
@@ -182,6 +214,9 @@ unsigned int G6502::Tick()
 #endif
 
     (this->*opcodes_[opcode])();
+
+    t_states_ += kOPCodeTStates[opcode];
+    t_states_ += page_crossed_ ? kOPCodeTStatesCrossPaged[opcode] : 0;
 
     return t_states_;
 }

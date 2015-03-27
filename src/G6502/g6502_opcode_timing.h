@@ -20,6 +20,9 @@
 #ifndef G6502_OPCODETIMING_H
 #define	G6502_OPCODETIMING_H
 
+namespace g6502
+{
+
 const u8 kOPCodeTStates[256] =
 {
 /*          0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
@@ -83,5 +86,6 @@ const u8 kOPCodeSizes[256] =
 /* 0xF0 */  2, 2, 0, 0, 2, 2, 2, 0, 1, 3, 1, 0, 3, 3, 3, 0
 };
 
-#endif	/* G6502_OPCODETIMING_H */
+} // namespace g6502
 
+#endif	/* G6502_OPCODETIMING_H */
