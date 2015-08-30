@@ -21,9 +21,79 @@
 #include <iomanip>
 #include <fstream>
 #include "memory.h"
+#include "cartridge.h"
 
-Memory::Memory()
+/// MUST INLINE --->>>
+///
+
+u8 Memory::Read(u16 address)
 {
+    if (address < 0x2000)
+    {
+        // 2KB internal RAM
+        address &= 0x07FF;
+    }
+    else if (address < 0x4000)
+    {
+        // NES PPU registers
+        address &= 0x0007;
+    }
+    else if (address < 0x4020)
+    {
+
+        // NES APU and I/O registers
+    }
+    else
+    {
+        address &= 0x3FFF;
+        return cartridge_->GetPRGROM()[address];
+        // Cartridge space
+    }
+return 0;
+    //current_mapper_->PerformRead(address);
+}
+
+void Memory::Write(u16 address, u8 value)
+{
+    //current_mapper_->PerformWrite(address, value);
+
+    if (address < 0x2000)
+    {
+        // 2KB internal RAM
+        address &= 0x07FF;
+    }
+    else if (address < 0x4000)
+    {
+        // NES PPU registers
+        address &= 0x0007;
+    }
+    else if (address < 0x4020)
+    {
+        // NES APU and I/O registers
+    }
+    else
+    {
+        // Cartridge space
+        //cartridge_->GetCHRROM()[0]=0;
+    }
+}
+
+u8 Memory::Retrieve(u16 address)
+{
+    return 0;//map_[address];
+}
+
+void Memory::Load(u16 address, u8 value)
+{
+    //map_[address] = value;
+}
+
+///
+/// MUST INLINE <<<---
+
+Memory::Memory(Cartridge *cartridge)
+{
+    cartridge_ = cartridge;
     InitPointer(map_);
     InitPointer(current_mapper_);
     InitPointer(disassembled_map_);
@@ -51,24 +121,19 @@ void Memory::SetCurrentMapper(Mapper* mapper)
     current_mapper_ = mapper;
 }
 
-Mapper* Memory::GetCurrentRule()
+Mapper* Memory::GetCurrentMapper()
 {
     return current_mapper_;
 }
 
 void Memory::Disassemble(u16 address, const char* disassembled_string)
 {
-    strcpy(disassembled_map_[address].disassembled_string, disassembled_string);
+    //strcpy(disassembled_map_[address].disassembled_string, disassembled_string);
 }
 
 bool Memory::IsDisassembled(u16 address)
 {
-    return disassembled_map_[address].disassembled_string[0] != 0;
-}
-
-void Memory::LoadSlotsFromROM(u8* pTheROM, int size)
-{
-
+    return true;//disassembled_map_[address].disassembled_string[0] != 0;
 }
 
 void Memory::MemoryDump(const char* file_path)

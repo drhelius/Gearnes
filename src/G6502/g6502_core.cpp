@@ -26,7 +26,6 @@
 
 namespace g6502 {
 
-
 /// MUST INLINE --->>>
 ///
 u8 G6502::ImmediateAddressing()
@@ -176,9 +175,9 @@ G6502::~G6502()
 {
 }
 
-void G6502::Init()
+void G6502::Init(MemoryInterface *memory_impl)
 {
-    Reset();
+    memory_impl_ = memory_impl;
 }
 
 void G6502::Reset()
@@ -266,11 +265,6 @@ void G6502::RequestIRQ(bool assert)
 void G6502::RequestNMI()
 {
     nmi_interrupt_requested_ = true;
-}
-
-void G6502::SetMemoryImpl(MemoryInterface* memory_impl)
-{
-    memory_impl_ = memory_impl;
 }
 
 void G6502::UnofficialOPCode()

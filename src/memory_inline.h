@@ -20,25 +20,6 @@
 #ifndef MEMORYINLINE_H
 #define	MEMORYINLINE_H
 
-inline u8 Memory::Read(u16 address)
-{
-    return current_mapper_->PerformRead(address);
-}
-
-inline void Memory::Write(u16 address, u8 value)
-{
-    current_mapper_->PerformWrite(address, value);
-}
-
-inline u8 Memory::Retrieve(u16 address)
-{
-    return map_[address];
-}
-
-inline void Memory::Load(u16 address, u8 value)
-{
-    map_[address] = value;
-}
 
 #endif	/* MEMORYINLINE_H */
 

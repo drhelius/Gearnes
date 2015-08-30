@@ -58,11 +58,6 @@ GearnesCore::~GearnesCore()
     }
 #endif
 
-//    SafeDelete(m_pGameGearIOPorts);
-//    SafeDelete(m_pSmsIOPorts);
-//    SafeDelete(m_pRomOnlyMemoryRule);
-//    SafeDelete(m_pCodemastersMemoryRule);
-//    SafeDelete(m_pSegaMemoryRule);
     SafeDelete(cartridge_);
     SafeDelete(input_);
     SafeDelete(video_);
@@ -75,22 +70,19 @@ void GearnesCore::Init()
 {
     Log("-=:: GEARNES %1.1f ::=-", GEARNES_VERSION);
 
-    memory_ = new Memory();
+    cartridge_ = new Cartridge();
+    memory_ = new Memory(cartridge_);
     g6502_ = new g6502::G6502();
     audio_ = new Audio();
     video_ = new Video();
     input_ = new Input();
-    cartridge_ = new Cartridge();
-//    m_pSmsIOPorts = new SmsIOPorts(audio b_, video_, input_, m_pCartridge);
-//    m_pGameGearIOPorts = new GameGearIOPorts(audio_, video_, input_, m_pCartridge);
-//
+
+    cartridge_->Init();
     memory_->Init();
-    g6502_->Init();
-    g6502_->SetMemoryImpl(memory_);
+    g6502_->Init(memory_);
     audio_->Init();
     video_->Init();
     input_->Init();
-    cartridge_->Init();
 
     InitMappers();
 }
@@ -135,14 +127,11 @@ bool GearnesCore::LoadROM(const char* path)
     if (loaded)
     {
         Reset();
-//        m_pMemory->LoadSlotsFromROM(m_pCartridge->GetROM(), m_pCartridge->GetROMSize());
         bool supported = SetupMapper();
-
         if (!supported)
         {
             Log("There was a problem loading the file: %s...", path);
         }
-
         return supported;
     }
     else
@@ -193,7 +182,6 @@ void GearnesCore::ResetROM()
     {
         Log("Gearnes RESET");
         Reset();
-//        m_pMemory->LoadSlotsFromROM(m_pCartridge->GetROM(), m_pCartridge->GetROMSize());
         SetupMapper();
     }
 }
@@ -244,9 +232,7 @@ float GearnesCore::GetVersion()
 
 void GearnesCore::InitMappers()
 {
-//    m_pCodemastersMemoryRule = new CodemastersMemoryRule(m_pMemory, m_pCartridge);
-//    m_pSegaMemoryRule = new SegaMemoryRule(m_pMemory, m_pCartridge);
-//    m_pRomOnlyMemoryRule = new RomOnlyMemoryRule(m_pMemory, m_pCartridge);
+
 }
 
 bool GearnesCore::SetupMapper()

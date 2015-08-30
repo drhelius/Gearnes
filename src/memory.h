@@ -25,32 +25,33 @@
 #include "mapper.h"
 #include "G6502/g6502_memory_interface.h"
 
+class Cartridge;
+
 class Memory : public g6502::MemoryInterface
 {
 public:
-    Memory();
+    Memory(Cartridge* cartridge);
     virtual ~Memory();
     void Init();
     void Reset();
     void SetCurrentMapper(Mapper* mapper);
-    Mapper* GetCurrentRule();
+    Mapper* GetCurrentMapper();
     virtual u8 Read(u16 address);
     virtual void Write(u16 address, u8 value);
     virtual u8 Retrieve(u16 address);
     virtual void Load(u16 address, u8 value);
     virtual void Disassemble(u16 address, const char* disassembled_string);
     virtual bool IsDisassembled(u16 address);
-    void LoadSlotsFromROM(u8* rom, int size);
     void MemoryDump(const char* file_path);
 
 private:
-
     struct stDisassemble
     {
         char disassembled_string[32];
     };
 
 private:
+    Cartridge* cartridge_;
     u8* map_;
     Mapper* current_mapper_;
     stDisassemble* disassembled_map_;

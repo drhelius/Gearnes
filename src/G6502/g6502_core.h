@@ -33,13 +33,13 @@ class G6502
 public:
     G6502();
     ~G6502();
-    void Init();
+    void Init(MemoryInterface* memory_impl);
     void Reset();
     unsigned int RunFor(unsigned int t_states);
     unsigned int Tick();
     void RequestIRQ(bool assert);
     void RequestNMI();
-    void SetMemoryImpl(MemoryInterface* memory_impl);
+    void SetMemoryImpl();
 
 private:
     typedef void (G6502::*OPCptr) (void);
