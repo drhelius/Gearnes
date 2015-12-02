@@ -65,7 +65,7 @@ u16 G6502::AbsoluteXAddressing()
 {
     u16 address = Fetch16();
     u16 result = address + X_.GetValue();
-    page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+    page_crossed_ = PageCrossed(address, result);
     return result;
 }
 
@@ -73,7 +73,7 @@ u16 G6502::AbsoluteYAddressing()
 {
     u16 address = Fetch16();
     u16 result = address + Y_.GetValue();
-    page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+    page_crossed_ = PageCrossed(address, result);
     return result;
 }
 
@@ -82,7 +82,7 @@ u16 G6502::IndirectAddressing()
     u16 address = Fetch16();
     u8 l = memory_impl_->Read(address);
     u8 h = memory_impl_->Read((address & 0xFF00) | ((address + 1) & 0x00FF));
-    return (h << 8 ) | l;
+    return MakeAddress16(h, l);
 }
 
 u8 G6502::IndexedIndirectAddressing()
@@ -90,7 +90,7 @@ u8 G6502::IndexedIndirectAddressing()
     u16 address = Fetch8() + X_.GetValue();
     u8 l = memory_impl_->Read(address & 0x00FF);
     u8 h = memory_impl_->Read((address + 1) & 0x00FF);
-    address = (h << 8 ) | l;
+    address = MakeAddress16(h, l);
     return memory_impl_->Read(address);
 }
 
@@ -99,9 +99,9 @@ u8 G6502::IndirectIndexedAddressing()
     u16 address = Fetch8();
     u8 l = memory_impl_->Read(address);
     u8 h = memory_impl_->Read(address+1);
-    address = ((h << 8 ) | l);
+    address = MakeAddress16(h, l);
     u16 result = address + Y_.GetValue();
-    page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+    page_crossed_ = PageCrossed(address, result);
     return memory_impl_->Read(static_cast<u16>(result));
 }
 
@@ -151,7 +151,7 @@ void G6502::OPcodes_Branch(bool condition)
         u16 result = address + displacement;
         PC_.SetValue(result);
         branch_taken_ = true;
-        page_crossed_ = (address & 0xFF00) != (result & 0xFF00);
+        page_crossed_ = PageCrossed(address, result);
     }
     else
         PC_.Increment();
