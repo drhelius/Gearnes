@@ -44,6 +44,16 @@ inline u16 G6502::Fetch16()
     return (h << 8) | l;
 }
 
+inline u16 G6502::MakeAddress16(u8 high, u8 low)
+{
+    return (high << 8 ) | low;
+}
+
+inline bool G6502::PageCrossed(u16 old_address, u16 new_address)
+{
+    return (old_address & 0xFF00) != (new_address & 0xFF00);
+}
+
 inline void G6502::ClearAllFlags()
 {
     P_.SetValue(FLAG_NONE);

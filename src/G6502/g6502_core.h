@@ -60,6 +60,8 @@ private:
 private:
     u8 Fetch8();
     u16 Fetch16();
+    u16 MakeAddress16(u8 high, u8 low);
+    bool PageCrossed(u16 old_address, u16 new_address);
     void ClearAllFlags();
     void SetZeroFlagFromResult(u8 result);
     void SetNegativeFlagFromResult(u8 result);
