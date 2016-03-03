@@ -6,8 +6,6 @@ Gearnes (WIP)
 
 Gearnes is a Nintendo Entertainment System (NES) / Famicom emulator written in C++ that runs on iOS, Raspberry Pi, Mac, Windows and Linux.
 
-The main focus of this emulator is readability of source code with very high compatibility.
-
 Follow me on Twitter for updates: http://twitter.com/drhelius
 
 ----------
