@@ -120,6 +120,16 @@ inline void G6502::StackPop(EightBitRegister* reg)
     S_.Increment();
 }
 
+inline u8 G6502::Read(u16 address)
+{
+    return memory_impl_->Read(address);
+}
+
+inline void G6502::Write(u16 address, u8 value)
+{
+    memory_impl_->Write(address, value);
+}
+
 /*
 inline void G6502::OPCodes_LD(EightBitRegister* reg1, u8 value)
 {

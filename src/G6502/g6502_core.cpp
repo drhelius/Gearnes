@@ -33,22 +33,19 @@ u8 G6502::ImmediateAddressing()
     return Fetch8();
 }
 
-u8 G6502::ZeroPageAddressing()
+u16 G6502::ZeroPageAddressing()
 {
-    u8 zp = Fetch8();
-    return memory_impl_->Read(zp);
+    return 0x00FF & Fetch8();
 }
 
-u8 G6502::ZeroPageXAddressing()
+u16 G6502::ZeroPageXAddressing()
 {
-    u8 zp = Fetch8() + X_.GetValue();
-    return memory_impl_->Read(zp);
+    return 0x00FF & (Fetch8() + X_.GetValue());
 }
 
-u8 G6502::ZeroPageYddressing()
+u16 G6502::ZeroPageYddressing()
 {
-    u8 zp = Fetch8() + Y_.GetValue();
-    return memory_impl_->Read(zp);
+    return 0x00FF & (Fetch8() + Y_.GetValue());
 }
 
 s8 G6502::RelativeAddressing()
@@ -85,16 +82,15 @@ u16 G6502::IndirectAddressing()
     return MakeAddress16(h, l);
 }
 
-u8 G6502::IndexedIndirectAddressing()
+u16 G6502::IndexedIndirectAddressing()
 {
     u16 address = Fetch8() + X_.GetValue();
     u8 l = memory_impl_->Read(address & 0x00FF);
     u8 h = memory_impl_->Read((address + 1) & 0x00FF);
-    address = MakeAddress16(h, l);
-    return memory_impl_->Read(address);
+    return MakeAddress16(h, l);
 }
 
-u8 G6502::IndirectIndexedAddressing()
+u16 G6502::IndirectIndexedAddressing()
 {
     u16 address = Fetch8();
     u8 l = memory_impl_->Read(address);
@@ -102,12 +98,12 @@ u8 G6502::IndirectIndexedAddressing()
     address = MakeAddress16(h, l);
     u16 result = address + Y_.GetValue();
     page_crossed_ = PageCrossed(address, result);
-    return memory_impl_->Read(static_cast<u16>(result));
+    return result;
 }
 
-void G6502::OPCodes_ADC(u8 number)
+void G6502::OPCodes_ADC(u8 value)
 {
-    int result = A_.GetValue() + number + (IsSetFlag(FLAG_CARRY) ? 1 : 0);
+    int result = A_.GetValue() + value + (IsSetFlag(FLAG_CARRY) ? 1 : 0);
     u8 final_result = static_cast<u8> (result);
     SetZeroFlagFromResult(final_result);
     SetNegativeFlagFromResult(final_result);
@@ -115,25 +111,39 @@ void G6502::OPCodes_ADC(u8 number)
         SetFlag(FLAG_CARRY);
     else
         ClearFlag(FLAG_CARRY);
-    if ((((A_.GetValue() ^ number) & 0x80) == 0) && (((A_.GetValue() ^ result) & 0x80) != 0))
+    if ((((A_.GetValue() ^ value) & 0x80) == 0) && (((A_.GetValue() ^ result) & 0x80) != 0))
         SetFlag(FLAG_OVERFLOW);
     else
         ClearFlag(FLAG_OVERFLOW);
     A_.SetValue(final_result);
 }
 
-void G6502::OPCodes_AND(u8 number)
+void G6502::OPCodes_AND(u8 value)
 {
-    u8 result = A_.GetValue() & number;
+    u8 result = A_.GetValue() & value;
     A_.SetValue(result);
     SetZeroFlagFromResult(result);
     SetNegativeFlagFromResult(result);
 }
 
-void G6502::OPCodes_ASL(u8 number)
+void G6502::OPCodes_ASL_Accumulator()
 {
+    u8 number = A_.GetValue();
     u8 result = number << 1;
     A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((number & 0x80) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPCodes_ASL_Memory(u16 address)
+{
+    u8 number = Read(address);
+    u8 result = number << 1;
+    Write(address, result);
     SetZeroFlagFromResult(result);
     SetNegativeFlagFromResult(result);
     if ((number & 0x80) != 0)
@@ -146,7 +156,7 @@ void G6502::OPcodes_Branch(bool condition)
 {
     if (condition)
     {
-        s8 displacement = static_cast<s8>(Fetch8());
+        s8 displacement = RelativeAddressing();
         u16 address = PC_.GetValue();
         u16 result = address + displacement;
         PC_.SetValue(result);

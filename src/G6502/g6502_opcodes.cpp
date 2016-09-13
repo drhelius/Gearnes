@@ -60,7 +60,7 @@ void G6502::OPCode0x05()
 void G6502::OPCode0x06()
 {
     // ASL $n
-    OPCodes_ASL(ZeroPageAddressing());
+    OPCodes_ASL_Memory(ZeroPageAddressing());
 }
 
 void G6502::OPCode0x07()
@@ -83,7 +83,7 @@ void G6502::OPCode0x09()
 void G6502::OPCode0x0A()
 {
     // ASL A
-    OPCodes_ASL(A_.GetValue());
+    OPCodes_ASL_Accumulator();
 }
 
 void G6502::OPCode0x0B()
@@ -106,7 +106,7 @@ void G6502::OPCode0x0D()
 void G6502::OPCode0x0E()
 {
     // ASL $nn
-    OPCodes_ASL(memory_impl_->Read(AbsoluteAddressing()));
+    OPCodes_ASL_Memory(AbsoluteAddressing());
 }
 
 void G6502::OPCode0x0F()
@@ -152,7 +152,7 @@ void G6502::OPCode0x15()
 void G6502::OPCode0x16()
 {
     // ASL $n,X
-    OPCodes_ASL(ZeroPageXAddressing());
+    OPCodes_ASL_Memory(ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x17()
@@ -197,7 +197,7 @@ void G6502::OPCode0x1D()
 void G6502::OPCode0x1E()
 {
     // ASL $nn,X
-    OPCodes_ASL(memory_impl_->Read(AbsoluteXAddressing()));
+    OPCodes_ASL_Memory(AbsoluteXAddressing());
 }
 
 void G6502::OPCode0x1F()
@@ -215,7 +215,7 @@ void G6502::OPCode0x20()
 void G6502::OPCode0x21()
 {
     // AND $(nn,X)
-    OPCodes_AND(IndexedIndirectAddressing());
+    OPCodes_AND(Read(IndexedIndirectAddressing()));
 }
 
 void G6502::OPCode0x22()
@@ -238,7 +238,7 @@ void G6502::OPCode0x24()
 void G6502::OPCode0x25()
 {
     // AND $n
-    OPCodes_AND(ZeroPageAddressing());
+    OPCodes_AND(Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0x26()
@@ -284,7 +284,7 @@ void G6502::OPCode0x2C()
 void G6502::OPCode0x2D()
 {
     // AND $nn
-    OPCodes_AND(memory_impl_->Read(AbsoluteAddressing()));
+    OPCodes_AND(Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0x2E()
@@ -308,7 +308,7 @@ void G6502::OPCode0x30()
 void G6502::OPCode0x31()
 {
     // AND ($n),Y
-    OPCodes_AND(IndirectIndexedAddressing());
+    OPCodes_AND(Read(IndirectIndexedAddressing()));
 }
 
 void G6502::OPCode0x32()
@@ -331,7 +331,7 @@ void G6502::OPCode0x34()
 void G6502::OPCode0x35()
 {
     // AND $n,X
-    OPCodes_AND(ZeroPageXAddressing());
+    OPCodes_AND(Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0x36()
@@ -354,7 +354,7 @@ void G6502::OPCode0x38()
 void G6502::OPCode0x39()
 {
     // AND $nn,Y
-    OPCodes_AND(memory_impl_->Read(AbsoluteYAddressing()));
+    OPCodes_AND(Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0x3A()
@@ -377,7 +377,7 @@ void G6502::OPCode0x3C()
 void G6502::OPCode0x3D()
 {
     // AND $nn,X
-    OPCodes_AND(memory_impl_->Read(AbsoluteXAddressing()));
+    OPCodes_AND(Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0x3E()
@@ -577,7 +577,7 @@ void G6502::OPCode0x60()
 void G6502::OPCode0x61()
 {
     // ADC $(nn,X)
-    OPCodes_ADC(IndexedIndirectAddressing());
+    OPCodes_ADC(Read(IndexedIndirectAddressing()));
 }
 
 void G6502::OPCode0x62()
@@ -600,7 +600,7 @@ void G6502::OPCode0x64()
 void G6502::OPCode0x65()
 {
     // ADC $n
-    OPCodes_ADC(ZeroPageAddressing());
+    OPCodes_ADC(Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0x66()
@@ -646,7 +646,7 @@ void G6502::OPCode0x6C()
 void G6502::OPCode0x6D()
 {
     // ADC $nn
-    OPCodes_ADC(memory_impl_->Read(AbsoluteAddressing()));
+    OPCodes_ADC(Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0x6E()
@@ -670,7 +670,7 @@ void G6502::OPCode0x70()
 void G6502::OPCode0x71()
 {
     // ADC ($n),Y
-    OPCodes_ADC(IndirectIndexedAddressing());
+    OPCodes_ADC(Read(IndirectIndexedAddressing()));
 }
 
 void G6502::OPCode0x72()
@@ -693,7 +693,7 @@ void G6502::OPCode0x74()
 void G6502::OPCode0x75()
 {
     // ADC $n,X
-    OPCodes_ADC(ZeroPageXAddressing());
+    OPCodes_ADC(Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0x76()
@@ -716,7 +716,7 @@ void G6502::OPCode0x78()
 void G6502::OPCode0x79()
 {
     // ADC $nn,Y
-    OPCodes_ADC(memory_impl_->Read(AbsoluteYAddressing()));
+    OPCodes_ADC(Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0x7A()
@@ -739,7 +739,7 @@ void G6502::OPCode0x7C()
 void G6502::OPCode0x7D()
 {
     // ADC $nn,X
-    OPCodes_ADC(memory_impl_->Read(AbsoluteXAddressing()));
+    OPCodes_ADC(Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0x7E()
