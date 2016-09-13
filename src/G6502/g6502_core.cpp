@@ -205,7 +205,7 @@ unsigned int G6502::RunFor(unsigned int t_states)
         count += Tick();
     }
     
-    return count - t_states;
+    return count;
 }
 
 unsigned int G6502::Tick()
