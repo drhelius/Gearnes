@@ -1,6 +1,6 @@
 Gearnes (WIP)
 =========
-<b>Copyright &copy; 2015 by Ignacio Sanchez</b>
+<b>Copyright &copy; 2016 by Ignacio Sanchez</b>
 
 ----------
 
@@ -15,7 +15,7 @@ License
 
 <i>Gearnes - Nintendo Entertainment System / Famicom Emulator</i>
 
-<i>Copyright (C) 2015  Ignacio Sanchez</i>
+<i>Copyright (C) 2016  Ignacio Sanchez</i>
 
 <i>This program is free software: you can redistribute it and/or modify</i>
 <i>it under the terms of the GNU General Public License as published by</i>
