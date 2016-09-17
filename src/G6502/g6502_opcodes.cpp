@@ -80,6 +80,7 @@ void G6502::OPCode0x07()
 void G6502::OPCode0x08()
 {
     // PHP
+    StackPush8(P_.GetValue());
 }
 
 void G6502::OPCode0x09()
@@ -286,6 +287,10 @@ void G6502::OPCode0x27()
 void G6502::OPCode0x28()
 {
     // PLP
+    u8 result = StackPop8();
+    P_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
 }
 
 void G6502::OPCode0x29()
@@ -486,6 +491,7 @@ void G6502::OPCode0x47()
 void G6502::OPCode0x48()
 {
     // PHA
+    StackPush8(A_.GetValue());
 }
 
 void G6502::OPCode0x49()
@@ -690,6 +696,10 @@ void G6502::OPCode0x67()
 void G6502::OPCode0x68()
 {
     // PLA
+    u8 result = StackPop8();
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
 }
 
 void G6502::OPCode0x69()
