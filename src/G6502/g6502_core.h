@@ -79,7 +79,7 @@ private:
     u8 ImmediateAddressing();
     u16 ZeroPageAddressing();
     u16 ZeroPageXAddressing();
-    u16 ZeroPageYddressing();
+    u16 ZeroPageYAddressing();
     s8 RelativeAddressing();
     u16 AbsoluteAddressing();
     u16 AbsoluteXAddressing();

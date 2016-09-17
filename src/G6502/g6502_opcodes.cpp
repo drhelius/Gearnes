@@ -1090,7 +1090,7 @@ void G6502::OPCode0xB5()
 void G6502::OPCode0xB6()
 {
     // LDX $n,Y
-    OPCodes_LD(&X_, Read(ZeroPageYddressing()));
+    OPCodes_LD(&X_, Read(ZeroPageYAddressing()));
 }
 
 void G6502::OPCode0xB7()

@@ -43,7 +43,7 @@ u16 G6502::ZeroPageXAddressing()
     return 0x00FF & (Fetch8() + X_.GetValue());
 }
 
-u16 G6502::ZeroPageYddressing()
+u16 G6502::ZeroPageYAddressing()
 {
     return 0x00FF & (Fetch8() + Y_.GetValue());
 }
