@@ -178,9 +178,9 @@ void G6502::OPCodes_BIT(u16 address)
 
 void G6502::OPCodes_BRK()
 {
-    StackPush(&PC_);
+    StackPush16(PC_.GetValue());
     SetFlag(FLAG_BRK);
-    StackPush(&P_);
+    StackPush8(P_.GetValue());
     SetFlag(FLAG_IRQ);
     PC_.SetLow(memory_impl_->Read(0xFFFE));
     PC_.SetHigh(memory_impl_->Read(0xFFFF));
@@ -312,9 +312,9 @@ unsigned int G6502::Tick()
     if (nmi_interrupt_requested_)
     {
         nmi_interrupt_requested_ = false;
-        StackPush(&PC_);
+        StackPush16(PC_.GetValue());
         ClearFlag(FLAG_BRK);
-        StackPush(&P_);
+        StackPush8(P_.GetValue());
         SetFlag(FLAG_IRQ);
         PC_.SetLow(memory_impl_->Read(0xFFFA));
         PC_.SetHigh(memory_impl_->Read(0xFFFB));
@@ -323,9 +323,9 @@ unsigned int G6502::Tick()
     }
     else if (!IsSetFlag(FLAG_IRQ) && interrupt_asserted_)
     { 
-        StackPush(&PC_);
+        StackPush16(PC_.GetValue());
         ClearFlag(FLAG_BRK);
-        StackPush(&P_);
+        StackPush8(P_.GetValue());
         SetFlag(FLAG_IRQ);
         PC_.SetLow(memory_impl_->Read(0xFFFE));
         PC_.SetHigh(memory_impl_->Read(0xFFFF));

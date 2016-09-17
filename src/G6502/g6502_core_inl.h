@@ -30,7 +30,7 @@ namespace g6502
    
 inline u8 G6502::Fetch8()
 {
-    u8 value = memory_impl_->Read(PC_.GetValue());
+    u8 value = Read(PC_.GetValue());
     PC_.Increment();
     return value;
 }
@@ -38,10 +38,10 @@ inline u8 G6502::Fetch8()
 inline u16 G6502::Fetch16()
 {
     u16 pc = PC_.GetValue();
-    u8 l = memory_impl_->Read(pc);
-    u8 h = memory_impl_->Read(pc + 1);
+    u8 l = Read(pc);
+    u8 h = Read(pc + 1);
     PC_.SetValue(pc + 2);
-    return (h << 8) | l;
+    return MakeAddress16(h , l);
 }
 
 inline u16 G6502::MakeAddress16(u8 high, u8 low)
@@ -97,32 +97,34 @@ inline bool G6502::IsSetFlag(u8 flag)
     return (P_.GetValue() & flag) != 0;
 }
 
-inline void G6502::StackPush(SixteenBitRegister* reg)
+inline void G6502::StackPush16(u16 value)
 {
+    Write(0x0100 | S_.GetValue(), static_cast<u8>((value >> 8) & 0x00FF));
     S_.Decrement();
-    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetHigh());
+    Write(0x0100 | S_.GetValue(), static_cast<u8>(value & 0x00FF));
     S_.Decrement();
-    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetLow());
 }
 
-inline void G6502::StackPop(SixteenBitRegister* reg)
+inline void G6502::StackPush8(u8 value)
 {
-    reg->SetLow(memory_impl_->Read(0x0100 | S_.GetValue()));
-    S_.Increment();
-    reg->SetHigh(memory_impl_->Read(0x0100 | S_.GetValue()));
-    S_.Increment();
-}
-
-inline void G6502::StackPush(EightBitRegister* reg)
-{
+    Write(0x0100 | S_.GetValue(), value);
     S_.Decrement();
-    memory_impl_->Write(0x0100 | S_.GetValue(), reg->GetValue());
 }
 
-inline void G6502::StackPop(EightBitRegister* reg)
+inline u16 G6502::StackPop16()
 {
-    reg->SetValue(memory_impl_->Read(0x0100 | S_.GetValue()));
     S_.Increment();
+    u8 l = Read(0x0100 | S_.GetValue());
+    S_.Increment();
+    u8 h = Read(0x0100 | S_.GetValue());
+    return MakeAddress16(h , l);
+}
+
+inline u8 G6502::StackPop8()
+{
+    S_.Increment();
+    u8 result = Read(0x0100 | S_.GetValue());
+    return result;
 }
 
 inline u8 G6502::Read(u16 address)

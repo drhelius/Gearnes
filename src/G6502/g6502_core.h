@@ -70,10 +70,10 @@ private:
     void FlipFlag(u8 flag);
     void ClearFlag(u8 flag);
     bool IsSetFlag(u8 flag);
-    void StackPush(SixteenBitRegister* reg);
-    void StackPop(SixteenBitRegister* reg);
-    void StackPush(EightBitRegister* reg);
-    void StackPop(EightBitRegister* reg);
+    void StackPush16(u16 value);
+    void StackPush8(u8 value);
+    u16 StackPop16();
+    u8 StackPop8();
     u8 Read(u16 address);
     void Write(u16 address, u8 value);
     u8 ImmediateAddressing();
