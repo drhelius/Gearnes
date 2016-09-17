@@ -8,7 +8,6 @@ before_install:
   - cd platforms/linux/Gearboy
 os:
 - linux
-sudo: required
 script:
   - qmake -o Makefile Gearboy.pro && make
 dist: xenial
