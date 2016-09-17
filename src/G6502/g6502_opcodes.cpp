@@ -233,6 +233,7 @@ void G6502::OPCode0x23()
 void G6502::OPCode0x24()
 {
     // BIT $n
+    OPCodes_BIT(ZeroPageAddressing());
 }
 
 void G6502::OPCode0x25()
@@ -279,6 +280,7 @@ void G6502::OPCode0x2B()
 void G6502::OPCode0x2C()
 {
     // BIT $nn
+    OPCodes_BIT(AbsoluteAddressing());
 }
 
 void G6502::OPCode0x2D()

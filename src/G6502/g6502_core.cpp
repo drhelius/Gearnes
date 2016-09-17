@@ -169,10 +169,11 @@ void G6502::OPcodes_Branch(bool condition)
 
 void G6502::OPCodes_BIT(u16 address)
 {
-    u8 result = A_.GetValue() & Read(address);
+    u8 number = Read(address);
+    u8 result = A_.GetValue() & number;
     SetZeroFlagFromResult(result);
-    SetOverflowFlagFromResult(result);
-    SetNegativeFlagFromResult(result);
+    SetOverflowFlagFromResult(number);
+    SetNegativeFlagFromResult(number);
 }
 
 ///
