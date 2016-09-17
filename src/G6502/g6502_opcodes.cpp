@@ -50,7 +50,9 @@ void G6502::OPCode0x03()
 
 void G6502::OPCode0x04()
 {
+    // UNOFFICIAL
     // NOP $n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x05()
@@ -96,7 +98,9 @@ void G6502::OPCode0x0B()
 
 void G6502::OPCode0x0C()
 {
+    // UNOFFICIAL
     // NOP $nn
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x0D()
@@ -142,7 +146,9 @@ void G6502::OPCode0x13()
 
 void G6502::OPCode0x14()
 {
+    // UNOFFICIAL
     // NOP $n,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x15()
@@ -176,7 +182,9 @@ void G6502::OPCode0x19()
 
 void G6502::OPCode0x1A()
 {
+    // UNOFFICIAL
     // NOP
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x1B()
@@ -188,7 +196,9 @@ void G6502::OPCode0x1B()
 
 void G6502::OPCode0x1C()
 {
+    // UNOFFICIAL
     // NOP $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x1D()
@@ -332,7 +342,9 @@ void G6502::OPCode0x33()
 
 void G6502::OPCode0x34()
 {
+    // UNOFFICIAL
     // NOP $n,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x35()
@@ -367,7 +379,9 @@ void G6502::OPCode0x39()
 
 void G6502::OPCode0x3A()
 {
+    // UNOFFICIAL
     // NOP
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x3B()
@@ -379,7 +393,9 @@ void G6502::OPCode0x3B()
 
 void G6502::OPCode0x3C()
 {
+    // UNOFFICIAL
     // NOP $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x3D()
@@ -425,7 +441,9 @@ void G6502::OPCode0x43()
 
 void G6502::OPCode0x44()
 {
+    // UNOFFICIAL
     // NOP $n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x45()
@@ -522,7 +540,9 @@ void G6502::OPCode0x53()
 
 void G6502::OPCode0x54()
 {
+    // UNOFFICIAL
     // NOP $n,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x55()
@@ -558,7 +578,9 @@ void G6502::OPCode0x59()
 
 void G6502::OPCode0x5A()
 {
+    // UNOFFICIAL
     // NOP
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x5B()
@@ -570,7 +592,9 @@ void G6502::OPCode0x5B()
 
 void G6502::OPCode0x5C()
 {
+    // UNOFFICIAL
     // NOP $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x5D()
@@ -618,7 +642,9 @@ void G6502::OPCode0x63()
 
 void G6502::OPCode0x64()
 {
+    // UNOFFICIAL
     // NOP $n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x65()
@@ -712,7 +738,9 @@ void G6502::OPCode0x73()
 
 void G6502::OPCode0x74()
 {
+    // UNOFFICIAL
     // NOP $n,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x75()
@@ -747,7 +775,9 @@ void G6502::OPCode0x79()
 
 void G6502::OPCode0x7A()
 {
+    // UNOFFICIAL
     // NOP
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x7B()
@@ -759,7 +789,9 @@ void G6502::OPCode0x7B()
 
 void G6502::OPCode0x7C()
 {
+    // UNOFFICIAL
     // NOP $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x7D()
@@ -782,7 +814,9 @@ void G6502::OPCode0x7F()
 
 void G6502::OPCode0x80()
 {
+    // UNOFFICIAL
     // NOP #$n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x81()
@@ -792,7 +826,9 @@ void G6502::OPCode0x81()
 
 void G6502::OPCode0x82()
 {
+    // UNOFFICIAL
     // NOP #$n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x83()
@@ -832,7 +868,9 @@ void G6502::OPCode0x88()
 
 void G6502::OPCode0x89()
 {
+    // UNOFFICIAL
     // NOP #$n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x8A()
@@ -1168,7 +1206,9 @@ void G6502::OPCode0xC1()
 
 void G6502::OPCode0xC2()
 {
+    // UNOFFICIAL
     // NOP #$n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xC3()
@@ -1279,7 +1319,9 @@ void G6502::OPCode0xD3()
 
 void G6502::OPCode0xD4()
 {
+    // UNOFFICIAL
     // NOP $n,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xD5()
@@ -1315,7 +1357,9 @@ void G6502::OPCode0xD9()
 
 void G6502::OPCode0xDA()
 {
+    // UNOFFICIAL
     // NOP
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xDB()
@@ -1327,7 +1371,9 @@ void G6502::OPCode0xDB()
 
 void G6502::OPCode0xDC()
 {
+    // UNOFFICIAL
     // NOP $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xDD()
@@ -1362,7 +1408,9 @@ void G6502::OPCode0xE1()
 
 void G6502::OPCode0xE2()
 {
+    // UNOFFICIAL
     // NOP #$n
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xE3()
@@ -1468,7 +1516,9 @@ void G6502::OPCode0xF3()
 
 void G6502::OPCode0xF4()
 {
+    // UNOFFICIAL
     // NOP $n,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xF5()
@@ -1502,7 +1552,9 @@ void G6502::OPCode0xF9()
 
 void G6502::OPCode0xFA()
 {
+    // UNOFFICIAL
     // NOP
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xFB()
@@ -1514,7 +1566,9 @@ void G6502::OPCode0xFB()
 
 void G6502::OPCode0xFC()
 {
+    // UNOFFICIAL
     // NOP $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xFD()
