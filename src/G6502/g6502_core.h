@@ -95,6 +95,9 @@ private:
     void OPcodes_Branch(bool condition);
     void OPCodes_BIT(u16 address);
     void OPCodes_BRK();
+    void OPCodes_ClearFlag(u8 flag);
+    void OPCodes_SetFlag(u8 flag);
+
     void InitOPCodeFunctors();
 
     void OPCode0x00(); void OPCode0x01(); void OPCode0x02(); void OPCode0x03();

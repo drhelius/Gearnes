@@ -166,6 +166,7 @@ void G6502::OPCode0x17()
 void G6502::OPCode0x18()
 {
     // CLC
+    OPCodes_ClearFlag(FLAG_CARRY);
 }
 
 void G6502::OPCode0x19()
@@ -352,6 +353,7 @@ void G6502::OPCode0x37()
 void G6502::OPCode0x38()
 {
     // SEC
+    OPCodes_SetFlag(FLAG_CARRY);
 }
 
 void G6502::OPCode0x39()
@@ -531,6 +533,7 @@ void G6502::OPCode0x57()
 void G6502::OPCode0x58()
 {
     // CLI
+    OPCodes_ClearFlag(FLAG_IRQ);
 }
 
 void G6502::OPCode0x59()
@@ -714,6 +717,7 @@ void G6502::OPCode0x77()
 void G6502::OPCode0x78()
 {
     // SEI
+    OPCodes_SetFlag(FLAG_IRQ);
 }
 
 void G6502::OPCode0x79()
@@ -1070,6 +1074,7 @@ void G6502::OPCode0xB7()
 void G6502::OPCode0xB8()
 {
     // CLV
+    OPCodes_ClearFlag(FLAG_OVERFLOW);
 }
 
 void G6502::OPCode0xB9()
@@ -1247,6 +1252,7 @@ void G6502::OPCode0xD7()
 void G6502::OPCode0xD8()
 {
     // CLD
+    OPCodes_ClearFlag(FLAG_DECIMAL);
 }
 
 void G6502::OPCode0xD9()
@@ -1424,6 +1430,7 @@ void G6502::OPCode0xF7()
 void G6502::OPCode0xF8()
 {
     // SED
+    OPCodes_SetFlag(FLAG_DECIMAL);
 }
 
 void G6502::OPCode0xF9()

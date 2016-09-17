@@ -186,6 +186,16 @@ void G6502::OPCodes_BRK()
     PC_.SetHigh(memory_impl_->Read(0xFFFF));
 }
 
+void G6502::OPCodes_ClearFlag(u8 flag)
+{
+    ClearFlag(flag);
+}
+
+void G6502::OPCodes_SetFlag(u8 flag)
+{
+    SetFlag(flag);
+}
+
 ///
 /// MUST INLINE <<<---
 
