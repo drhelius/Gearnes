@@ -104,6 +104,8 @@ private:
     void OPCodes_INC_Mem(u16 address);
     void OPCodes_INC_Reg(EightBitRegister* reg);
     void OPCodes_LD(EightBitRegister* reg, u8 value);
+    void OPCodes_LSR_Accumulator();
+    void OPCodes_LSR_Memory(u16 address);
 
     void InitOPCodeFunctors();
 

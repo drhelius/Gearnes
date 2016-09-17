@@ -259,6 +259,32 @@ void G6502::OPCodes_LD(EightBitRegister* reg, u8 value)
     SetNegativeFlagFromResult(value);
 }
 
+void G6502::OPCodes_LSR_Accumulator()
+{
+    u8 value = A_.GetValue();
+    u8 result = value >> 1;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((value & 0x01) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPCodes_LSR_Memory(u16 address)
+{
+    u8 value = Read(address);
+    u8 result = value >> 1;
+    Write(address, result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((value & 0x01) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
 ///
 /// MUST INLINE <<<---
 
