@@ -1177,6 +1177,7 @@ void G6502::OPCode0xC7()
 void G6502::OPCode0xC8()
 {
     // INY
+    OPCodes_INC_Reg(&Y_);
 }
 
 void G6502::OPCode0xC9()
@@ -1356,6 +1357,7 @@ void G6502::OPCode0xE5()
 void G6502::OPCode0xE6()
 {
     // INC $n
+    OPCodes_INC_Mem(ZeroPageAddressing());
 }
 
 void G6502::OPCode0xE7()
@@ -1368,6 +1370,7 @@ void G6502::OPCode0xE7()
 void G6502::OPCode0xE8()
 {
     // INX
+    OPCodes_INC_Reg(&X_);
 }
 
 void G6502::OPCode0xE9()
@@ -1401,6 +1404,7 @@ void G6502::OPCode0xED()
 void G6502::OPCode0xEE()
 {
     // INC $nn
+    OPCodes_INC_Mem(AbsoluteAddressing());
 }
 
 void G6502::OPCode0xEF()
@@ -1446,6 +1450,7 @@ void G6502::OPCode0xF5()
 void G6502::OPCode0xF6()
 {
     // INC $n,X
+    OPCodes_INC_Mem(ZeroPageXAddressing());
 }
 
 void G6502::OPCode0xF7()
@@ -1491,6 +1496,7 @@ void G6502::OPCode0xFD()
 void G6502::OPCode0xFE()
 {
     // INC $nn,X
+    OPCodes_INC_Mem(AbsoluteXAddressing());
 }
 
 void G6502::OPCode0xFF()

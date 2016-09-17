@@ -234,6 +234,24 @@ void G6502::OPCodes_EOR(u8 value)
     SetNegativeFlagFromResult(result);
 }
 
+void G6502::OPCodes_INC_Mem(u16 address)
+{
+    u8 value = Read(address);
+    u8 result = value + 1;
+    Write(address, result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
+void G6502::OPCodes_INC_Reg(EightBitRegister* reg)
+{
+    u8 value = reg->GetValue();
+    u8 result = value + 1;
+    reg->SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
 ///
 /// MUST INLINE <<<---
 
