@@ -167,6 +167,14 @@ void G6502::OPcodes_Branch(bool condition)
         PC_.Increment();
 }
 
+void G6502::OPCodes_BIT(u16 address)
+{
+    u8 result = A_.GetValue() & Read(address);
+    SetZeroFlagFromResult(result);
+    SetOverflowFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
 ///
 /// MUST INLINE <<<---
 

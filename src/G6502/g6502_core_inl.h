@@ -67,6 +67,11 @@ inline void G6502::SetZeroFlagFromResult(u8 result)
         ClearFlag(FLAG_ZERO);
 }
 
+inline void G6502::SetOverflowFlagFromResult(u8 result)
+{
+    P_.SetValue((P_.GetValue() & 0xBF) | (result & 0x40));
+}
+
 inline void G6502::SetNegativeFlagFromResult(u8 result)
 {
     P_.SetValue((P_.GetValue() & 0x7F) | (result & 0x80));

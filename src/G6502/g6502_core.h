@@ -64,6 +64,7 @@ private:
     bool PageCrossed(u16 old_address, u16 new_address);
     void ClearAllFlags();
     void SetZeroFlagFromResult(u8 result);
+    void SetOverflowFlagFromResult(u8 result);
     void SetNegativeFlagFromResult(u8 result);
     void SetFlag(u8 flag);
     void FlipFlag(u8 flag);
@@ -92,6 +93,7 @@ private:
     void OPCodes_ASL_Accumulator();
     void OPCodes_ASL_Memory(u16 address);
     void OPcodes_Branch(bool condition);
+    void OPCodes_BIT(u16 address);
     void InitOPCodeFunctors();
 
     void OPCode0x00(); void OPCode0x01(); void OPCode0x02(); void OPCode0x03();
