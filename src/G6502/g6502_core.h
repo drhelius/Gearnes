@@ -98,6 +98,8 @@ private:
     void OPCodes_ClearFlag(u8 flag);
     void OPCodes_SetFlag(u8 flag);
     void OPCodes_CMP(EightBitRegister* reg, u8 value);
+    void OPCodes_DEC_Mem(u16 address);
+    void OPCodes_DEC_Reg(EightBitRegister* reg);
 
     void InitOPCodeFunctors();
 

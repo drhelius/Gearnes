@@ -208,6 +208,24 @@ void G6502::OPCodes_CMP(EightBitRegister* reg, u8 value)
         ClearFlag(FLAG_CARRY);
 }
 
+void G6502::OPCodes_DEC_Mem(u16 address)
+{
+    u8 value = Read(address);
+    u8 result = value - 1;
+    Write(address, result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
+void G6502::OPCodes_DEC_Reg(EightBitRegister* reg)
+{
+    u8 value = reg->GetValue();
+    u8 result = value - 1;
+    reg->SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
 ///
 /// MUST INLINE <<<---
 
