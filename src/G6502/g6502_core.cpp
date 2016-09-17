@@ -285,6 +285,14 @@ void G6502::OPCodes_LSR_Memory(u16 address)
         ClearFlag(FLAG_CARRY);
 }
 
+void G6502::OPCodes_ORA(u8 value)
+{
+    u8 result = A_.GetValue() | value;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
 ///
 /// MUST INLINE <<<---
 

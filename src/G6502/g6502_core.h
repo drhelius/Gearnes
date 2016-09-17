@@ -106,6 +106,7 @@ private:
     void OPCodes_LD(EightBitRegister* reg, u8 value);
     void OPCodes_LSR_Accumulator();
     void OPCodes_LSR_Memory(u16 address);
+    void OPCodes_ORA(u8 value);
 
     void InitOPCodeFunctors();
 

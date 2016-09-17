@@ -34,6 +34,7 @@ void G6502::OPCode0x00()
 void G6502::OPCode0x01()
 {
     // ORA $(nn,X)
+    OPCodes_ORA(Read(IndexedIndirectAddressing()));
 }
 
 void G6502::OPCode0x02()
@@ -60,6 +61,7 @@ void G6502::OPCode0x04()
 void G6502::OPCode0x05()
 {
     // ORA $n
+    OPCodes_ORA(Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0x06()
@@ -83,6 +85,7 @@ void G6502::OPCode0x08()
 void G6502::OPCode0x09()
 {
     // ORA #$n
+    OPCodes_ORA(ImmediateAddressing());
 }
 
 void G6502::OPCode0x0A()
@@ -108,6 +111,7 @@ void G6502::OPCode0x0C()
 void G6502::OPCode0x0D()
 {
     // ORA $nn
+    OPCodes_ORA(Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0x0E()
@@ -132,6 +136,7 @@ void G6502::OPCode0x10()
 void G6502::OPCode0x11()
 {
     // ORA ($n),Y
+    OPCodes_ORA(Read(IndirectIndexedAddressing()));
 }
 
 void G6502::OPCode0x12()
@@ -158,6 +163,7 @@ void G6502::OPCode0x14()
 void G6502::OPCode0x15()
 {
     // ORA $n,X
+    OPCodes_ORA(Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0x16()
@@ -182,6 +188,7 @@ void G6502::OPCode0x18()
 void G6502::OPCode0x19()
 {
     // ORA $nn,Y
+    OPCodes_ORA(Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0x1A()
@@ -208,6 +215,7 @@ void G6502::OPCode0x1C()
 void G6502::OPCode0x1D()
 {
     // ORA $nn,X
+    OPCodes_ORA(Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0x1E()
