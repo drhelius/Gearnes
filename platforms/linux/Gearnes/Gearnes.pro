@@ -10,8 +10,9 @@ TEMPLATE = app
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/lib
 
-LIBS += -L/usr/local/lib -lSDL2main -lSDL2 \
--lGLEW -lGLU -lGL
+LIBS += -L/usr/local/lib -lSDL2main -lSDL2 -lGLEW -lGLU -lGL
+
+QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
     ../../qt-shared/about.cpp \
