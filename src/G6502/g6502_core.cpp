@@ -226,6 +226,14 @@ void G6502::OPCodes_DEC_Reg(EightBitRegister* reg)
     SetNegativeFlagFromResult(result);
 }
 
+void G6502::OPCodes_EOR(u8 value)
+{
+    u8 result = A_.GetValue() ^ value;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+}
+
 ///
 /// MUST INLINE <<<---
 

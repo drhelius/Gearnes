@@ -405,6 +405,7 @@ void G6502::OPCode0x40()
 void G6502::OPCode0x41()
 {
     // EOR $(nn,X)
+    OPCodes_EOR(Read(IndexedIndirectAddressing()));
 }
 
 void G6502::OPCode0x42()
@@ -427,6 +428,7 @@ void G6502::OPCode0x44()
 void G6502::OPCode0x45()
 {
     // EOR $n
+    OPCodes_EOR(Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0x46()
@@ -449,6 +451,7 @@ void G6502::OPCode0x48()
 void G6502::OPCode0x49()
 {
     // EOR #$n
+    OPCodes_EOR(ImmediateAddressing());
 }
 
 void G6502::OPCode0x4A()
@@ -471,6 +474,7 @@ void G6502::OPCode0x4C()
 void G6502::OPCode0x4D()
 {
     // EOR $nn
+    OPCodes_EOR(Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0x4E()
@@ -494,6 +498,7 @@ void G6502::OPCode0x50()
 void G6502::OPCode0x51()
 {
     // EOR ($n),Y
+    OPCodes_EOR(Read(IndirectIndexedAddressing()));
 }
 
 void G6502::OPCode0x52()
@@ -516,6 +521,7 @@ void G6502::OPCode0x54()
 void G6502::OPCode0x55()
 {
     // EOR $n,X
+    OPCodes_EOR(Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0x56()
@@ -539,6 +545,7 @@ void G6502::OPCode0x58()
 void G6502::OPCode0x59()
 {
     // EOR $nn,Y
+    OPCodes_EOR(Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0x5A()
@@ -561,6 +568,7 @@ void G6502::OPCode0x5C()
 void G6502::OPCode0x5D()
 {
     // EOR $nn,X
+    OPCodes_EOR(Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0x5E()

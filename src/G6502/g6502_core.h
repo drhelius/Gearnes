@@ -100,6 +100,7 @@ private:
     void OPCodes_CMP(EightBitRegister* reg, u8 value);
     void OPCodes_DEC_Mem(u16 address);
     void OPCodes_DEC_Reg(EightBitRegister* reg);
+    void OPCodes_EOR(u8 value);
 
     void InitOPCodeFunctors();
 
