@@ -97,7 +97,7 @@ private:
     void OPCodes_BRK();
     void OPCodes_ClearFlag(u8 flag);
     void OPCodes_SetFlag(u8 flag);
-    void OPCodes_CMP(u8 value);
+    void OPCodes_CMP(EightBitRegister* reg, u8 value);
 
     void InitOPCodeFunctors();
 

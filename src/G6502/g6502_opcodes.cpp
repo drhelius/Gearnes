@@ -1119,12 +1119,13 @@ void G6502::OPCode0xBF()
 void G6502::OPCode0xC0()
 {
     // CPY #$n
+    OPCodes_CMP(&Y_, ImmediateAddressing());
 }
 
 void G6502::OPCode0xC1()
 {
     // CMP $(nn,X)
-    OPCodes_CMP(Read(IndexedIndirectAddressing()));
+    OPCodes_CMP(&A_, Read(IndexedIndirectAddressing()));
 }
 
 void G6502::OPCode0xC2()
@@ -1142,12 +1143,13 @@ void G6502::OPCode0xC3()
 void G6502::OPCode0xC4()
 {
     // CPY $n
+    OPCodes_CMP(&Y_, Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0xC5()
 {
     // CMP $n
-    OPCodes_CMP(Read(ZeroPageAddressing()));
+    OPCodes_CMP(&A_, Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0xC6()
@@ -1170,7 +1172,7 @@ void G6502::OPCode0xC8()
 void G6502::OPCode0xC9()
 {
     // CMP #$n
-    OPCodes_CMP(ImmediateAddressing());
+    OPCodes_CMP(&A_, ImmediateAddressing());
 }
 
 void G6502::OPCode0xCA()
@@ -1188,12 +1190,13 @@ void G6502::OPCode0xCB()
 void G6502::OPCode0xCC()
 {
     // CPY $nn
+    OPCodes_CMP(&Y_, Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0xCD()
 {
     // CMP $nn
-    OPCodes_CMP(Read(AbsoluteAddressing()));
+    OPCodes_CMP(&A_, Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0xCE()
@@ -1217,7 +1220,7 @@ void G6502::OPCode0xD0()
 void G6502::OPCode0xD1()
 {
     // CMP ($n),Y
-    OPCodes_CMP(Read(IndirectIndexedAddressing()));
+    OPCodes_CMP(&A_, Read(IndirectIndexedAddressing()));
 }
 
 void G6502::OPCode0xD2()
@@ -1240,7 +1243,7 @@ void G6502::OPCode0xD4()
 void G6502::OPCode0xD5()
 {
     // CMP $n,X
-    OPCodes_CMP(Read(ZeroPageXAddressing()));
+    OPCodes_CMP(&A_, Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0xD6()
@@ -1264,7 +1267,7 @@ void G6502::OPCode0xD8()
 void G6502::OPCode0xD9()
 {
     // CMP $nn,Y
-    OPCodes_CMP(Read(AbsoluteYAddressing()));
+    OPCodes_CMP(&A_, Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0xDA()
@@ -1287,7 +1290,7 @@ void G6502::OPCode0xDC()
 void G6502::OPCode0xDD()
 {
     // CMP $nn,X
-    OPCodes_CMP(Read(AbsoluteXAddressing()));
+    OPCodes_CMP(&A_, Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0xDE()
@@ -1305,6 +1308,7 @@ void G6502::OPCode0xDF()
 void G6502::OPCode0xE0()
 {
     // CPX #$n
+    OPCodes_CMP(&X_, ImmediateAddressing());
 }
 
 void G6502::OPCode0xE1()
@@ -1327,6 +1331,7 @@ void G6502::OPCode0xE3()
 void G6502::OPCode0xE4()
 {
     // CPX $n
+    OPCodes_CMP(&X_, Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0xE5()
@@ -1371,6 +1376,7 @@ void G6502::OPCode0xEB()
 void G6502::OPCode0xEC()
 {
     // CPX $nn
+    OPCodes_CMP(&X_, Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0xED()

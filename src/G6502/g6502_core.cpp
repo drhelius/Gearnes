@@ -196,13 +196,13 @@ void G6502::OPCodes_SetFlag(u8 flag)
     SetFlag(flag);
 }
 
-void G6502::OPCodes_CMP(u8 value)
+void G6502::OPCodes_CMP(EightBitRegister* reg, u8 value)
 {
-    u8 a = A_.GetValue();
-    u8 result = a - value;
+    u8 reg_value = reg->GetValue();
+    u8 result = reg_value - value;
     SetZeroFlagFromResult(result);
     SetNegativeFlagFromResult(result);
-    if (a >= value)
+    if (reg_value >= value)
         SetFlag(FLAG_CARRY);
     else
         ClearFlag(FLAG_CARRY);
