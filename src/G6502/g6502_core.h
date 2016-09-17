@@ -94,6 +94,7 @@ private:
     void OPCodes_ASL_Memory(u16 address);
     void OPcodes_Branch(bool condition);
     void OPCodes_BIT(u16 address);
+    void OPCodes_BRK();
     void InitOPCodeFunctors();
 
     void OPCode0x00(); void OPCode0x01(); void OPCode0x02(); void OPCode0x03();

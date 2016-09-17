@@ -176,6 +176,16 @@ void G6502::OPCodes_BIT(u16 address)
     SetNegativeFlagFromResult(number);
 }
 
+void G6502::OPCodes_BRK()
+{
+    StackPush(&PC_);
+    SetFlag(FLAG_BRK);
+    StackPush(&P_);
+    SetFlag(FLAG_IRQ);
+    PC_.SetLow(memory_impl_->Read(0xFFFE));
+    PC_.SetHigh(memory_impl_->Read(0xFFFF));
+}
+
 ///
 /// MUST INLINE <<<---
 
@@ -239,6 +249,7 @@ unsigned int G6502::Tick()
         StackPush(&PC_);
         ClearFlag(FLAG_BRK);
         StackPush(&P_);
+        SetFlag(FLAG_IRQ);
         PC_.SetLow(memory_impl_->Read(0xFFFA));
         PC_.SetHigh(memory_impl_->Read(0xFFFB));
         t_states_ += 7;

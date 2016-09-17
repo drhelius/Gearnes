@@ -28,6 +28,7 @@ namespace g6502
 void G6502::OPCode0x00()
 {
     // BRK
+    OPCodes_BRK();
 }
 
 void G6502::OPCode0x01()
