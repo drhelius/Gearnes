@@ -469,6 +469,7 @@ void G6502::OPCode0x4B()
 void G6502::OPCode0x4C()
 {
     // JMP $nn
+    PC_.SetValue(AbsoluteAddressing());
 }
 
 void G6502::OPCode0x4D()
@@ -655,6 +656,7 @@ void G6502::OPCode0x6B()
 void G6502::OPCode0x6C()
 {
     // JMP ($nn)
+    PC_.SetValue(IndirectAddressing());
 }
 
 void G6502::OPCode0x6D()
