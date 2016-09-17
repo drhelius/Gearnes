@@ -1012,7 +1012,9 @@ void G6502::OPCode0x9B()
 
 void G6502::OPCode0x9C()
 {
+    // UNOFFICIAL
     // SHY $nn,X
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x9D()
@@ -1022,7 +1024,9 @@ void G6502::OPCode0x9D()
 
 void G6502::OPCode0x9E()
 {
+    // UNOFFICIAL
     // SHX $nn,Y
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x9F()
