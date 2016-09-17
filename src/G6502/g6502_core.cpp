@@ -196,6 +196,18 @@ void G6502::OPCodes_SetFlag(u8 flag)
     SetFlag(flag);
 }
 
+void G6502::OPCodes_CMP(u8 value)
+{
+    u8 a = A_.GetValue();
+    u8 result = a - value;
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if (a >= value)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
 ///
 /// MUST INLINE <<<---
 
