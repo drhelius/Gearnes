@@ -212,6 +212,9 @@ void G6502::OPCode0x1F()
 void G6502::OPCode0x20()
 {
     // JSR $nn
+    u16 target = AbsoluteAddressing();
+    StackPush16(PC_.GetValue() - 1);
+    PC_.SetValue(target);
 }
 
 void G6502::OPCode0x21()
@@ -587,6 +590,7 @@ void G6502::OPCode0x5F()
 void G6502::OPCode0x60()
 {
     // RTS
+    PC_.SetValue(StackPop16() + 1);
 }
 
 void G6502::OPCode0x61()
