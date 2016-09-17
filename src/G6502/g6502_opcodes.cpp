@@ -38,7 +38,9 @@ void G6502::OPCode0x01()
 
 void G6502::OPCode0x02()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x03()
@@ -134,7 +136,9 @@ void G6502::OPCode0x11()
 
 void G6502::OPCode0x12()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x13()
@@ -235,7 +239,9 @@ void G6502::OPCode0x21()
 
 void G6502::OPCode0x22()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x23()
@@ -330,7 +336,9 @@ void G6502::OPCode0x31()
 
 void G6502::OPCode0x32()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x33()
@@ -429,7 +437,9 @@ void G6502::OPCode0x41()
 
 void G6502::OPCode0x42()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x43()
@@ -528,7 +538,9 @@ void G6502::OPCode0x51()
 
 void G6502::OPCode0x52()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x53()
@@ -630,7 +642,9 @@ void G6502::OPCode0x61()
 
 void G6502::OPCode0x62()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x63()
@@ -726,7 +740,9 @@ void G6502::OPCode0x71()
 
 void G6502::OPCode0x72()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x73()
@@ -920,7 +936,9 @@ void G6502::OPCode0x91()
 
 void G6502::OPCode0x92()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0x93()
@@ -1108,7 +1126,9 @@ void G6502::OPCode0xB1()
 
 void G6502::OPCode0xB2()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xB3()
@@ -1307,7 +1327,9 @@ void G6502::OPCode0xD1()
 
 void G6502::OPCode0xD2()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xD3()
@@ -1504,7 +1526,9 @@ void G6502::OPCode0xF1()
 
 void G6502::OPCode0xF2()
 {
-    // KIL
+    // UNOFFICIAL
+    // KILL
+    UnofficialOPCode();
 }
 
 void G6502::OPCode0xF3()
