@@ -128,12 +128,12 @@ void G6502::OPCodes_AND(u8 value)
 
 void G6502::OPCodes_ASL_Accumulator()
 {
-    u8 number = A_.GetValue();
-    u8 result = number << 1;
+    u8 value = A_.GetValue();
+    u8 result = value << 1;
     A_.SetValue(result);
     SetZeroFlagFromResult(result);
     SetNegativeFlagFromResult(result);
-    if ((number & 0x80) != 0)
+    if ((value & 0x80) != 0)
         SetFlag(FLAG_CARRY);
     else
         ClearFlag(FLAG_CARRY);
@@ -141,12 +141,12 @@ void G6502::OPCodes_ASL_Accumulator()
 
 void G6502::OPCodes_ASL_Memory(u16 address)
 {
-    u8 number = Read(address);
-    u8 result = number << 1;
+    u8 value = Read(address);
+    u8 result = value << 1;
     Write(address, result);
     SetZeroFlagFromResult(result);
     SetNegativeFlagFromResult(result);
-    if ((number & 0x80) != 0)
+    if ((value & 0x80) != 0)
         SetFlag(FLAG_CARRY);
     else
         ClearFlag(FLAG_CARRY);
@@ -169,11 +169,11 @@ void G6502::OPcodes_Branch(bool condition)
 
 void G6502::OPCodes_BIT(u16 address)
 {
-    u8 number = Read(address);
-    u8 result = A_.GetValue() & number;
+    u8 value = Read(address);
+    u8 result = A_.GetValue() & value;
     SetZeroFlagFromResult(result);
-    SetOverflowFlagFromResult(number);
-    SetNegativeFlagFromResult(number);
+    SetOverflowFlagFromResult(value);
+    SetNegativeFlagFromResult(value);
 }
 
 void G6502::OPCodes_BRK()
