@@ -3,6 +3,7 @@ Gearnes (currently in development)
 <b>Copyright &copy; 2016 by Ignacio Sanchez</b>
 
 ----------
+[![Build Status](https://travis-ci.org/drhelius/Gearnes.svg?branch=master)](https://travis-ci.org/drhelius/Gearnes)
 
 Gearnes is a Nintendo Entertainment System (NES) / Famicom emulator written in C++ that runs on iOS, Raspberry Pi, Mac, Windows and Linux.
 
