@@ -956,16 +956,19 @@ void G6502::OPCode0x9F()
 void G6502::OPCode0xA0()
 {
     // LDY #$n
+    OPCodes_LD(&Y_, ImmediateAddressing());
 }
 
 void G6502::OPCode0xA1()
 {
     // LDA $(nn,X)
+    OPCodes_LD(&A_, Read(IndexedIndirectAddressing()));
 }
 
 void G6502::OPCode0xA2()
 {
     // LDX #$n
+    OPCodes_LD(&X_, ImmediateAddressing());
 }
 
 void G6502::OPCode0xA3()
@@ -978,16 +981,19 @@ void G6502::OPCode0xA3()
 void G6502::OPCode0xA4()
 {
     // LDY $n
+    OPCodes_LD(&Y_, Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0xA5()
 {
     // LDA $n
+    OPCodes_LD(&A_, Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0xA6()
 {
     // LDX $n
+    OPCodes_LD(&X_, Read(ZeroPageAddressing()));
 }
 
 void G6502::OPCode0xA7()
@@ -1005,6 +1011,7 @@ void G6502::OPCode0xA8()
 void G6502::OPCode0xA9()
 {
     // LDA #$n
+    OPCodes_LD(&A_, ImmediateAddressing());
 }
 
 void G6502::OPCode0xAA()
@@ -1022,16 +1029,19 @@ void G6502::OPCode0xAB()
 void G6502::OPCode0xAC()
 {
     // LDY $nn
+    OPCodes_LD(&Y_, Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0xAD()
 {
     // LDA $nn
+    OPCodes_LD(&A_, Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0xAE()
 {
     // LDX $nn
+    OPCodes_LD(&X_, Read(AbsoluteAddressing()));
 }
 
 void G6502::OPCode0xAF()
@@ -1050,6 +1060,7 @@ void G6502::OPCode0xB0()
 void G6502::OPCode0xB1()
 {
     // LDA ($n),Y
+    OPCodes_LD(&A_, Read(IndirectIndexedAddressing()));
 }
 
 void G6502::OPCode0xB2()
@@ -1067,16 +1078,19 @@ void G6502::OPCode0xB3()
 void G6502::OPCode0xB4()
 {
     // LDY $n,X
+    OPCodes_LD(&Y_, Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0xB5()
 {
     // LDA $n,X
+    OPCodes_LD(&A_, Read(ZeroPageXAddressing()));
 }
 
 void G6502::OPCode0xB6()
 {
     // LDX $n,Y
+    OPCodes_LD(&X_, Read(ZeroPageYddressing()));
 }
 
 void G6502::OPCode0xB7()
@@ -1095,6 +1109,7 @@ void G6502::OPCode0xB8()
 void G6502::OPCode0xB9()
 {
     // LDA $nn,Y
+    OPCodes_LD(&A_, Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0xBA()
@@ -1112,16 +1127,19 @@ void G6502::OPCode0xBB()
 void G6502::OPCode0xBC()
 {
     // LDY $nn,X
+    OPCodes_LD(&Y_, Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0xBD()
 {
     // LDA $nn,X
+    OPCodes_LD(&A_, Read(AbsoluteXAddressing()));
 }
 
 void G6502::OPCode0xBE()
 {
     // LDX $nn,Y
+    OPCodes_LD(&X_, Read(AbsoluteYAddressing()));
 }
 
 void G6502::OPCode0xBF()

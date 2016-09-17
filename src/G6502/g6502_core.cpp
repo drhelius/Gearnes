@@ -252,6 +252,13 @@ void G6502::OPCodes_INC_Reg(EightBitRegister* reg)
     SetNegativeFlagFromResult(result);
 }
 
+void G6502::OPCodes_LD(EightBitRegister* reg, u8 value)
+{
+    reg->SetValue(value);
+    SetZeroFlagFromResult(value);
+    SetNegativeFlagFromResult(value);
+}
+
 ///
 /// MUST INLINE <<<---
 
