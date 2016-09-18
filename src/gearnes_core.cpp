@@ -124,18 +124,8 @@ bool GearnesCore::LoadROM(const char* path)
 #endif
 
     bool loaded = cartridge_->LoadFromFile(path);
-    if (loaded)
-    {
-        Reset();
-        bool supported = SetupMapper();
-        if (!supported)
-        {
-            Log("There was a problem loading the file: %s...", path);
-        }
-        return supported;
-    }
-    else
-        return false;
+    Reset();
+    return loaded;
 }
 
 Memory* GearnesCore::GetMemory()
@@ -182,7 +172,6 @@ void GearnesCore::ResetROM()
     {
         Log("Gearnes RESET");
         Reset();
-        SetupMapper();
     }
 }
 
@@ -249,12 +238,13 @@ bool GearnesCore::SetupMapper()
             break;
     }
 
-    return true;
+    return supported;
 }
 
 void GearnesCore::Reset()
 {
     memory_->Reset();
+    SetupMapper();
     audio_->Reset();
     video_->Reset();
     input_->Reset();

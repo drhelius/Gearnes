@@ -78,16 +78,6 @@ void Memory::Write(u16 address, u8 value)
     }
 }
 
-u8 Memory::Retrieve(u16 address)
-{
-    return 0;//map_[address];
-}
-
-void Memory::Load(u16 address, u8 value)
-{
-    //map_[address] = value;
-}
-
 ///
 /// MUST INLINE <<<---
 

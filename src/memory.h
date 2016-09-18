@@ -38,8 +38,6 @@ public:
     Mapper* GetCurrentMapper();
     virtual u8 Read(u16 address);
     virtual void Write(u16 address, u8 value);
-    virtual u8 Retrieve(u16 address);
-    virtual void Load(u16 address, u8 value);
     virtual void Disassemble(u16 address, const char* disassembled_string);
     virtual bool IsDisassembled(u16 address);
     void MemoryDump(const char* file_path);
