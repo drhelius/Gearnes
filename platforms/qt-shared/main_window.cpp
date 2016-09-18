@@ -424,9 +424,9 @@ bool MainWindow::event(QEvent* event)
 
 void MainWindow::LoadSettings()
 {
-    QSettings settings("gearsystem.ini", QSettings::IniFormat);
+    QSettings settings("gearnes.ini", QSettings::IniFormat);
 
-    settings.beginGroup("Gearsystem");
+    settings.beginGroup("Gearnes");
     screen_size_ = settings.value("ScreenSize", 2).toInt();
 
     switch (screen_size_)
@@ -466,9 +466,9 @@ void MainWindow::LoadSettings()
 
 void MainWindow::SaveSettings()
 {
-    QSettings settings("gearsystem.ini", QSettings::IniFormat);
+    QSettings settings("gearnes.ini", QSettings::IniFormat);
 
-    settings.beginGroup("Gearsystem");
+    settings.beginGroup("Gearnes");
     settings.setValue("ScreenSize", screen_size_);
     settings.setValue("FullScreen", fullscreen_);
     settings.endGroup();

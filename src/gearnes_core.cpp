@@ -190,18 +190,18 @@ void GearnesCore::EnableSound(bool enabled)
 {
     if (enabled)
     {
-        Log("Geardrive sound ENABLED");
+        Log("Gearnes sound ENABLED");
     }
     else
     {
-        Log("Geardrive sound DISABLED");
+        Log("Gearnes sound DISABLED");
     }
     audio_->Enable(enabled);
 }
 
 void GearnesCore::SetSoundSampleRate(int rate)
 {
-    Log("Geardrive sound sample rate: %d", rate);
+    Log("Gearnes sound sample rate: %d", rate);
     audio_->SetSampleRate(rate);
 }
 
