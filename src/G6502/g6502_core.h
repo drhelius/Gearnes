@@ -62,6 +62,7 @@ private:
     u16 Fetch16();
     u16 MakeAddress16(u8 high, u8 low);
     bool PageCrossed(u16 old_address, u16 new_address);
+
     void ClearAllFlags();
     void SetZeroFlagFromResult(u8 result);
     void SetOverflowFlagFromResult(u8 result);
@@ -70,12 +71,15 @@ private:
     void FlipFlag(u8 flag);
     void ClearFlag(u8 flag);
     bool IsSetFlag(u8 flag);
+
     void StackPush16(u16 value);
     void StackPush8(u8 value);
     u16 StackPop16();
     u8 StackPop8();
+
     u8 Read(u16 address);
     void Write(u16 address, u8 value);
+
     u8 ImmediateAddressing();
     u16 ZeroPageAddressing();
     u16 ZeroPageXAddressing();
@@ -87,6 +91,7 @@ private:
     u16 IndirectAddressing();
     u16 IndexedIndirectAddressing();
     u16 IndirectIndexedAddressing();
+
     void UnofficialOPCode();
     void OPCodes_ADC(u8 value);
     void OPCodes_AND(u8 value);
@@ -111,6 +116,7 @@ private:
     void OPCodes_ROL_Memory(u16 address);
     void OPCodes_ROR_Accumulator();
     void OPCodes_ROR_Memory(u16 address);
+    void OPCodes_SBC(u8 value);
 
     void InitOPCodeFunctors();
 

@@ -104,7 +104,7 @@ u16 G6502::IndirectIndexedAddressing()
 void G6502::OPCodes_ADC(u8 value)
 {
     int result = A_.GetValue() + value + (IsSetFlag(FLAG_CARRY) ? 1 : 0);
-    u8 final_result = static_cast<u8> (result);
+    u8 final_result = static_cast<u8> (result & 0xFF);
     SetZeroFlagFromResult(final_result);
     SetNegativeFlagFromResult(final_result);
     if ((result & 0x100) != 0)
@@ -347,6 +347,23 @@ void G6502::OPCodes_ROR_Memory(u16 address)
         SetFlag(FLAG_CARRY);
     else
         ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPCodes_SBC(u8 value)
+{
+    int result = A_.GetValue() - value - (IsSetFlag(FLAG_CARRY) ? 0x00 : 0x01);
+    u8 final_result = static_cast<u8> (result & 0xFF);
+    SetZeroFlagFromResult(final_result);
+    SetNegativeFlagFromResult(final_result);
+    if ((result & 0x100) == 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+    if ((((A_.GetValue() ^ value) & 0x80) != 0) && (((A_.GetValue() ^ result) & 0x80) != 0))
+        SetFlag(FLAG_OVERFLOW);
+    else
+        ClearFlag(FLAG_OVERFLOW);
+    A_.SetValue(final_result);
 }
 
 ///
