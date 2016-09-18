@@ -293,6 +293,62 @@ void G6502::OPCodes_ORA(u8 value)
     SetNegativeFlagFromResult(result);
 }
 
+void G6502::OPCodes_ROL_Accumulator()
+{
+    u8 value = A_.GetValue();
+    u8 result = value << 1;
+    result |= IsSetFlag(FLAG_CARRY) ? 0x01 : 0x00;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((value & 0x80) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPCodes_ROL_Memory(u16 address)
+{
+    u8 value = Read(address);
+    u8 result = value << 1;
+    result |= IsSetFlag(FLAG_CARRY) ? 0x01 : 0x00;
+    Write(address, result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((value & 0x80) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPCodes_ROR_Accumulator()
+{
+    u8 value = A_.GetValue();
+    u8 result = value >> 1;
+    result |= IsSetFlag(FLAG_CARRY) ? 0x80 : 0x00;
+    A_.SetValue(result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((value & 0x01) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
+void G6502::OPCodes_ROR_Memory(u16 address)
+{
+    u8 value = Read(address);
+    u8 result = value >> 1;
+    result |= IsSetFlag(FLAG_CARRY) ? 0x80 : 0x00;
+    Write(address, result);
+    SetZeroFlagFromResult(result);
+    SetNegativeFlagFromResult(result);
+    if ((value & 0x01) != 0)
+        SetFlag(FLAG_CARRY);
+    else
+        ClearFlag(FLAG_CARRY);
+}
+
 ///
 /// MUST INLINE <<<---
 

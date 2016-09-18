@@ -107,6 +107,10 @@ private:
     void OPCodes_LSR_Accumulator();
     void OPCodes_LSR_Memory(u16 address);
     void OPCodes_ORA(u8 value);
+    void OPCodes_ROL_Accumulator();
+    void OPCodes_ROL_Memory(u16 address);
+    void OPCodes_ROR_Accumulator();
+    void OPCodes_ROR_Memory(u16 address);
 
     void InitOPCodeFunctors();
 

@@ -275,6 +275,7 @@ void G6502::OPCode0x25()
 void G6502::OPCode0x26()
 {
     // ROL $n
+    OPCodes_ROL_Memory(ZeroPageAddressing());
 }
 
 void G6502::OPCode0x27()
@@ -302,6 +303,7 @@ void G6502::OPCode0x29()
 void G6502::OPCode0x2A()
 {
     // ROL
+    OPCodes_ROL_Accumulator();
 }
 
 void G6502::OPCode0x2B()
@@ -326,6 +328,7 @@ void G6502::OPCode0x2D()
 void G6502::OPCode0x2E()
 {
     // ROL $nn
+    OPCodes_ROL_Memory(AbsoluteAddressing());
 }
 
 void G6502::OPCode0x2F()
@@ -377,6 +380,7 @@ void G6502::OPCode0x35()
 void G6502::OPCode0x36()
 {
     // ROL $n,X
+    OPCodes_ROL_Memory(ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x37()
@@ -428,6 +432,7 @@ void G6502::OPCode0x3D()
 void G6502::OPCode0x3E()
 {
     // ROL $nn,X
+    OPCodes_ROL_Memory(AbsoluteXAddressing());
 }
 
 void G6502::OPCode0x3F()
@@ -684,6 +689,7 @@ void G6502::OPCode0x65()
 void G6502::OPCode0x66()
 {
     // ROR $n
+    OPCodes_ROR_Memory(ZeroPageAddressing());
 }
 
 void G6502::OPCode0x67()
@@ -711,6 +717,7 @@ void G6502::OPCode0x69()
 void G6502::OPCode0x6A()
 {
     // ROR
+    OPCodes_ROR_Accumulator();
 }
 
 void G6502::OPCode0x6B()
@@ -735,6 +742,7 @@ void G6502::OPCode0x6D()
 void G6502::OPCode0x6E()
 {
     // ROR $nn
+    OPCodes_ROR_Memory(AbsoluteAddressing());
 }
 
 void G6502::OPCode0x6F()
@@ -786,6 +794,7 @@ void G6502::OPCode0x75()
 void G6502::OPCode0x76()
 {
     // ROR $n,X
+    OPCodes_ROR_Memory(ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x77()
@@ -837,6 +846,7 @@ void G6502::OPCode0x7D()
 void G6502::OPCode0x7E()
 {
     // ROR $nn,X
+    OPCodes_ROR_Memory(AbsoluteXAddressing());
 }
 
 void G6502::OPCode0x7F()
