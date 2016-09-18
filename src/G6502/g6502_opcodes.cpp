@@ -868,6 +868,7 @@ void G6502::OPCode0x80()
 void G6502::OPCode0x81()
 {
     // STA $(nn,X)
+    OPCodes_Store(&A_, IndexedIndirectAddressing());
 }
 
 void G6502::OPCode0x82()
@@ -887,16 +888,19 @@ void G6502::OPCode0x83()
 void G6502::OPCode0x84()
 {
     // STY $n
+    OPCodes_Store(&Y_, ZeroPageAddressing());
 }
 
 void G6502::OPCode0x85()
 {
     // STA $n
+    OPCodes_Store(&A_, ZeroPageAddressing());
 }
 
 void G6502::OPCode0x86()
 {
     // STX $n
+    OPCodes_Store(&X_, ZeroPageAddressing());
 }
 
 void G6502::OPCode0x87()
@@ -922,6 +926,7 @@ void G6502::OPCode0x89()
 void G6502::OPCode0x8A()
 {
     // TXA
+    OPCodes_Transfer(&X_, &A_);
 }
 
 void G6502::OPCode0x8B()
@@ -934,16 +939,19 @@ void G6502::OPCode0x8B()
 void G6502::OPCode0x8C()
 {
     // STY $nn
+    OPCodes_Store(&Y_, AbsoluteAddressing());
 }
 
 void G6502::OPCode0x8D()
 {
     // STA $nn
+    OPCodes_Store(&A_, AbsoluteAddressing());
 }
 
 void G6502::OPCode0x8E()
 {
     // STX $nn
+    OPCodes_Store(&X_, AbsoluteAddressing());
 }
 
 void G6502::OPCode0x8F()
@@ -962,6 +970,7 @@ void G6502::OPCode0x90()
 void G6502::OPCode0x91()
 {
     // STA ($n),Y
+    OPCodes_Store(&A_, IndirectIndexedAddressing());
 }
 
 void G6502::OPCode0x92()
@@ -981,16 +990,19 @@ void G6502::OPCode0x93()
 void G6502::OPCode0x94()
 {
     // STY $n,X
+    OPCodes_Store(&Y_, ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x95()
 {
     // STA $n,X
+    OPCodes_Store(&A_, ZeroPageXAddressing());
 }
 
 void G6502::OPCode0x96()
 {
     // STX $n,Y
+    OPCodes_Store(&X_, ZeroPageYAddressing());
 }
 
 void G6502::OPCode0x97()
@@ -1003,16 +1015,19 @@ void G6502::OPCode0x97()
 void G6502::OPCode0x98()
 {
     // TYA
+    OPCodes_Transfer(&Y_, &A_);
 }
 
 void G6502::OPCode0x99()
 {
     // STA $nn,Y
+    OPCodes_Store(&A_, AbsoluteYAddressing());
 }
 
 void G6502::OPCode0x9A()
 {
     // TXS
+    OPCodes_Transfer(&X_, &S_);
 }
 
 void G6502::OPCode0x9B()
@@ -1032,6 +1047,7 @@ void G6502::OPCode0x9C()
 void G6502::OPCode0x9D()
 {
     // STA $nn,X
+    OPCodes_Store(&A_, AbsoluteXAddressing());
 }
 
 void G6502::OPCode0x9E()
@@ -1101,6 +1117,7 @@ void G6502::OPCode0xA7()
 void G6502::OPCode0xA8()
 {
     // TAY
+    OPCodes_Transfer(&A_, &Y_);
 }
 
 void G6502::OPCode0xA9()
@@ -1112,6 +1129,7 @@ void G6502::OPCode0xA9()
 void G6502::OPCode0xAA()
 {
     // TAX
+    OPCodes_Transfer(&A_, &X_);
 }
 
 void G6502::OPCode0xAB()
@@ -1212,6 +1230,7 @@ void G6502::OPCode0xB9()
 void G6502::OPCode0xBA()
 {
     // TSX
+    OPCodes_Transfer(&S_, &X_);
 }
 
 void G6502::OPCode0xBB()

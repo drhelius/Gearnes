@@ -366,6 +366,20 @@ void G6502::OPCodes_SBC(u8 value)
     A_.SetValue(final_result);
 }
 
+void G6502::OPCodes_Store(EightBitRegister* reg, u16 address)
+{
+    u8 value = reg->GetValue();
+    Write(address, value);
+}
+
+void G6502::OPCodes_Transfer(EightBitRegister* reg, EightBitRegister* target)
+{
+    u8 value = reg->GetValue();
+    target->SetValue(value);
+    SetZeroFlagFromResult(value);
+    SetNegativeFlagFromResult(value);
+}
+
 ///
 /// MUST INLINE <<<---
 
