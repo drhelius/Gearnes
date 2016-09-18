@@ -34,8 +34,8 @@
     #define DISASM_GEARNES 1
 #endif
 
-#define GEARNES_TITLE "Gearnes 1.0"
-#define GEARNES_VERSION 1.0
+#define GEARNES_TITLE "Gearnes 0.1"
+#define GEARNES_VERSION 0.1
 
 #ifdef _WIN32
     #define BLARGG_USE_NAMESPACE 1
