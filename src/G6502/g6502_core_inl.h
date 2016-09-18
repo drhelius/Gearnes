@@ -173,24 +173,24 @@ inline u16 G6502::AbsoluteAddressing(EightBitRegister* reg)
 inline u16 G6502::IndirectAddressing()
 {
     u16 address = Fetch16();
-    u8 l = memory_impl_->Read(address);
-    u8 h = memory_impl_->Read((address & 0xFF00) | ((address + 1) & 0x00FF));
+    u8 l = Read(address);
+    u8 h = Read((address & 0xFF00) | ((address + 1) & 0x00FF));
     return MakeAddress16(h, l);
 }
 
 inline u16 G6502::IndexedIndirectAddressing()
 {
     u16 address = Fetch8() + X_.GetValue();
-    u8 l = memory_impl_->Read(address & 0x00FF);
-    u8 h = memory_impl_->Read((address + 1) & 0x00FF);
+    u8 l = Read(address & 0x00FF);
+    u8 h = Read((address + 1) & 0x00FF);
     return MakeAddress16(h, l);
 }
 
 inline u16 G6502::IndirectIndexedAddressing()
 {
     u16 address = Fetch8();
-    u8 l = memory_impl_->Read(address);
-    u8 h = memory_impl_->Read(address+1);
+    u8 l = Read(address);
+    u8 h = Read(address+1);
     address = MakeAddress16(h, l);
     u16 result = address + Y_.GetValue();
     page_crossed_ = PageCrossed(address, result);
@@ -278,8 +278,8 @@ inline void G6502::OPCodes_BRK()
     SetFlag(FLAG_BRK);
     StackPush8(P_.GetValue());
     SetFlag(FLAG_IRQ);
-    PC_.SetLow(memory_impl_->Read(0xFFFE));
-    PC_.SetHigh(memory_impl_->Read(0xFFFF));
+    PC_.SetLow(Read(0xFFFE));
+    PC_.SetHigh(Read(0xFFFF));
 }
 
 inline void G6502::OPCodes_ClearFlag(u8 flag)
