@@ -38,14 +38,9 @@ u16 G6502::ZeroPageAddressing()
     return 0x00FF & Fetch8();
 }
 
-u16 G6502::ZeroPageXAddressing()
+u16 G6502::ZeroPageAddressing(EightBitRegister* reg)
 {
-    return 0x00FF & (Fetch8() + X_.GetValue());
-}
-
-u16 G6502::ZeroPageYAddressing()
-{
-    return 0x00FF & (Fetch8() + Y_.GetValue());
+    return 0x00FF & (Fetch8() + reg->GetValue());
 }
 
 s8 G6502::RelativeAddressing()
@@ -58,18 +53,10 @@ u16 G6502::AbsoluteAddressing()
     return Fetch16();
 }
 
-u16 G6502::AbsoluteXAddressing()
+u16 G6502::AbsoluteAddressing(EightBitRegister* reg)
 {
     u16 address = Fetch16();
-    u16 result = address + X_.GetValue();
-    page_crossed_ = PageCrossed(address, result);
-    return result;
-}
-
-u16 G6502::AbsoluteYAddressing()
-{
-    u16 address = Fetch16();
-    u16 result = address + Y_.GetValue();
+    u16 result = address + reg->GetValue();
     page_crossed_ = PageCrossed(address, result);
     return result;
 }

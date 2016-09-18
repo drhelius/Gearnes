@@ -164,13 +164,13 @@ void G6502::OPCode0x14()
 void G6502::OPCode0x15()
 {
     // ORA $n,X
-    OPCodes_ORA(Read(ZeroPageXAddressing()));
+    OPCodes_ORA(Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0x16()
 {
     // ASL $n,X
-    OPCodes_ASL_Memory(ZeroPageXAddressing());
+    OPCodes_ASL_Memory(ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0x17()
@@ -189,7 +189,7 @@ void G6502::OPCode0x18()
 void G6502::OPCode0x19()
 {
     // ORA $nn,Y
-    OPCodes_ORA(Read(AbsoluteYAddressing()));
+    OPCodes_ORA(Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0x1A()
@@ -216,13 +216,13 @@ void G6502::OPCode0x1C()
 void G6502::OPCode0x1D()
 {
     // ORA $nn,X
-    OPCodes_ORA(Read(AbsoluteXAddressing()));
+    OPCodes_ORA(Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0x1E()
 {
     // ASL $nn,X
-    OPCodes_ASL_Memory(AbsoluteXAddressing());
+    OPCodes_ASL_Memory(AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0x1F()
@@ -374,13 +374,13 @@ void G6502::OPCode0x34()
 void G6502::OPCode0x35()
 {
     // AND $n,X
-    OPCodes_AND(Read(ZeroPageXAddressing()));
+    OPCodes_AND(Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0x36()
 {
     // ROL $n,X
-    OPCodes_ROL_Memory(ZeroPageXAddressing());
+    OPCodes_ROL_Memory(ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0x37()
@@ -399,7 +399,7 @@ void G6502::OPCode0x38()
 void G6502::OPCode0x39()
 {
     // AND $nn,Y
-    OPCodes_AND(Read(AbsoluteYAddressing()));
+    OPCodes_AND(Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0x3A()
@@ -426,13 +426,13 @@ void G6502::OPCode0x3C()
 void G6502::OPCode0x3D()
 {
     // AND $nn,X
-    OPCodes_AND(Read(AbsoluteXAddressing()));
+    OPCodes_AND(Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0x3E()
 {
     // ROL $nn,X
-    OPCodes_ROL_Memory(AbsoluteXAddressing());
+    OPCodes_ROL_Memory(AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0x3F()
@@ -581,13 +581,13 @@ void G6502::OPCode0x54()
 void G6502::OPCode0x55()
 {
     // EOR $n,X
-    OPCodes_EOR(Read(ZeroPageXAddressing()));
+    OPCodes_EOR(Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0x56()
 {
     // LSR $n,X
-    OPCodes_LSR_Memory(ZeroPageXAddressing());
+    OPCodes_LSR_Memory(ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0x57()
@@ -606,7 +606,7 @@ void G6502::OPCode0x58()
 void G6502::OPCode0x59()
 {
     // EOR $nn,Y
-    OPCodes_EOR(Read(AbsoluteYAddressing()));
+    OPCodes_EOR(Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0x5A()
@@ -633,13 +633,13 @@ void G6502::OPCode0x5C()
 void G6502::OPCode0x5D()
 {
     // EOR $nn,X
-    OPCodes_EOR(Read(AbsoluteXAddressing()));
+    OPCodes_EOR(Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0x5E()
 {
     // LSR $nn,X
-    OPCodes_LSR_Memory(AbsoluteXAddressing());
+    OPCodes_LSR_Memory(AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0x5F()
@@ -790,13 +790,13 @@ void G6502::OPCode0x74()
 void G6502::OPCode0x75()
 {
     // ADC $n,X
-    OPCodes_ADC(Read(ZeroPageXAddressing()));
+    OPCodes_ADC(Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0x76()
 {
     // ROR $n,X
-    OPCodes_ROR_Memory(ZeroPageXAddressing());
+    OPCodes_ROR_Memory(ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0x77()
@@ -815,7 +815,7 @@ void G6502::OPCode0x78()
 void G6502::OPCode0x79()
 {
     // ADC $nn,Y
-    OPCodes_ADC(Read(AbsoluteYAddressing()));
+    OPCodes_ADC(Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0x7A()
@@ -842,13 +842,13 @@ void G6502::OPCode0x7C()
 void G6502::OPCode0x7D()
 {
     // ADC $nn,X
-    OPCodes_ADC(Read(AbsoluteXAddressing()));
+    OPCodes_ADC(Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0x7E()
 {
     // ROR $nn,X
-    OPCodes_ROR_Memory(AbsoluteXAddressing());
+    OPCodes_ROR_Memory(AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0x7F()
@@ -990,19 +990,19 @@ void G6502::OPCode0x93()
 void G6502::OPCode0x94()
 {
     // STY $n,X
-    OPCodes_Store(&Y_, ZeroPageXAddressing());
+    OPCodes_Store(&Y_, ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0x95()
 {
     // STA $n,X
-    OPCodes_Store(&A_, ZeroPageXAddressing());
+    OPCodes_Store(&A_, ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0x96()
 {
     // STX $n,Y
-    OPCodes_Store(&X_, ZeroPageYAddressing());
+    OPCodes_Store(&X_, ZeroPageAddressing(&Y_));
 }
 
 void G6502::OPCode0x97()
@@ -1021,7 +1021,7 @@ void G6502::OPCode0x98()
 void G6502::OPCode0x99()
 {
     // STA $nn,Y
-    OPCodes_Store(&A_, AbsoluteYAddressing());
+    OPCodes_Store(&A_, AbsoluteAddressing(&Y_));
 }
 
 void G6502::OPCode0x9A()
@@ -1047,7 +1047,7 @@ void G6502::OPCode0x9C()
 void G6502::OPCode0x9D()
 {
     // STA $nn,X
-    OPCodes_Store(&A_, AbsoluteXAddressing());
+    OPCodes_Store(&A_, AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0x9E()
@@ -1193,19 +1193,19 @@ void G6502::OPCode0xB3()
 void G6502::OPCode0xB4()
 {
     // LDY $n,X
-    OPCodes_LD(&Y_, Read(ZeroPageXAddressing()));
+    OPCodes_LD(&Y_, Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0xB5()
 {
     // LDA $n,X
-    OPCodes_LD(&A_, Read(ZeroPageXAddressing()));
+    OPCodes_LD(&A_, Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0xB6()
 {
     // LDX $n,Y
-    OPCodes_LD(&X_, Read(ZeroPageYAddressing()));
+    OPCodes_LD(&X_, Read(ZeroPageAddressing(&Y_)));
 }
 
 void G6502::OPCode0xB7()
@@ -1224,7 +1224,7 @@ void G6502::OPCode0xB8()
 void G6502::OPCode0xB9()
 {
     // LDA $nn,Y
-    OPCodes_LD(&A_, Read(AbsoluteYAddressing()));
+    OPCodes_LD(&A_, Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0xBA()
@@ -1243,19 +1243,19 @@ void G6502::OPCode0xBB()
 void G6502::OPCode0xBC()
 {
     // LDY $nn,X
-    OPCodes_LD(&Y_, Read(AbsoluteXAddressing()));
+    OPCodes_LD(&Y_, Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0xBD()
 {
     // LDA $nn,X
-    OPCodes_LD(&A_, Read(AbsoluteXAddressing()));
+    OPCodes_LD(&A_, Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0xBE()
 {
     // LDX $nn,Y
-    OPCodes_LD(&X_, Read(AbsoluteYAddressing()));
+    OPCodes_LD(&X_, Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0xBF()
@@ -1402,13 +1402,13 @@ void G6502::OPCode0xD4()
 void G6502::OPCode0xD5()
 {
     // CMP $n,X
-    OPCodes_CMP(&A_, Read(ZeroPageXAddressing()));
+    OPCodes_CMP(&A_, Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0xD6()
 {
     // DEC $n,X
-    OPCodes_DEC_Mem(ZeroPageXAddressing());
+    OPCodes_DEC_Mem(ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0xD7()
@@ -1427,7 +1427,7 @@ void G6502::OPCode0xD8()
 void G6502::OPCode0xD9()
 {
     // CMP $nn,Y
-    OPCodes_CMP(&A_, Read(AbsoluteYAddressing()));
+    OPCodes_CMP(&A_, Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0xDA()
@@ -1454,13 +1454,13 @@ void G6502::OPCode0xDC()
 void G6502::OPCode0xDD()
 {
     // CMP $nn,X
-    OPCodes_CMP(&A_, Read(AbsoluteXAddressing()));
+    OPCodes_CMP(&A_, Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0xDE()
 {
     // DEC $nn,X
-    OPCodes_DEC_Mem(AbsoluteXAddressing());
+    OPCodes_DEC_Mem(AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0xDF()
@@ -1606,13 +1606,13 @@ void G6502::OPCode0xF4()
 void G6502::OPCode0xF5()
 {
     // SBC $n,X
-    OPCodes_SBC(Read(ZeroPageXAddressing()));
+    OPCodes_SBC(Read(ZeroPageAddressing(&X_)));
 }
 
 void G6502::OPCode0xF6()
 {
     // INC $n,X
-    OPCodes_INC_Mem(ZeroPageXAddressing());
+    OPCodes_INC_Mem(ZeroPageAddressing(&X_));
 }
 
 void G6502::OPCode0xF7()
@@ -1631,7 +1631,7 @@ void G6502::OPCode0xF8()
 void G6502::OPCode0xF9()
 {
     // SBC $nn,Y
-    OPCodes_SBC(Read(AbsoluteYAddressing()));
+    OPCodes_SBC(Read(AbsoluteAddressing(&Y_)));
 }
 
 void G6502::OPCode0xFA()
@@ -1658,13 +1658,13 @@ void G6502::OPCode0xFC()
 void G6502::OPCode0xFD()
 {
     // SBC $nn,X
-    OPCodes_SBC(Read(AbsoluteXAddressing()));
+    OPCodes_SBC(Read(AbsoluteAddressing(&X_)));
 }
 
 void G6502::OPCode0xFE()
 {
     // INC $nn,X
-    OPCodes_INC_Mem(AbsoluteXAddressing());
+    OPCodes_INC_Mem(AbsoluteAddressing(&X_));
 }
 
 void G6502::OPCode0xFF()
