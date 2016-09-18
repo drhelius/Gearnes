@@ -445,6 +445,8 @@ void G6502::OPCode0x3F()
 void G6502::OPCode0x40()
 {
     // RTI
+    P_.SetValue(StackPop8());
+    PC_.SetValue(StackPop16());
 }
 
 void G6502::OPCode0x41()
