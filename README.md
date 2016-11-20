@@ -5,6 +5,8 @@ Gearnes (currently in development)
 ----------
 [![Build Status](https://travis-ci.org/drhelius/Gearnes.svg?branch=master)](https://travis-ci.org/drhelius/Gearnes)
 
+*This is a work in progress project, not intended to be used right now.*
+
 Gearnes is a Nintendo Entertainment System (NES) / Famicom emulator written in C++ that runs on iOS, Raspberry Pi, Mac, Windows and Linux.
 
 Follow me on Twitter for updates: http://twitter.com/drhelius
