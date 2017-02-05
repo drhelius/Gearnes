@@ -335,6 +335,8 @@ bool Cartridge::GatherMetadata()
     chr_rom_size_ = chr_rom_bank_count_ * 8 * 1024;
     Log("CHR ROM, banks: %d size: %d", chr_rom_bank_count_, chr_rom_size_);
 
+    Log("PRG RAM banks: %d", prg_ram_bank_count);
+
     battery_present_ = ((flags_6 & 0x02) != 0);
     Log("Battery: %s", battery_present_ ? "YES" : "NO");
 

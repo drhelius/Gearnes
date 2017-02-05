@@ -124,9 +124,9 @@ unsigned int G6502::Tick()
     return t_states_;
 }
 
-void G6502::RequestIRQ(bool assert)
+void G6502::AssertIRQ(bool asserted)
 {
-    interrupt_asserted_ = assert;
+    interrupt_asserted_ = asserted;
 }
 
 void G6502::RequestNMI()

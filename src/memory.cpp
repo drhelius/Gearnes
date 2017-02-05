@@ -92,7 +92,6 @@ Memory::Memory(Cartridge *cartridge)
 Memory::~Memory()
 {
     SafeDeleteArray(map_);
-    SafeDeleteArray(current_mapper_);
     SafeDeleteArray(disassembled_map_);
 }
 

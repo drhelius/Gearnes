@@ -57,7 +57,8 @@ GearnesCore::~GearnesCore()
         Log("Memory Dump Saved");
     }
 #endif
-
+    for (int i = 0; i < 256; i++)
+        SafeDelete(mappers_[i]);
     SafeDelete(cartridge_);
     SafeDelete(input_);
     SafeDelete(video_);

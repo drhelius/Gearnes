@@ -41,10 +41,10 @@ inline u16 G6502::Fetch16()
     u8 l = Read(pc);
     u8 h = Read(pc + 1);
     PC_.SetValue(pc + 2);
-    return MakeAddress16(h , l);
+    return Address16(h , l);
 }
 
-inline u16 G6502::MakeAddress16(u8 high, u8 low)
+inline u16 G6502::Address16(u8 high, u8 low)
 {
     return (high << 8 ) | low;
 }
@@ -75,11 +75,6 @@ inline void G6502::SetOverflowFlagFromResult(u8 result)
 inline void G6502::SetNegativeFlagFromResult(u8 result)
 {
     P_.SetValue((P_.GetValue() & 0x7F) | (result & 0x80));
-}
-
-inline void G6502::FlipFlag(u8 flag)
-{
-    P_.SetValue(P_.GetValue() ^ flag);
 }
 
 inline void G6502::SetFlag(u8 flag)
@@ -117,7 +112,7 @@ inline u16 G6502::StackPop16()
     u8 l = Read(0x0100 | S_.GetValue());
     S_.Increment();
     u8 h = Read(0x0100 | S_.GetValue());
-    return MakeAddress16(h , l);
+    return Address16(h , l);
 }
 
 inline u8 G6502::StackPop8()
@@ -175,7 +170,7 @@ inline u16 G6502::IndirectAddressing()
     u16 address = Fetch16();
     u8 l = Read(address);
     u8 h = Read((address & 0xFF00) | ((address + 1) & 0x00FF));
-    return MakeAddress16(h, l);
+    return Address16(h, l);
 }
 
 inline u16 G6502::IndexedIndirectAddressing()
@@ -183,7 +178,7 @@ inline u16 G6502::IndexedIndirectAddressing()
     u16 address = Fetch8() + X_.GetValue();
     u8 l = Read(address & 0x00FF);
     u8 h = Read((address + 1) & 0x00FF);
-    return MakeAddress16(h, l);
+    return Address16(h, l);
 }
 
 inline u16 G6502::IndirectIndexedAddressing()
@@ -191,7 +186,7 @@ inline u16 G6502::IndirectIndexedAddressing()
     u16 address = Fetch8();
     u8 l = Read(address);
     u8 h = Read(address+1);
-    address = MakeAddress16(h, l);
+    address = Address16(h, l);
     u16 result = address + Y_.GetValue();
     page_crossed_ = PageCrossed(address, result);
     return result;

@@ -37,9 +37,8 @@ public:
     void Reset();
     unsigned int RunFor(unsigned int t_states);
     unsigned int Tick();
-    void RequestIRQ(bool assert);
+    void AssertIRQ(bool asserted);
     void RequestNMI();
-    void SetMemoryImpl();
 
 private:
     typedef void (G6502::*OPCptr) (void);
@@ -60,7 +59,7 @@ private:
 private:
     u8 Fetch8();
     u16 Fetch16();
-    u16 MakeAddress16(u8 high, u8 low);
+    u16 Address16(u8 high, u8 low);
     bool PageCrossed(u16 old_address, u16 new_address);
 
     void ClearAllFlags();
@@ -68,7 +67,6 @@ private:
     void SetOverflowFlagFromResult(u8 result);
     void SetNegativeFlagFromResult(u8 result);
     void SetFlag(u8 flag);
-    void FlipFlag(u8 flag);
     void ClearFlag(u8 flag);
     bool IsSetFlag(u8 flag);
 
