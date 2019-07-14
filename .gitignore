@@ -5,6 +5,7 @@ private/
 
 # Mac files
 *.DS_Store
+*.dylib
 
 # Visual Studio files
 ipch/
@@ -39,6 +40,7 @@ ipch/
 *.app
 Thumbs.db
 *[Rr]elease*/
+*[Pp]rofile*/
 [Tt]est[Rr]esults/
 _UpgradeReport_Files/
 _ReSharper.*/
@@ -52,6 +54,8 @@ desktop.ini
 *.bin
 *.zip
 *.gearnes
+*.so
+*.sav
 
 # Qt Ignores
 moc_*.cpp
@@ -60,6 +64,7 @@ qt-Release.mk
 ui_*.h
 .qmake.stash
 qrc_*.cpp
+Gearsystem.pro.user.*
 
 #Xcode
 *.xcuserstate
