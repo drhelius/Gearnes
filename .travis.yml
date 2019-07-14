@@ -5,14 +5,14 @@ matrix:
       sudo: required
       language: cpp
       env: BUILD_TYPE=desktop
-    - os: linux
-      dist: trusty
-      sudo: required
-      language: cpp
-      env: BUILD_TYPE=libretro
-    - os: osx
-      language: cpp
-      env: BUILD_TYPE=ios
+    # - os: linux
+    #   dist: trusty
+    #   sudo: required
+    #   language: cpp
+    #   env: BUILD_TYPE=libretro
+    # - os: osx
+    #   language: cpp
+    #   env: BUILD_TYPE=ios
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"; fi
