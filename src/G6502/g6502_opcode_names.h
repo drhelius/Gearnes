@@ -20,6 +20,8 @@
 #ifndef G6502_OPCODENAMES_H_
 #define	G6502_OPCODENAMES_H_
 
+#include "g6502_definitions.h"
+
 namespace g6502
 {
 

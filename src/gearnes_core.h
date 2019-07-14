@@ -64,6 +64,7 @@ private:
     void InitMappers();
     bool SetupMapper();
     void Reset();
+    void MemoryDump();
 
 private:
     Memory* memory_;
@@ -74,6 +75,7 @@ private:
     Cartridge* cartridge_;
     Mapper* mappers_[256];
     bool paused_;
+    u8 current_mapper_;
 };
 
 #endif // GEARNESCORE_H_

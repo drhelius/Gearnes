@@ -15,6 +15,7 @@ LIBS += -L/usr/local/lib -lSDL2 -lGLEW -lGLU -lGL
 QMAKE_CXXFLAGS += -std=c++11
 
 SOURCES += \
+    ../../../src/mappers/nrom.cpp \
     ../../qt-shared/about.cpp \
     ../../qt-shared/emulator.cpp \
     ../../qt-shared/gl_frame.cpp \
@@ -40,6 +41,7 @@ HEADERS  += \
     ../../../src/bit_ops.h \
     ../../../src/common.h \
     ../../../src/log.h \
+    ../../../src/mappers/nrom.h \
     ../../qt-shared/about.h \
     ../../qt-shared/emulator.h \
     ../../qt-shared/gl_frame.h \
@@ -62,8 +64,7 @@ HEADERS  += \
     ../../../src/G6502/g6502_opcode_names.h \
     ../../../src/G6502/g6502_opcode_timing.h \
     ../../../src/mapper.h \
-    ../../../src/memory.h \
-    ../../../src/memory_inline.h
+    ../../../src/memory.h
 
 FORMS += \
     ../../qt-shared/About.ui \

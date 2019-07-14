@@ -185,6 +185,17 @@ private:
     void OPCode0xFC(); void OPCode0xFD(); void OPCode0xFE(); void OPCode0xFF();
 };
 
+
+inline void G6502::AssertIRQ(bool asserted)
+{
+    interrupt_asserted_ = asserted;
+}
+
+inline void G6502::RequestNMI()
+{
+    nmi_interrupt_requested_ = true;
+}
+
 inline u8 G6502::Fetch8()
 {
     u8 value = Read(PC_.GetValue());

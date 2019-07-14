@@ -25,6 +25,7 @@
 #include "input.h"
 #include "cartridge.h"
 #include "mapper.h"
+#include "mappers/nrom.h"
 
 GearnesCore::GearnesCore()
 {
@@ -37,27 +38,14 @@ GearnesCore::GearnesCore()
     for (int i = 0; i < 256; i++)
         InitPointer(mappers_[i]);
     paused_ = true;
+    current_mapper_ = 0;
 }
 
 GearnesCore::~GearnesCore()
 {
-#ifdef DEBUG_GEARNES
-    if (cartridge_->IsReady())
-    {
-        Log("Saving Memory Dump...");
 
-        using namespace std;
+    MemoryDump();
 
-        char path[512];
-
-        strcpy(path, cartridge_->GetFilePath());
-        strcat(path, ".dump");
-
-        memory_->MemoryDump(path);
-
-        Log("Memory Dump Saved");
-    }
-#endif
     for (int i = 0; i < 256; i++)
     {
         SafeDelete(mappers_[i]);
@@ -73,7 +61,7 @@ GearnesCore::~GearnesCore()
 
 void GearnesCore::Init()
 {
-    Log("-=:: GEARNES %1.1f ::=-", GEARNES_VERSION);
+    Log("-=:: %s ::=-", GEARNES_TITLE);
 
     cartridge_ = new Cartridge();
     memory_ = new Memory(cartridge_);
@@ -110,26 +98,12 @@ void GearnesCore::RunToVBlank(NES_Color* frame_buffer)
 
 bool GearnesCore::LoadROM(const char* path)
 {
-#ifdef DEBUG_GEARNES
-    if (cartridge_->IsReady())
-    {
-        Log("Saving Memory Dump...");
-
-        using namespace std;
-
-        char dmp_path[512];
-
-        strcpy(dmp_path, cartridge_->GetFilePath());
-        strcat(dmp_path, ".dump");
-
-        memory_->MemoryDump(dmp_path);
-
-        Log("Memory Dump Saved");
-    }
-#endif
+    MemoryDump();
 
     bool loaded = cartridge_->LoadFromFile(path);
+
     Reset();
+
     return loaded;
 }
 
@@ -157,11 +131,11 @@ void GearnesCore::Pause(bool paused)
 {
     if (paused)
     {
-        Log("Gearnes PAUSED");
+        Log("PAUSED");
     }
     else
     {
-        Log("Gearnes RESUMED");
+        Log("RESUMED");
     }
     paused_ = paused;
 }
@@ -175,7 +149,7 @@ void GearnesCore::ResetROM()
 {
     if (cartridge_->IsReady())
     {
-        Log("Gearnes RESET");
+        Log("RESET");
         Reset();
     }
 }
@@ -184,18 +158,18 @@ void GearnesCore::EnableSound(bool enabled)
 {
     if (enabled)
     {
-        Log("Gearnes sound ENABLED");
+        Log("Sound ENABLED");
     }
     else
     {
-        Log("Gearnes sound DISABLED");
+        Log("Sound DISABLED");
     }
     audio_->Enable(enabled);
 }
 
 void GearnesCore::SetSoundSampleRate(int rate)
 {
-    Log("Gearnes sound sample rate: %d", rate);
+    Log("Sound sample rate: %d", rate);
     audio_->SetSampleRate(rate);
 }
 
@@ -224,11 +198,6 @@ float GearnesCore::GetVersion()
     return GEARNES_VERSION;
 }
 
-void GearnesCore::InitMappers()
-{
-
-}
-
 bool GearnesCore::SetupMapper()
 {
     bool supported = true;
@@ -237,11 +206,16 @@ bool GearnesCore::SetupMapper()
     switch (mapper)
     {
         case 0:
+            current_mapper_ = mapper;
             break;
         default:
             supported = false;
+            current_mapper_ = 0;
+            Log("Mapper not supported: %d", mapper);
             break;
     }
+
+    memory_->SetCurrentMapper(mappers_[current_mapper_]);
 
     return supported;
 }
@@ -255,5 +229,36 @@ void GearnesCore::Reset()
     input_->Reset();
     g6502_->Reset();
     paused_ = false;
+}
+
+void GearnesCore::MemoryDump()
+{
+#ifdef DEBUG_GEARNES
+    if (cartridge_->IsReady())
+    {
+        Log("Saving Memory Dump...");
+
+        using namespace std;
+
+        char dmp_path[512];
+
+        strcpy(dmp_path, cartridge_->GetFilePath());
+        strcat(dmp_path, ".dump");
+
+        memory_->MemoryDump(dmp_path);
+
+        Log("Memory Dump Saved");
+    }
+#endif
+}
+
+void GearnesCore::InitMappers()
+{
+    for (int i = 0; i < 256; i++)
+    {
+        InitPointer(mappers_[i]);
+    }
+
+    mappers_[0] = new NROMMapper(memory_, cartridge_);
 }
 

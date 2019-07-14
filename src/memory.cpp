@@ -23,70 +23,14 @@
 #include "memory.h"
 #include "cartridge.h"
 
-/// MUST INLINE --->>>
-///
-
-u8 Memory::Read(u16 address)
-{
-    if (address < 0x2000)
-    {
-        // 2KB internal RAM
-        address &= 0x07FF;
-    }
-    else if (address < 0x4000)
-    {
-        // NES PPU registers
-        address &= 0x0007;
-    }
-    else if (address < 0x4020)
-    {
-
-        // NES APU and I/O registers
-    }
-    else
-    {
-        address &= 0x3FFF;
-        return cartridge_->GetPRGROM()[address];
-        // Cartridge space
-    }
-return 0;
-    //current_mapper_->PerformRead(address);
-}
-
-void Memory::Write(u16 address, u8 value)
-{
-    //current_mapper_->PerformWrite(address, value);
-
-    if (address < 0x2000)
-    {
-        // 2KB internal RAM
-        address &= 0x07FF;
-    }
-    else if (address < 0x4000)
-    {
-        // NES PPU registers
-        address &= 0x0007;
-    }
-    else if (address < 0x4020)
-    {
-        // NES APU and I/O registers
-    }
-    else
-    {
-        // Cartridge space
-        //cartridge_->GetCHRROM()[0]=0;
-    }
-}
-
-///
-/// MUST INLINE <<<---
-
 Memory::Memory(Cartridge *cartridge)
 {
     cartridge_ = cartridge;
     InitPointer(map_);
     InitPointer(current_mapper_);
     InitPointer(disassembled_map_);
+
+    map_ = new u8[0x10000];
 }
 
 Memory::~Memory()

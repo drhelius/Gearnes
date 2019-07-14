@@ -108,11 +108,20 @@ unsigned int G6502::Tick()
     u8 opcode = Fetch8();
 
 #ifdef G6502_DISASM
-    u16 opcode_address = PC_.GetValue() - 1;
-
-    if (!memory_impl_->IsDisassembled(opcode_address))
     {
-        memory_impl_->Disassemble(opcode_address, kOPCodeNames[opcode]);
+        u16 opcode_address = PC_.GetValue() - 1;
+
+        if (!memory_impl_->IsDisassembled(opcode_address))
+        {
+            memory_impl_->Disassemble(opcode_address, kOPCodeNames[opcode]);
+        }
+    }
+#endif
+
+#ifdef G6502_DEBUG
+    {
+        u16 opcode_address = PC_.GetValue() - 1;
+        printf("G6502 -->  $%.4X  %s\n", opcode_address, kOPCodeNames[opcode]);
     }
 #endif
 
@@ -125,22 +134,12 @@ unsigned int G6502::Tick()
     return t_states_;
 }
 
-void G6502::AssertIRQ(bool asserted)
-{
-    interrupt_asserted_ = asserted;
-}
-
-void G6502::RequestNMI()
-{
-    nmi_interrupt_requested_ = true;
-}
-
 void G6502::UnofficialOPCode()
 {
 #ifdef G6502_DEBUG
     u16 opcode_address = PC_.GetValue() - 1;
     u8 opcode = memory_impl_->Read(opcode_address);
-    printf("G6502 --> ** UNOFFICIAL OP Code (%X) at $%.4X -- %s", opcode, opcode_address, kOPCodeNames[opcode]);
+    printf("G6502 --> ** UNOFFICIAL OP Code (%X) at $%.4X -- %s\n", opcode, opcode_address, kOPCodeNames[opcode]);
 #endif
 }
 

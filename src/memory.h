@@ -55,7 +55,156 @@ private:
     stDisassemble* disassembled_map_;
 };
 
-#include "memory_inline.h"
+
+inline u8 Memory::Read(u16 address)
+{
+    switch (address & 0xE000)
+    {
+        case 0x0000:
+        {
+            // 2KB internal RAM
+            return map_[address & 0x07FF];
+        }
+        case 0x2000:
+        {
+            // NES PPU registers
+            return map_[address & 0x0007];
+        }
+        case 0x4000:
+        {
+            switch (address)
+            {
+                case 0x4014:
+                {
+                    // OAM-DMA
+                    return map_[address];
+                }
+                case 0x4016:
+                {
+                    // Joypad 1
+                    return map_[address];
+                }
+                case 0x4017:
+                {
+                    // Joypad 2
+                    return map_[address];
+                }
+                case 0x4009:
+                case 0x400D:
+                case 0x4018:
+                case 0x4019:
+                {
+                    // Unused
+                    Log("Reading unused IO register $%04X", address);
+                    return map_[address];
+                }
+                default:
+                {
+                    if (address < 0x4020)
+                    {
+                        // APU
+                        return map_[address];
+                    }
+                    else
+                    {
+                        // Expansion ROM
+                        return current_mapper_->PerformRead(address);
+                    }
+                }
+            }
+        }
+        case 0x6000:
+        {
+            // SRAM (WRAM)
+            return current_mapper_->PerformRead(address);
+        }
+        default:
+        {
+            // PRG-ROM
+            return current_mapper_->PerformRead(address);
+        }
+    }
+}
+
+inline void Memory::Write(u16 address, u8 value)
+{
+    switch (address & 0xE000)
+    {
+        case 0x0000:
+        {
+            // 2KB internal RAM
+            map_[address & 0x07FF] = value;
+            break;
+        }
+        case 0x2000:
+        {
+            // NES PPU registers
+            map_[address & 0x0007] = value;
+            break;
+        }
+        case 0x4000:
+        {
+            switch (address)
+            {
+                case 0x4014:
+                {
+                    // OAM-DMA
+                    Log("Writing to OAM-DMA $%04X 0x%02X", address, value);
+                    map_[address] = value;
+                    break;
+                }
+                case 0x4016:
+                {
+                    // Joypad 1
+                    map_[address] = value;
+                    break;
+                }
+                case 0x4017:
+                {
+                    // Joypad 2
+                    map_[address] = value;
+                    break;
+                }
+                case 0x4009:
+                case 0x400D:
+                case 0x4018:
+                case 0x4019:
+                {
+                    // Unused
+                    Log("Writing to unused IO register $%04X 0x%02X", address, value);
+                    map_[address] = value;
+                    break;
+                }
+                default:
+                {
+                    if (address < 0x4020)
+                    {
+                        // APU
+                        map_[address] = value;
+                    }
+                    else
+                    {
+                        // Expansion ROM
+                        current_mapper_->PerformWrite(address, value);
+                    }
+                    break;
+                }
+            }
+            break;
+        }
+        case 0x6000:
+        {
+            // SRAM (WRAM)
+            current_mapper_->PerformWrite(address, value);
+            break;
+        }
+        default:
+        {
+            // PRG-ROM
+            current_mapper_->PerformWrite(address, value);
+        }
+    }
+}
 
 #endif	/* MEMORY_H */
 

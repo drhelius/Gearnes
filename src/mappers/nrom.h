@@ -17,9 +17,23 @@
  *
  */
 
-#ifndef MEMORYINLINE_H
-#define	MEMORYINLINE_H
+#ifndef NROM_H
+#define	NROM_H
 
+#include <iostream>
+#include "../mapper.h"
 
-#endif	/* MEMORYINLINE_H */
+class Memory;
+class Cartridge;
 
+class NROMMapper : public Mapper
+{
+public:
+    NROMMapper(Memory* memory, Cartridge* cartridge);
+    virtual ~NROMMapper();
+    virtual void Reset();
+    virtual u8 PerformRead(u16 address);
+    virtual void PerformWrite(u16 address, u8 value);
+};
+
+#endif	/* NROM_H */
