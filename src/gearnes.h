@@ -20,7 +20,6 @@
 #ifndef GEARNES_H_
 #define	GEARNES_H_
 
-#include "definitions.h"
 #include "gearnes_core.h"
 #include "cartridge.h"
 #include "video.h" 

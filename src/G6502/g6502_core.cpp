@@ -17,6 +17,7 @@
  * 
  */
 
+#include <cstdio>
 #include "g6502_core.h"
 #include "g6502_definitions.h"
 #include "g6502_eight_bit_register.h"
@@ -29,7 +30,7 @@ namespace g6502 {
 G6502::G6502()
 {
     InitOPCodeFunctors();
-    InitPointer(memory_impl_);
+    memory_impl_ = nullptr;
     t_states_ = 0;
     interrupt_asserted_ = false;
     nmi_interrupt_requested_ = false;
@@ -139,7 +140,7 @@ void G6502::UnofficialOPCode()
 #ifdef G6502_DEBUG
     u16 opcode_address = PC_.GetValue() - 1;
     u8 opcode = memory_impl_->Read(opcode_address);
-    Log("--> ** UNOFFICIAL OP Code (%X) at $%.4X -- %s", opcode, opcode_address, kOPCodeNames[opcode]);
+    printf("G6502 --> ** UNOFFICIAL OP Code (%X) at $%.4X -- %s", opcode, opcode_address, kOPCodeNames[opcode]);
 #endif
 }
 

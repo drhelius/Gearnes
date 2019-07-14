@@ -21,7 +21,7 @@
 #define	MEMORY_H
 
 #include <vector>
-#include "definitions.h"
+#include "common.h"
 #include "mapper.h"
 #include "G6502/g6502_memory_interface.h"
 

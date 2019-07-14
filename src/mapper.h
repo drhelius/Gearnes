@@ -20,7 +20,8 @@
 #ifndef MAPPER_H
 #define	MAPPER_H
 
-#include "definitions.h"
+#include <iostream>
+#include "common.h"
 
 class Memory;
 class Cartridge;

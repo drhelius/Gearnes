@@ -20,6 +20,7 @@
 #ifndef GEARNESCORE_H_
 #define GEARNESCORE_H_
 
+#include "common.h"
 #include "video.h"
 #include "input.h"
 #include "G6502/g6502_core.h"
@@ -76,4 +77,3 @@ private:
 };
 
 #endif // GEARNESCORE_H_
-

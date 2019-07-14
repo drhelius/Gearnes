@@ -10,7 +10,7 @@ TEMPLATE = app
 INCLUDEPATH += /usr/local/include
 DEPENDPATH += /usr/local/lib
 
-LIBS += -L/usr/local/lib -lSDL2main -lSDL2 -lGLEW -lGLU -lGL
+LIBS += -L/usr/local/lib -lSDL2 -lGLEW -lGLU -lGL
 
 QMAKE_CXXFLAGS += -std=c++11
 
@@ -36,6 +36,10 @@ SOURCES += \
     ../../../src/memory.cpp
 
 HEADERS  += \
+    ../../../src/G6502/g6502_types.h \
+    ../../../src/bit_ops.h \
+    ../../../src/common.h \
+    ../../../src/log.h \
     ../../qt-shared/about.h \
     ../../qt-shared/emulator.h \
     ../../qt-shared/gl_frame.h \
@@ -46,13 +50,11 @@ HEADERS  += \
     ../../qt-shared/video_settings.h \
     ../../../src/audio.h \
     ../../../src/cartridge.h \
-    ../../../src/definitions.h \
     ../../../src/input.h \
     ../../../src/video.h \
     ../../../src/gearnes.h \
     ../../../src/gearnes_core.h \
     ../../../src/G6502/g6502_core.h \
-    ../../../src/G6502/g6502_core_inl.h \
     ../../../src/G6502/g6502_definitions.h \
     ../../../src/G6502/g6502_eight_bit_register.h \
     ../../../src/G6502/g6502_memory_interface.h \

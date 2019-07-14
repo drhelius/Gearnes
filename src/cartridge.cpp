@@ -19,6 +19,7 @@
 
 #include <string>
 #include <algorithm>
+#include <fstream>
 #include "cartridge.h"
 #include "miniz/miniz.c"
 
@@ -137,7 +138,7 @@ bool Cartridge::LoadFromZipFile(const u8* buffer, int size)
     mz_bool status;
     memset(&zip_archive, 0, sizeof (zip_archive));
 
-    status = mz_zip_reader_init_mem(&zip_archive, (void*) buffer, size, 0);
+    status = mz_zip_reader_init_mem(&zip_archive, static_cast<const void*>(buffer), static_cast<size_t>(size), 0);
     if (!status)
     {
         Log("mz_zip_reader_init_mem() failed!");
@@ -154,10 +155,10 @@ bool Cartridge::LoadFromZipFile(const u8* buffer, int size)
             return false;
         }
 
-        Log("ZIP Content - Filename: \"%s\", Comment: \"%s\", Uncompressed size: %u, Compressed size: %u", file_stat.m_filename, file_stat.m_comment, (unsigned int) file_stat.m_uncomp_size, (unsigned int) file_stat.m_comp_size);
+        Log("ZIP Content - Filename: \"%s\", Comment: \"%s\", Uncompressed size: %u, Compressed size: %u", file_stat.m_filename, file_stat.m_comment, static_cast<unsigned int>(file_stat.m_uncomp_size), static_cast<unsigned int>(file_stat.m_comp_size));
 
-        string fn((const char*) file_stat.m_filename);
-        transform(fn.begin(), fn.end(), fn.begin(), (int(*)(int)) tolower);
+        string fn(static_cast<const char*>(file_stat.m_filename));
+        transform(fn.begin(), fn.end(), fn.begin(), [](unsigned char c){ return tolower(c); });
         string extension = fn.substr(fn.find_last_of(".") + 1);
 
         if (extension == "nes")
@@ -173,7 +174,7 @@ bool Cartridge::LoadFromZipFile(const u8* buffer, int size)
                 return false;
             }
 
-            bool ok = LoadFromBuffer((const u8*) p, uncomp_size);
+            bool ok = LoadFromBuffer(static_cast<const u8*>(p), static_cast<int>(uncomp_size));
 
             free(p);
             mz_zip_reader_end(&zip_archive);
@@ -200,14 +201,14 @@ bool Cartridge::LoadFromFile(const char* path)
     size_t pos = pathstr.find_last_of("\\");
     if (pos != std::string::npos)
     {
-        filename.assign(pathstr.begin() + pos + 1, pathstr.end());
+        filename.assign(pathstr.begin() + static_cast<long>(pos) + 1, pathstr.end());
     }
     else
     {
         pos = pathstr.find_last_of("/");
         if (pos != std::string::npos)
         {
-            filename.assign(pathstr.begin() + pos + 1, pathstr.end());
+            filename.assign(pathstr.begin() + static_cast<long>(pos) + 1, pathstr.end());
         }
         else
         {
@@ -228,7 +229,7 @@ bool Cartridge::LoadFromFile(const char* path)
         file.close();
 
         string fn(path);
-        transform(fn.begin(), fn.end(), fn.begin(), (int(*)(int)) tolower);
+        transform(fn.begin(), fn.end(), fn.begin(), [](unsigned char c){ return tolower(c); });
         string extension = fn.substr(fn.find_last_of(".") + 1);
 
         if (extension == "zip")
@@ -289,11 +290,11 @@ bool Cartridge::LoadFromBuffer(const u8* buffer, int size)
             }
 
             prg_rom_ = new u8[prg_rom_size_];
-            memcpy(prg_rom_, buffer + offset, prg_rom_size_);
+            memcpy(prg_rom_, buffer + offset, static_cast<size_t>(prg_rom_size_));
             offset += prg_rom_size_;
 
             chr_rom_ = new u8[chr_rom_size_];
-            memcpy(chr_rom_, buffer + offset, chr_rom_size_);
+            memcpy(chr_rom_, buffer + offset, static_cast<size_t>(chr_rom_size_));
 
             return true;
         }
@@ -316,7 +317,7 @@ bool Cartridge::TestValid()
     return ((header_[0] == 0x4E) && (header_[1] == 0x45) && (header_[2] == 0x53) && (header_[3] == 0x1A));
 }
 
-bool Cartridge::GatherMetadata()
+void Cartridge::GatherMetadata()
 {
     prg_rom_bank_count_ = header_[4];
     chr_rom_bank_count_ = header_[5];
@@ -342,4 +343,9 @@ bool Cartridge::GatherMetadata()
 
     trainer_present_ = ((flags_6 & 0x04) != 0);
     Log("Trainer: %s", trainer_present_ ? "YES" : "NO");
+
+    Log("Header byte #6: 0x%08X", flags_6);
+    Log("Header byte #7: 0x%08X", flags_7);
+    Log("Header byte #9: 0x%08X", flags_9);
+    Log("Header byte #10: 0x%08X", flags_10);
 }

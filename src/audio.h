@@ -20,7 +20,7 @@
 #ifndef AUDIO_H_
 #define	AUDIO_H_
 
-#include "definitions.h"
+#include "common.h"
 //#include "audio/Multi_Buffer.h"
 
 //class Sms_Apu;

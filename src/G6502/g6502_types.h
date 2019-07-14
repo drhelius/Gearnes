@@ -17,42 +17,18 @@
  *
  */
 
-#ifndef INPUT_H_
-#define	INPUT_H_
+#ifndef G6502_TYPES_H_
+#define	G6502_TYPES_H_
 
-#include "common.h"
+#include <cstdint>
 
-enum NES_Keys
-{
-    kKeyUp,
-    kKeyDown,
-    kKeyLeft,
-    kKeyRight,
-    kKeyA,
-    kKeyB,
-    kKeySelect,
-    kKeyStart
-};
+typedef uint8_t u8;
+typedef int8_t s8;
+typedef uint16_t u16;
+typedef int16_t s16;
+typedef uint32_t u32;
+typedef int32_t s32;
+typedef uint64_t u64;
+typedef int64_t s64;
 
-enum NES_Joypads
-{
-    kJoypad1,
-    kJoypad2
-};
-
-class Input
-{
-public:
-    Input();
-    void Init();
-    void Reset();
-    void Tick(unsigned int clock_cycles);
-    void KeyPressed(NES_Joypads joypad, NES_Keys key);
-    void KeyReleased(NES_Joypads joypad, NES_Keys key);
-
-private:
-    void Update();
-};
-
-#endif // INPUT_H_
-
+#endif // G6502_TYPES_H_

@@ -20,7 +20,7 @@
 #ifndef VIDEO_H_
 #define	VIDEO_H_
 
-#include "definitions.h"
+#include "common.h"
 
 const int NES_WIDTH = 256;
 const int NES_HEIGHT = 240;
@@ -47,4 +47,3 @@ private:
 };
 
 #endif // GD_VIDEO_H_
-

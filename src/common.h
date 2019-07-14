@@ -17,42 +17,31 @@
  *
  */
 
-#ifndef INPUT_H_
-#define	INPUT_H_
+#ifndef COMMON_H_
+#define	COMMON_H_
 
-#include "common.h"
+#define DEBUG_GEARNES 1
 
-enum NES_Keys
-{
-    kKeyUp,
-    kKeyDown,
-    kKeyLeft,
-    kKeyRight,
-    kKeyA,
-    kKeyB,
-    kKeySelect,
-    kKeyStart
-};
+#ifdef DEBUG_GEARNES
+    #define DISASM_GEARNES 1
+#endif
 
-enum NES_Joypads
-{
-    kJoypad1,
-    kJoypad2
-};
+#define GEARNES_TITLE "Gearnes 0.1"
+#define GEARNES_VERSION 0.1f
 
-class Input
-{
-public:
-    Input();
-    void Init();
-    void Reset();
-    void Tick(unsigned int clock_cycles);
-    void KeyPressed(NES_Joypads joypad, NES_Keys key);
-    void KeyReleased(NES_Joypads joypad, NES_Keys key);
+#ifdef _WIN32
+    #define BLARGG_USE_NAMESPACE 1
+#endif
 
-private:
-    void Update();
-};
 
-#endif // INPUT_H_
+#define SafeDelete(pointer) if(pointer != nullptr) delete pointer; ((pointer) = nullptr)
+#define SafeDeleteArray(pointer) if(pointer != nullptr) delete [] pointer; ((pointer) = nullptr)
+
+#define InitPointer(pointer) ((pointer) = nullptr)
+#define IsValidPointer(pointer) ((pointer) != nullptr)
+
+#include "log.h"
+#include "bit_ops.h"
+
+#endif // COMMON_H_
 

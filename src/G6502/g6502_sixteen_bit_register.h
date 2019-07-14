@@ -54,7 +54,7 @@ inline u8 SixteenBitRegister::GetLow() const
 
 inline void SixteenBitRegister::SetHigh(u8 high)
 {
-    value_ = (high << 8) | (value_ & 0x00FF);
+    value_ = static_cast<u16>(high << 8) | (value_ & 0x00FF);
 }
 
 inline u8 SixteenBitRegister::GetHigh() const

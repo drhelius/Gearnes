@@ -17,42 +17,30 @@
  *
  */
 
-#ifndef INPUT_H_
-#define	INPUT_H_
+#ifndef BITOPS_H_
+#define	BITOPS_H_
 
-#include "common.h"
+#include "G6502/g6502_types.h"
 
-enum NES_Keys
+inline u8 SetBit(const u8 value, const u8 bit)
 {
-    kKeyUp,
-    kKeyDown,
-    kKeyLeft,
-    kKeyRight,
-    kKeyA,
-    kKeyB,
-    kKeySelect,
-    kKeyStart
-};
+    return value | static_cast<u8>(0x01 << bit);
+}
 
-enum NES_Joypads
+inline u8 UnsetBit(const u8 value, const u8 bit)
 {
-    kJoypad1,
-    kJoypad2
-};
+    return value & (~(0x01 << bit));
+}
 
-class Input
+inline bool IsSetBit(const u8 value, const u8 bit)
 {
-public:
-    Input();
-    void Init();
-    void Reset();
-    void Tick(unsigned int clock_cycles);
-    void KeyPressed(NES_Joypads joypad, NES_Keys key);
-    void KeyReleased(NES_Joypads joypad, NES_Keys key);
+    return (value & (0x01 << bit)) != 0;
+}
 
-private:
-    void Update();
-};
+inline u8 FlipBit(const u8 value, const u8 bit)
+{
+    return value ^ static_cast<u8>(0x01 << bit);
+}
 
-#endif // INPUT_H_
+#endif // BITOPS_H_
 

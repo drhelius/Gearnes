@@ -20,7 +20,7 @@
 #ifndef CARTRIDGE_H_
 #define	CARTRIDGE_H_
 
-#include "definitions.h"
+#include "common.h"
 
 class Cartridge
 {
@@ -45,7 +45,7 @@ public:
     u8 GetMapper() const;
 
 private:
-    bool GatherMetadata();
+    void GatherMetadata();
     bool LoadFromZipFile(const u8* buffer, int size);
     bool TestValid();
 

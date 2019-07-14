@@ -20,6 +20,8 @@
 #ifndef G6502_OPCODETIMING_H
 #define	G6502_OPCODETIMING_H
 
+#include "g6502_types.h"
+
 namespace g6502
 {
 

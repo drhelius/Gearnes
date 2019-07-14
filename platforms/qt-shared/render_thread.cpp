@@ -125,13 +125,13 @@ void RenderThread::Init()
 
     glEnable(GL_TEXTURE_2D);
     glBindTexture(GL_TEXTURE_2D, texture_);
-    SetupTexture((void*) frame_buffer_);
+    SetupTexture(static_cast<void*>(frame_buffer_));
 }
 
 void RenderThread::SetupTexture(void* data)
 {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, NES_WIDTH, NES_HEIGHT, 0,
-            GL_RGBA, GL_UNSIGNED_BYTE, (void*) data);
+            GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(data));
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -144,7 +144,7 @@ void RenderThread::RenderFrame()
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, texture_);
     glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, NES_WIDTH, NES_HEIGHT,
-            GL_RGBA, GL_UNSIGNED_BYTE, (void*) frame_buffer_);
+            GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(frame_buffer_));
     if (filtering_)
     {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

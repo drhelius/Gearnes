@@ -17,42 +17,29 @@
  *
  */
 
-#ifndef INPUT_H_
-#define	INPUT_H_
+#ifndef LOG_H_
+#define	LOG_H_
 
-#include "common.h"
+#include <cstdio>
+#include <cstdarg>
 
-enum NES_Keys
+#ifdef DEBUG_GEARNES
+    #define Log(msg, ...) (LogImpl(msg, ##__VA_ARGS__))
+#else
+    #define Log(msg, ...)
+#endif
+
+__attribute__((__format__ (__printf__, 1, 0)))
+inline void LogImpl(const char* const msg, ...)
 {
-    kKeyUp,
-    kKeyDown,
-    kKeyLeft,
-    kKeyRight,
-    kKeyA,
-    kKeyB,
-    kKeySelect,
-    kKeyStart
-};
+    static int count = 1;
+    char szBuf[512];
+    va_list args;
+    va_start(args, msg);
+    vsprintf(szBuf, msg, args);
+    va_end(args);
+    printf("%d: %s\n", count, szBuf);
+    count++;
+}
 
-enum NES_Joypads
-{
-    kJoypad1,
-    kJoypad2
-};
-
-class Input
-{
-public:
-    Input();
-    void Init();
-    void Reset();
-    void Tick(unsigned int clock_cycles);
-    void KeyPressed(NES_Joypads joypad, NES_Keys key);
-    void KeyReleased(NES_Joypads joypad, NES_Keys key);
-
-private:
-    void Update();
-};
-
-#endif // INPUT_H_
-
+#endif // LOG_H_

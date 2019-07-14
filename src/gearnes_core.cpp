@@ -17,6 +17,7 @@
  *
  */
 
+#include <cstring>
 #include "gearnes_core.h"
 #include "memory.h"
 #include "audio.h"
@@ -58,7 +59,10 @@ GearnesCore::~GearnesCore()
     }
 #endif
     for (int i = 0; i < 256; i++)
+    {
         SafeDelete(mappers_[i]);
+    }
+
     SafeDelete(cartridge_);
     SafeDelete(input_);
     SafeDelete(video_);
@@ -197,7 +201,7 @@ void GearnesCore::SetSoundSampleRate(int rate)
 
 void GearnesCore::SaveRam()
 {
-    SaveRam(NULL);
+    SaveRam(nullptr);
 }
 
 void GearnesCore::SaveRam(const char* path)
@@ -207,7 +211,7 @@ void GearnesCore::SaveRam(const char* path)
 
 void GearnesCore::LoadRam()
 {
-    LoadRam(NULL);
+    LoadRam(nullptr);
 }
 
 void GearnesCore::LoadRam(const char* path)
