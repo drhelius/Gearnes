@@ -68,4 +68,4 @@ FORMS += \
     ../../qt-shared/InputSettings.ui \
     ../../qt-shared/MainWindow.ui \
     ../../qt-shared/SoundSettings.ui \
-    ../../qt-shared/VideoSettings.ui \
+    ../../qt-shared/VideoSettings.ui
