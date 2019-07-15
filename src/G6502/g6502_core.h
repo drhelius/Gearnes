@@ -214,7 +214,7 @@ inline u16 G6502::Fetch16()
 
 inline u16 G6502::Address16(u8 high, u8 low)
 {
-    return static_cast<u8>(high << 8 ) | low;
+    return static_cast<u16>(high << 8 ) | low;
 }
 
 inline bool G6502::PageCrossed(u16 old_address, u16 new_address)
