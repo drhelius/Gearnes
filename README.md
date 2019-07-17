@@ -1,5 +1,5 @@
 Gearnes (currently in development)
-=========
+=======
 <b>Copyright &copy; 2016 by Ignacio Sanchez</b>
 
 ----------
@@ -7,31 +7,40 @@ Gearnes (currently in development)
 
 *This is a work in progress project, not intended to be used right now.*
 
-Gearnes is a Nintendo Entertainment System (NES) / Famicom emulator written in C++ that runs on iOS, Raspberry Pi, Mac, Windows and Linux.
+Gearnes is a Nintendo Entertainment System (NES) / Famicom emulator  written in C++ that runs on iOS, Raspberry Pi, Mac, Windows, Linux and RetroArch.
 
 Follow me on Twitter for updates: http://twitter.com/drhelius
 
 ----------
 
 Build Instructions
-----------------------
+------------------
 
 ### Mac OS X
 - You need Qt Creator, included in the Qt 5 SDK.
 - Install Xcode and run <code>xcode-select --install</code> in the terminal for the compiler to be available on the command line.
-- Install the [Qt 5 SDK for Mac OS](http://qt-project.org/downloads).
+- Install the [Qt 5 SDK for Mac OS](https://www.qt.io/download/).
 - Download [SDL 2](http://www.libsdl.org/download-2.0.php) source code. Then run this commands:
 ``` shell
 ./configure
 make
 sudo make install
 ```
-- Open the Gearnes Qt project with Qt Creator and build.
+- Open the <code>platforms/macosx/Gearnes/Gearnes.pro</code> project file with Qt Creator and build.
 
 ### Linux
-- Install dependencies (Ubuntu: <code>sudo apt-get install build-essential qt5-default qttools5-dev-tools freeglut3-dev libsdl2-dev libglew-dev</code>).
-- Move to the <code>platforms/linux/Gearnes/</code> folder and run <code>qmake -o Makefile Gearnes.pro && make</code> to build the project.
-- In Ubuntu I had to <code>export SDL_AUDIODRIVER=ALSA</code> before running the emulator for the sound to work properly.
+- Ubuntu / Debian:
+``` shell
+sudo apt-get install build-essential qt5-default qttools5-dev-tools freeglut3-dev libsdl2-dev libglew-dev
+cd platforms/linux/Gearnes
+qmake Gearnes.pro && make
+```
+- Fedora:
+``` shell
+sudo dnf install @development-tools gcc-c++ qt5-devel freeglut-devel SDL2-devel glew-devel
+cd platforms/linux/Gearnes
+qmake-qt5 Gearnes.pro && make
+```
 
 License
 -------
