@@ -22,6 +22,9 @@
 
 #include "common.h"
 
+namespace Gearnes
+{
+
 const int NES_WIDTH = 256;
 const int NES_HEIGHT = 240;
 
@@ -41,9 +44,17 @@ public:
     void Init();
     void Reset();
     bool Tick(unsigned int clock_cycles, NES_Color* frame_buffer);
+    u8 Read(u16 address);
+    void Write(u16 address, u8 value);
 
 private:
     void ScanLine(int line);
+
+private:
+    u8 registers_[8];
+    u8 latch_;
 };
+
+} // namespace Gearnes
 
 #endif // GD_VIDEO_H_

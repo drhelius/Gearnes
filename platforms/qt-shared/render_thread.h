@@ -38,7 +38,7 @@ class RenderThread : public QThread
     Q_OBJECT
 
 public:
-    explicit RenderThread(GLFrame* gl_frame = 0);
+    explicit RenderThread(GLFrame* gl_frame = nullptr);
     virtual ~RenderThread();
     void ResizeViewport(const QSize &size, int pixel_ratio);
     void run();
@@ -62,7 +62,7 @@ private:
     int height_;
     GLFrame* gl_frame_;
     Emulator* emulator_;
-    NES_Color* frame_buffer_;
+    Gearnes::NES_Color* frame_buffer_;
     bool filtering_;
     bool resize_event_;
     GLuint texture_;

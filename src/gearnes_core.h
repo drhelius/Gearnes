@@ -25,6 +25,9 @@
 #include "input.h"
 #include "G6502/g6502_core.h"
 
+namespace Gearnes
+{
+
 enum NES_System
 {
     kSystem_NTSC_USA,
@@ -77,5 +80,7 @@ private:
     bool paused_;
     u8 current_mapper_;
 };
+
+} // namespace Gearnes
 
 #endif // GEARNESCORE_H_

@@ -21,8 +21,13 @@
 #include <algorithm>
 #include <fstream>
 #include "cartridge.h"
-#include "miniz/miniz.c"
 
+DISABLE_WARNING(misleading-indentation,misleading-indentation,0)
+#include "miniz/miniz.c"
+ENABLE_WARNING(misleading-indentation,misleading-indentation,0)
+
+namespace Gearnes
+{
 
 Cartridge::Cartridge()
 {
@@ -349,3 +354,5 @@ void Cartridge::GatherMetadata()
     Log("Header byte #9: 0x%08X", flags_9);
     Log("Header byte #10: 0x%08X", flags_10);
 }
+
+} // namespace Gearnes

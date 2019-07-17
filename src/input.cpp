@@ -19,6 +19,9 @@
 
 #include "input.h"
 
+namespace Gearnes
+{
+
 Input::Input()
 {
 
@@ -53,3 +56,5 @@ void Input::Update()
 {
 
 }
+
+} // namespace Gearnes

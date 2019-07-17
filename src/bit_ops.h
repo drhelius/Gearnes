@@ -22,6 +22,9 @@
 
 #include "G6502/g6502_types.h"
 
+namespace Gearnes
+{
+
 inline u8 SetBit(const u8 value, const u8 bit)
 {
     return value | static_cast<u8>(0x01 << bit);
@@ -41,6 +44,8 @@ inline u8 FlipBit(const u8 value, const u8 bit)
 {
     return value ^ static_cast<u8>(0x01 << bit);
 }
+
+} // namespace Gearnes
 
 #endif // BITOPS_H_
 

@@ -22,6 +22,9 @@
 
 #include "common.h"
 
+namespace Gearnes
+{
+
 enum NES_Keys
 {
     kKeyUp,
@@ -53,6 +56,8 @@ public:
 private:
     void Update();
 };
+
+} // namespace Gearnes
 
 #endif // INPUT_H_
 

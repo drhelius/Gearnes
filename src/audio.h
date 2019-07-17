@@ -23,6 +23,11 @@
 #include "common.h"
 //#include "audio/Multi_Buffer.h"
 
+namespace Gearnes
+{
+
+const long kSampleBufferSize = 8192;
+
 //class Sms_Apu;
 //class Sound_Queue;
 
@@ -49,6 +54,6 @@ private:
 //    blip_sample_t* m_pSampleBuffer;
 };
 
-const long kSampleBufferSize = 8192;
+} // namespace Gearnes
 
 #endif // AUDIO_H_

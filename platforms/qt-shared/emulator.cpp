@@ -31,7 +31,7 @@ Emulator::~Emulator()
 
 void Emulator::Init()
 {
-    gearnes_core_ = new GearnesCore();
+    gearnes_core_ = new Gearnes::GearnesCore();
     gearnes_core_->Init();
 }
 
@@ -44,21 +44,21 @@ void Emulator::LoadRom(const char* path)
     mutex_.unlock();
 }
 
-void Emulator::RunToVBlank(NES_Color* frame_buffer)
+void Emulator::RunToVBlank(Gearnes::NES_Color* frame_buffer)
 {
     mutex_.lock();
     gearnes_core_->RunToVBlank(frame_buffer);
     mutex_.unlock();
 }
 
-void Emulator::KeyPressed(NES_Joypads joypad, NES_Keys key)
+void Emulator::KeyPressed(Gearnes::NES_Joypads joypad, Gearnes::NES_Keys key)
 {
     mutex_.lock();
     gearnes_core_->KeyPressed(joypad, key);
     mutex_.unlock();
 }
 
-void Emulator::KeyReleased(NES_Joypads joypad, NES_Keys key)
+void Emulator::KeyReleased(Gearnes::NES_Joypads joypad, Gearnes::NES_Keys key)
 {
     mutex_.lock();
     gearnes_core_->KeyReleased(joypad, key);

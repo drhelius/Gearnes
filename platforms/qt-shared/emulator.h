@@ -29,10 +29,10 @@ public:
     Emulator();
     ~Emulator();
     void Init();
-    void RunToVBlank(NES_Color* frame_buffer);
+    void RunToVBlank(Gearnes::NES_Color* frame_buffer);
     void LoadRom(const char* path);
-    void KeyPressed(NES_Joypads joypad, NES_Keys key);
-    void KeyReleased(NES_Joypads joypad, NES_Keys key);
+    void KeyPressed(Gearnes::NES_Joypads joypad, Gearnes::NES_Keys key);
+    void KeyReleased(Gearnes::NES_Joypads joypad, Gearnes::NES_Keys key);
     void Pause();
     void Resume();
     bool IsPaused();
@@ -42,7 +42,7 @@ public:
     void SaveRam();
 
 private:
-    GearnesCore* gearnes_core_;
+    Gearnes::GearnesCore* gearnes_core_;
     QMutex mutex_;
 };
 

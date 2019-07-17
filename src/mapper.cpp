@@ -19,6 +19,9 @@
 
 #include "mapper.h"
 
+namespace Gearnes
+{
+
 Mapper::Mapper(Memory* memory, Cartridge* cartridge)
 {
     memory_ = memory;
@@ -44,3 +47,5 @@ bool Mapper::PersistedRAM()
 {
     return false;
 }
+
+} // namespace Gearnes

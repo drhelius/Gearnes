@@ -23,8 +23,11 @@
 #include <cstdio>
 #include <cstdarg>
 
+namespace Gearnes
+{
+
 #ifdef DEBUG_GEARNES
-    #define Log(msg, ...) (LogImpl(msg, ##__VA_ARGS__))
+    #define Log(msg, ...) (Gearnes::LogImpl(msg, ##__VA_ARGS__))
 #else
     #define Log(msg, ...)
 #endif
@@ -41,5 +44,7 @@ inline void LogImpl(const char* const msg, ...)
     printf("%d: %s\n", count, szBuf);
     count++;
 }
+
+} // namespace Gearnes
 
 #endif // LOG_H_

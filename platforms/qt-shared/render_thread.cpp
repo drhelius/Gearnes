@@ -26,7 +26,7 @@ RenderThread::RenderThread(GLFrame* gl_frame) : QThread(), gl_frame_(gl_frame)
 {
     paused_ = false;
     do_actual_rendering_ = true;
-    frame_buffer_ = new NES_Color[NES_WIDTH * NES_HEIGHT];
+    frame_buffer_ = new Gearnes::NES_Color[Gearnes::NES_WIDTH * Gearnes::NES_HEIGHT];
     width_ = 0;
     height_ = 0;
     InitPointer(emulator_);
@@ -100,11 +100,11 @@ void RenderThread::run()
 
 void RenderThread::Init()
 {
-    for (int y = 0; y < NES_HEIGHT; ++y)
+    for (int y = 0; y < Gearnes::NES_HEIGHT; ++y)
     {
-        for (int x = 0; x < NES_WIDTH; ++x)
+        for (int x = 0; x < Gearnes::NES_WIDTH; ++x)
         {
-            int pixel = (y * NES_WIDTH) + x;
+            int pixel = (y * Gearnes::NES_WIDTH) + x;
             frame_buffer_[pixel].red = frame_buffer_[pixel].green =
                     frame_buffer_[pixel].blue = 0x00;
             frame_buffer_[pixel].alpha = 0xFF;
@@ -130,7 +130,7 @@ void RenderThread::Init()
 
 void RenderThread::SetupTexture(void* data)
 {
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, NES_WIDTH, NES_HEIGHT, 0,
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, Gearnes::NES_WIDTH, Gearnes::NES_HEIGHT, 0,
             GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(data));
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -143,7 +143,7 @@ void RenderThread::RenderFrame()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glBindTexture(GL_TEXTURE_2D, texture_);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, NES_WIDTH, NES_HEIGHT,
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, Gearnes::NES_WIDTH, Gearnes::NES_HEIGHT,
             GL_RGBA, GL_UNSIGNED_BYTE, static_cast<void*>(frame_buffer_));
     if (filtering_)
     {

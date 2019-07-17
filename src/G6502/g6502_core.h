@@ -63,7 +63,6 @@ private:
     u16 Address16(u8 high, u8 low);
     bool PageCrossed(u16 old_address, u16 new_address);
 
-    void ClearAllFlags();
     void SetZeroFlagFromResult(u8 result);
     void SetOverflowFlagFromResult(u8 result);
     void SetNegativeFlagFromResult(u8 result);
@@ -220,11 +219,6 @@ inline u16 G6502::Address16(u8 high, u8 low)
 inline bool G6502::PageCrossed(u16 old_address, u16 new_address)
 {
     return (old_address ^ new_address) > 0x00FF;
-}
-
-inline void G6502::ClearAllFlags()
-{
-    P_.SetValue(FLAG_NONE);
 }
 
 inline void G6502::SetZeroFlagFromResult(u8 result)

@@ -20,6 +20,9 @@
 #include "nrom.h"
 #include "../cartridge.h"
 
+namespace Gearnes
+{
+
 NROMMapper::NROMMapper(Memory* memory, Cartridge* cartridge) : Mapper(memory,                                                                           cartridge)
 {
 
@@ -57,3 +60,5 @@ void NROMMapper::PerformWrite(u16 address, u8 value)
 {
     Log("NROM Writing to cartridge $%04X 0x%02X", address, value);
 }
+
+} // namespace Gearnes

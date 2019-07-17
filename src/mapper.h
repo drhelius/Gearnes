@@ -23,6 +23,9 @@
 #include <iostream>
 #include "common.h"
 
+namespace Gearnes
+{
+
 class Memory;
 class Cartridge;
 
@@ -42,6 +45,8 @@ protected:
     Memory* memory_;
     Cartridge* cartridge_;
 };
+
+} // namespace Gearnes
 
 #endif	/* MAPPER_H */
 

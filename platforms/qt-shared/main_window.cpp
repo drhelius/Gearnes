@@ -224,14 +224,14 @@ void MainWindow::MenuSettingsFullscreen()
         int current_width = qApp->desktop()->size().width();
         int current_height = qApp->desktop()->size().height();
 
-        int scaling_factor = current_height / NES_HEIGHT;
+        int scaling_factor = current_height / Gearnes::NES_HEIGHT;
 
-        gl_frame_->setMaximumSize(NES_WIDTH * scaling_factor, NES_HEIGHT * scaling_factor);
-        gl_frame_->setMinimumSize(NES_WIDTH * scaling_factor, NES_HEIGHT * scaling_factor);
+        gl_frame_->setMaximumSize(Gearnes::NES_WIDTH * scaling_factor, Gearnes::NES_HEIGHT * scaling_factor);
+        gl_frame_->setMinimumSize(Gearnes::NES_WIDTH * scaling_factor, Gearnes::NES_HEIGHT * scaling_factor);
 
-        int offset_x = (current_width - (NES_WIDTH * scaling_factor)) / 2;
-        int offset_y = (current_height - (NES_HEIGHT * scaling_factor)) / 2;
-        gl_frame_->setGeometry(offset_x, offset_y, NES_WIDTH * scaling_factor, NES_HEIGHT * scaling_factor);
+        int offset_x = (current_width - (Gearnes::NES_WIDTH * scaling_factor)) / 2;
+        int offset_y = (current_height - (Gearnes::NES_HEIGHT * scaling_factor)) / 2;
+        gl_frame_->setGeometry(offset_x, offset_y, Gearnes::NES_WIDTH * scaling_factor, Gearnes::NES_HEIGHT * scaling_factor);
     }
 
     setFocus();
@@ -316,32 +316,32 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 {
     if (!event->isAutoRepeat())
     {
-        NES_Joypads joypad = kJoypad1;
+        Gearnes::NES_Joypads joypad = Gearnes::kJoypad1;
         switch (input_settings_->GetKey(event->key()))
         {
             case 0:
-                emulator_->KeyPressed(joypad, kKeyUp);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyUp);
                 break;
             case 3:
-                emulator_->KeyPressed(joypad, kKeyLeft);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyLeft);
                 break;
             case 1:
-                emulator_->KeyPressed(joypad, kKeyRight);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyRight);
                 break;
             case 2:
-                emulator_->KeyPressed(joypad, kKeyDown);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyDown);
                 break;
             case 6:
-                emulator_->KeyPressed(joypad, kKeyStart);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyStart);
                 break;
             case 7:
-                emulator_->KeyPressed(joypad, kKeySelect);
+                emulator_->KeyPressed(joypad, Gearnes::kKeySelect);
                 break;
             case 5:
-                emulator_->KeyPressed(joypad, kKeyA);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyA);
                 break;
             case 4:
-                emulator_->KeyPressed(joypad, kKeyB);
+                emulator_->KeyPressed(joypad, Gearnes::kKeyB);
                 break;
             default:
                 break;
@@ -353,32 +353,32 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event)
 {
     if (!event->isAutoRepeat())
     {
-        NES_Joypads joypad = kJoypad1;
+        Gearnes::NES_Joypads joypad = Gearnes::kJoypad1;
         switch (input_settings_->GetKey(event->key()))
         {
             case 0:
-                emulator_->KeyReleased(joypad, kKeyUp);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyUp);
                 break;
             case 3:
-                emulator_->KeyReleased(joypad, kKeyLeft);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyLeft);
                 break;
             case 1:
-                emulator_->KeyReleased(joypad, kKeyRight);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyRight);
                 break;
             case 2:
-                emulator_->KeyReleased(joypad, kKeyDown);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyDown);
                 break;
             case 6:
-                emulator_->KeyReleased(joypad, kKeyStart);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyStart);
                 break;
             case 7:
-                emulator_->KeyReleased(joypad, kKeySelect);
+                emulator_->KeyReleased(joypad, Gearnes::kKeySelect);
                 break;
             case 5:
-                emulator_->KeyReleased(joypad, kKeyA);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyA);
                 break;
             case 4:
-                emulator_->KeyReleased(joypad, kKeyB);
+                emulator_->KeyReleased(joypad, Gearnes::kKeyB);
                 break;
             default:
                 break;
@@ -389,8 +389,8 @@ void MainWindow::keyReleaseEvent(QKeyEvent* event)
 void MainWindow::ResizeWindow(int factor)
 {
     screen_size_ = factor;
-    gl_frame_->setMaximumSize(NES_WIDTH * factor, NES_HEIGHT * factor);
-    gl_frame_->setMinimumSize(NES_WIDTH * factor, NES_HEIGHT * factor);
+    gl_frame_->setMaximumSize(Gearnes::NES_WIDTH * factor, Gearnes::NES_HEIGHT * factor);
+    gl_frame_->setMinimumSize(Gearnes::NES_WIDTH * factor, Gearnes::NES_HEIGHT * factor);
 }
 
 bool MainWindow::eventFilter(QObject* watched, QEvent* event)

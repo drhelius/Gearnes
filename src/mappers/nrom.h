@@ -23,6 +23,9 @@
 #include <iostream>
 #include "../mapper.h"
 
+namespace Gearnes
+{
+
 class Memory;
 class Cartridge;
 
@@ -35,5 +38,7 @@ public:
     virtual u8 PerformRead(u16 address);
     virtual void PerformWrite(u16 address, u8 value);
 };
+
+} // namespace Gearnes
 
 #endif	/* NROM_H */

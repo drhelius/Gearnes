@@ -20,12 +20,15 @@
 #include <iostream>
 #include <iomanip>
 #include <fstream>
+#include <cstring>
 #include "memory.h"
-#include "cartridge.h"
 
-Memory::Memory(Cartridge *cartridge)
+namespace Gearnes
 {
-    cartridge_ = cartridge;
+
+Memory::Memory(Video* video)
+{
+    video_ = video;
     InitPointer(map_);
     InitPointer(current_mapper_);
     InitPointer(disassembled_map_);
@@ -46,7 +49,7 @@ void Memory::Init()
 
 void Memory::Reset()
 {
-
+    memset(map_, 0xFF, 0x10000);
 }
 
 void Memory::SetCurrentMapper(Mapper* mapper)
@@ -82,3 +85,5 @@ void Memory::MemoryDump(const char* file_path)
         myfile.close();
     }
 }
+
+} // namespace Gearnes

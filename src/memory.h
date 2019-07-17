@@ -24,13 +24,15 @@
 #include "common.h"
 #include "mapper.h"
 #include "G6502/g6502_memory_interface.h"
+#include "video.h"
 
-class Cartridge;
+namespace Gearnes
+{
 
 class Memory : public g6502::MemoryInterface
 {
 public:
-    Memory(Cartridge* cartridge);
+    Memory(Video* video);
     virtual ~Memory();
     void Init();
     void Reset();
@@ -49,7 +51,7 @@ private:
     };
 
 private:
-    Cartridge* cartridge_;
+    Video* video_;
     u8* map_;
     Mapper* current_mapper_;
     stDisassemble* disassembled_map_;
@@ -68,7 +70,7 @@ inline u8 Memory::Read(u16 address)
         case 0x2000:
         {
             // NES PPU registers
-            return map_[address & 0x0007];
+            return video_->Read(address & 0x0007);
         }
         case 0x4000:
         {
@@ -93,6 +95,7 @@ inline u8 Memory::Read(u16 address)
                 case 0x400D:
                 case 0x4018:
                 case 0x4019:
+                case 0x401A:
                 {
                     // Unused
                     Log("Reading unused IO register $%04X", address);
@@ -139,7 +142,7 @@ inline void Memory::Write(u16 address, u8 value)
         case 0x2000:
         {
             // NES PPU registers
-            map_[address & 0x0007] = value;
+            video_->Write(address & 0x0007, value);
             break;
         }
         case 0x4000:
@@ -169,6 +172,7 @@ inline void Memory::Write(u16 address, u8 value)
                 case 0x400D:
                 case 0x4018:
                 case 0x4019:
+                case 0x401A:
                 {
                     // Unused
                     Log("Writing to unused IO register $%04X 0x%02X", address, value);
@@ -205,6 +209,8 @@ inline void Memory::Write(u16 address, u8 value)
         }
     }
 }
+
+} // namespace Gearnes
 
 #endif	/* MEMORY_H */
 

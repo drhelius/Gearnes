@@ -27,6 +27,9 @@
 #include "mapper.h"
 #include "mappers/nrom.h"
 
+namespace Gearnes
+{
+
 GearnesCore::GearnesCore()
 {
     InitPointer(memory_);
@@ -35,8 +38,12 @@ GearnesCore::GearnesCore()
     InitPointer(video_);
     InitPointer(input_);
     InitPointer(cartridge_);
+
     for (int i = 0; i < 256; i++)
+    {
         InitPointer(mappers_[i]);
+    }
+
     paused_ = true;
     current_mapper_ = 0;
 }
@@ -64,10 +71,10 @@ void GearnesCore::Init()
     Log("-=:: %s ::=-", GEARNES_TITLE);
 
     cartridge_ = new Cartridge();
-    memory_ = new Memory(cartridge_);
-    g6502_ = new g6502::G6502();
-    audio_ = new Audio();
     video_ = new Video();
+    memory_ = new Memory(video_);
+    g6502_ = new g6502::G6502();
+    audio_ = new Audio();    
     input_ = new Input();
 
     cartridge_->Init();
@@ -261,4 +268,6 @@ void GearnesCore::InitMappers()
 
     mappers_[0] = new NROMMapper(memory_, cartridge_);
 }
+
+} // namespace Gearnes
 

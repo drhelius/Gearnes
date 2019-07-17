@@ -22,6 +22,9 @@
 //#include "audio/Sound_Queue.h"
 //#include "audio/Sms_Apu.h"
 
+namespace Gearnes
+{
+
 Audio::Audio()
 {
     enabled_ = true;
@@ -118,3 +121,5 @@ void Audio::Tick(unsigned int clock_cycles)
 {
 //    m_Time += clockCycles;
 }
+
+} // namespace Gearnes

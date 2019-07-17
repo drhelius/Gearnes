@@ -80,6 +80,7 @@ void G6502::OPCode0x07()
 void G6502::OPCode0x08()
 {
     // PHP
+    SetFlag(FLAG_BRK);
     StackPush8(P_.GetValue());
 }
 
@@ -288,10 +289,7 @@ void G6502::OPCode0x27()
 void G6502::OPCode0x28()
 {
     // PLP
-    u8 result = StackPop8();
-    P_.SetValue(result);
-    SetZeroFlagFromResult(result);
-    SetNegativeFlagFromResult(result);
+    P_.SetValue((StackPop8() & 0xCF) | (P_.GetValue() & 0x30));
 }
 
 void G6502::OPCode0x29()
@@ -445,7 +443,7 @@ void G6502::OPCode0x3F()
 void G6502::OPCode0x40()
 {
     // RTI
-    P_.SetValue(StackPop8());
+    P_.SetValue((StackPop8() & 0xCF) | (P_.GetValue() & 0x30));
     PC_.SetValue(StackPop16());
 }
 

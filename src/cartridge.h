@@ -22,6 +22,9 @@
 
 #include "common.h"
 
+namespace Gearnes
+{
+
 class Cartridge
 {
 public:
@@ -66,5 +69,7 @@ private:
     bool battery_present_;
     u8 mapper_;
 };
+
+} // namespace Gearnes
 
 #endif // CARTRIDGE_H_
